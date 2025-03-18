@@ -45,10 +45,12 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
     implementation libs.gson
+    implementation libs.core.splashscreen
 
     // Import the Firebase
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
+    implementation(libs.firebase.firestore)
     implementation libs.firebase.auth
     implementation libs.play.services.auth // Đăng nhập Google
     implementation libs.facebook.login // Đăng nhập Facebook
