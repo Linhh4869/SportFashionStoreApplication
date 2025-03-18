@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:startColor="@color/sailing_soft_white"
+                android:endColor="@color/sailing_coral_red"
+                android:type="linear"/>
+            <corners android:radius="8dp"/> <!-- Bo tròn góc nếu cần -->
+        </shape>
+    </item>
+</layer-list>

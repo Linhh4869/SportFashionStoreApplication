@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ocean_blue">#59ADFF</color>
+    <color name="sailing_navy_blue">#326789</color> <!-- Navy Blue -->
+    <color name="sailing_sky_blue">#78A6C8</color> <!-- Sky Blue -->
+    <color name="sailing_soft_white">#E9EEF2</color> <!-- Soft White -->
+    <color name="sailing_coral_red">#E65C4F</color> <!-- Coral Red -->
 </resources>
