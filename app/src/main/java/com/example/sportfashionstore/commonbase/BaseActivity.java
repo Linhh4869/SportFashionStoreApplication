@@ -80,4 +80,10 @@ public abstract class BaseActivity<VB extends ViewDataBinding, VM extends BaseVi
     protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }
