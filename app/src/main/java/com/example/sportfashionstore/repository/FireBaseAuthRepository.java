@@ -16,7 +16,6 @@ public class FireBaseAuthRepository {
     private static final String TAG = "FirebaseAuthRepo";
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private final String USERS_COLLECTION = "users";
 
     public void registerWithEmail(String email, String password, String displayName,
                                   MutableLiveData<Resource<FirebaseUser>> userLiveData) {

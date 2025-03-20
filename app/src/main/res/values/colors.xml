@@ -7,4 +7,9 @@
     <color name="sailing_sky_blue">#78A6C8</color> <!-- Sky Blue -->
     <color name="sailing_soft_white">#E9EEF2</color> <!-- Soft White -->
     <color name="sailing_coral_red">#E65C4F</color> <!-- Coral Red -->
+    <color name="model_black">#282828</color>
+    <color name="bg_facebook">#1877F2</color>
+    <color name="gray">#D8D8D8</color>
+    <color name="light_gray">#F8F5F5</color>
+    <color name="medium_gray">#A0A0A0</color>
 </resources>

@@ -2,4 +2,10 @@
     <string name="app_name">Sport Fashion Store</string>
     <string name="title_splash">Step into your game\n A world of sports fashion</string>
     <string name="content_splash">Explore the latest sportswear and footwear from top brands\n Get personalized recommendations for your active lifestyle\n Enjoy fast, free shipping on all orders</string>
+    <string name="hint_password">Enter password</string>
+    <string name="hint_email">Enter email</string>
+    <string name="login">Login</string>
+    <string name="continue_with">Or continue with</string>
+    <string name="continue_with_fb">Continue with Facebook</string>
+    <string name="continue_with_google"> Continue with Google </string>
 </resources>
