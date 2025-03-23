@@ -14,4 +14,16 @@
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:paddingStart">12dp</item>
     </style>
+
+    <style name="tv_error" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/sailing_coral_red</item>
+        <item name="fontFamily">@font/sarabun_semi_bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="common_tv" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/sarabun_semi_bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 </resources>

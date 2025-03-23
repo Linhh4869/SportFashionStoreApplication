@@ -4,8 +4,17 @@
     <string name="content_splash">Explore the latest sportswear and footwear from top brands\n Get personalized recommendations for your active lifestyle\n Enjoy fast, free shipping on all orders</string>
     <string name="hint_password">Enter password</string>
     <string name="hint_email">Enter email</string>
+    <string name="hint_name">Enter your display name</string>
+    <string name="hint_address">Enter your address</string>
     <string name="login">Login</string>
     <string name="continue_with">Or continue with</string>
     <string name="continue_with_fb">Continue with Facebook</string>
     <string name="continue_with_google"> Continue with Google </string>
+    <string name="tv_start">Lets get Started!</string>
+    <string name="tv_have_an_account">Already have an account?</string>
+    <string name="tv_sign_in">Sign in</string>
+    <string name="tv_have_no_account">Do not have an account?</string>
+    <string name="tv_sign_up">Sign up</string>
+    <string name="tv_title_login">Welcome back!</string>
+    <string name="tv_title_sign_up">Create your own account!</string>
 </resources>

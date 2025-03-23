@@ -1,60 +1,35 @@
 package com.example.sportfashionstore;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.splashscreen.SplashScreen;
+import androidx.activity.OnBackPressedCallback;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.sportfashionstore.commonbase.BaseActivity;
+import com.example.sportfashionstore.databinding.ActivityMainBinding;
+
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
+    public static final String SHOW_STANDBY = "show_standby";
+
+    private boolean showStandby = true;
+    private boolean shouldExitApp = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_login);
-        setTransparentStatusBar();
-
-        splashScreen.setOnExitAnimationListener(splashScreenView -> {
-            View iconView = splashScreenView.getIconView();
-
-            Animation bounceAnim = AnimationUtils.loadAnimation(this, R.anim.custom_bounce);
-
-            bounceAnim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+    protected void setupUi() {
+        showStandby = getIntent().getBooleanExtra(SHOW_STANDBY, true);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (shouldExitApp) {
+                    finish();
+                } else {
+                    shouldExitApp = true;
+                    Toast.makeText(MainActivity.this, "Nhấn lần nữa để thoát", Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    splashScreenView.remove();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-
-            iconView.startAnimation(bounceAnim);
+            }
         });
-
     }
 
-    private void setTransparentStatusBar() {
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        Window win = this.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        winParams.flags &= ~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        win.setAttributes(winParams);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+    public boolean isShowStandby() {
+        return showStandby;
     }
-
-
 }

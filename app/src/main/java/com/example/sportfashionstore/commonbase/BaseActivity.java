@@ -1,89 +1,53 @@
 package com.example.sportfashionstore.commonbase;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.viewbinding.ViewBinding;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class BaseActivity<VB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
+public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActivity {
     protected VB binding;
-    protected VM viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = getViewBinding();
 
-        binding = DataBindingUtil.setContentView(this, getLayoutResId());
-        binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
-
-        viewModel = createViewModel();
-
-        setupObservers();
+        setTransparentStatusBar();
         setupUi();
     }
 
-    protected abstract int getLayoutResId();
     protected abstract void setupUi();
-    protected abstract void setupObservers();
 
     @SuppressWarnings("unchecked")
-    private VM createViewModel() {
-        Type type = getClass().getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Class<VM> viewModelClass = (Class<VM>) ((ParameterizedType) type).getActualTypeArguments()[1];
-            return new ViewModelProvider(this).get(viewModelClass);
-        }
-        throw new IllegalStateException("BaseActivity requires a generic ViewModel type.");
-    }
+    private VB getViewBinding() {
+        try {
+            Type superclass = getClass().getGenericSuperclass();
+            Class<VB> bindingClass = (Class<VB>) ((ParameterizedType) superclass).getActualTypeArguments()[0];
 
-    protected void observeBaseViewModel() {
-        if (viewModel != null) {
-            viewModel.getLoading().observe(this, this::handleLoading);
-            viewModel.getErrorMessage().observe(this, this::showToast);
+            Method inflateMethod = bindingClass.getMethod("inflate", android.view.LayoutInflater.class);
+            return (VB) inflateMethod.invoke(null, getLayoutInflater());
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating ViewBinding", e);
         }
     }
 
-    protected <T> void observeState(LiveData<Resource<T>> liveData, DataStateCallback<T> callback) {
-        liveData.observe(this, resource -> {
-            if (resource != null) {
-                switch (resource.state) {
-                    case LOADING:
-                        handleLoading(true);
-                        break;
-                    case SUCCESS:
-                        handleLoading(false);
-                        callback.onSuccess(resource.data);
-                        break;
-                    case ERROR:
-                        handleLoading(false);
-                        showToast(resource.message);
-                        callback.onError(resource.message);
-                        break;
-                }
-            }
-        });
-    }
-
-    private void handleLoading(boolean isLoading) {
-        // Show/hide loading UI (if needed)
-    }
-
-    protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
+    private void setTransparentStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        Window win = this.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        winParams.flags &= ~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        win.setAttributes(winParams);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 }

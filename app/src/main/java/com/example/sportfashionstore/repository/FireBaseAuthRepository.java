@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sportfashionstore.commonbase.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.util.Constants;
@@ -12,37 +13,36 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class FireBaseAuthRepository {
     private static final String TAG = "FirebaseAuthRepo";
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-    public void registerWithEmail(String email, String password, String displayName,
-                                  MutableLiveData<Resource<FirebaseUser>> userLiveData) {
-        userLiveData.setValue(Resource.loading(null));
+    public void registerWithEmail(String email, String password, String displayName, String address,
+                                  DataStateCallback<FirebaseUser> dataStateCallback) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        saveUserToFirestore(user, displayName);
-                        userLiveData.setValue(Resource.success(user));
+                        saveUserToFirestore(user, displayName, address);
+                        dataStateCallback.onSuccess(user);
                     } else {
-                        userLiveData.setValue(Resource.error(task.getException().getMessage(), null));
+                        dataStateCallback.onError(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
     }
 
-    public void loginWithEmail(String email, String password,
-                               MutableLiveData<Resource<FirebaseUser>> userLiveData) {
-        userLiveData.setValue(Resource.loading(null));
-
+    public void loginWithEmail(String email, String password, DataStateCallback<FirebaseUser> dataStateCallback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        userLiveData.setValue(Resource.success(firebaseAuth.getCurrentUser()));
+                        dataStateCallback.onSuccess(firebaseAuth.getCurrentUser());
                     } else {
-                        userLiveData.setValue(Resource.error(task.getException().getMessage(), null));
+                        String errorMsg = Objects.requireNonNull(task.getException()).getMessage();
+                        dataStateCallback.onError(errorMsg != null ? errorMsg : "Login failed!");
                     }
                 });
     }
@@ -55,7 +55,7 @@ public class FireBaseAuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        saveUserToFirestore(user, user.getDisplayName());
+                        saveUserToFirestore(user, user.getDisplayName(), "");
                         userLiveData.setValue(Resource.success(user));
                     } else {
                         userLiveData.setValue(Resource.error(task.getException().getMessage(), null));
@@ -63,16 +63,15 @@ public class FireBaseAuthRepository {
                 });
     }
 
-    private void saveUserToFirestore(FirebaseUser user, String displayName) {
+    private void saveUserToFirestore(FirebaseUser user, String displayName, String address) {
         if (user == null) return;
 
-        String uid = user.getUid();
         User newUser = new User(
-                uid,
+                user.getUid(),
                 user.getEmail(),
                 displayName,
                 user.getPhoneNumber(),
-                "", // Address trống
+                address,
                 user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "",
                 Constants.Role.BUYER,
                 System.currentTimeMillis(),
@@ -80,7 +79,7 @@ public class FireBaseAuthRepository {
         );
 
         firestore.collection(Constants.Collection.USERS)
-                .document(uid)
+                .document(user.getUid())
                 .set(newUser)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User added to Firestore"))
                 .addOnFailureListener(e -> Log.e(TAG, "Error adding user", e));

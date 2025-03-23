@@ -46,6 +46,10 @@ dependencies {
     androidTestImplementation libs.espresso.core
     implementation libs.gson
     implementation libs.core.splashscreen
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.glide
+    annotationProcessor libs.compiler
 
     // Import the Firebase
     implementation platform(libs.firebase.bom)

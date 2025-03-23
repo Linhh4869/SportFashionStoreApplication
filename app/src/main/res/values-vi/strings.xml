@@ -5,8 +5,17 @@
     <string name="content_splash" translatable="false">Khám phá giày và trang phục thể thao từ các thương hiệu hàng đầu\n Nhận gợi ý sản phẩm phù hợp với phong cách năng động của bạn\n Miễn phí vận chuyển nhanh cho mọi đơn hàng</string>
     <string name="hint_password">Nhập password</string>
     <string name="hint_email">Nhập email</string>
+    <string name="hint_name">Nhập tên của bạn</string>
+    <string name="hint_address">Nhập địa chỉ</string>
     <string name="login">Đăng nhập</string>
     <string name="continue_with">Hoặc tiếp tục với</string>
     <string name="continue_with_fb">Continue with Facebook</string>
     <string name="continue_with_google"> Continue with Google </string>
+    <string name="tv_start">Khám phá ngay!</string>
+    <string name="tv_have_an_account">Đã có tài khoản?</string>
+    <string name="tv_sign_in">Đăng nhập</string>
+    <string name="tv_have_no_account">Chưa có tài khoản?</string>
+    <string name="tv_sign_up">Đăng ký</string>
+    <string name="tv_title_login">Chào mừng chờ lại!</string>
+    <string name="tv_title_sign_up">Tạo tài khoản của riêng bạn!</string>
 </resources>

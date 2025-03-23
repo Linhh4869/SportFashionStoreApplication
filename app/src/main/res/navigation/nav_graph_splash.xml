@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_auth"
+    app:startDestination="@id/fragmentFirst">
+
+    <fragment
+        android:id="@+id/fragmentFirst"
+        android:name="com.example.sportfashionstore.fragment.FragmentFirst"
+        android:label="fragment 0">
+
+        <action
+            android:id="@+id/action_to_standby"
+            app:destination="@+id/fragmentStandby"
+            app:popUpTo="@id/fragmentFirst"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_to_auth"
+            app:destination="@+id/fragmentAuth"
+            app:popUpTo="@id/fragmentFirst"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentStandby"
+        android:name="com.example.sportfashionstore.fragment.FragmentStandby"
+        android:label="fragment 1">
+        <action
+            android:id="@+id/go_to_auth"
+            app:destination="@+id/fragmentAuth"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/exit_slide_up"
+            app:popUpTo="@id/fragmentStandby"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentAuth"
+        android:name="com.example.sportfashionstore.fragment.FragmentAuth"
+        android:label="fragment 2">
+
+    </fragment>
+</navigation>

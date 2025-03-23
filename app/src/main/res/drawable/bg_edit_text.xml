@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true">
+    <item android:state_focused="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <stroke android:width="1dp" android:color="@color/sailing_navy_blue" />
+            <stroke android:width="1dp" android:color="@color/ocean_blue" />
             <corners android:radius="8dp" />
         </shape>
     </item>
@@ -11,7 +11,7 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <stroke android:width="1dp" android:color="@color/ocean_blue" />
+            <stroke android:width="1dp" android:color="@color/sailing_navy_blue" />
             <corners android:radius="8dp" />
         </shape>
     </item>
