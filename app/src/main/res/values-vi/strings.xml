@@ -18,4 +18,8 @@
     <string name="tv_sign_up">Đăng ký</string>
     <string name="tv_title_login">Chào mừng chờ lại!</string>
     <string name="tv_title_sign_up">Tạo tài khoản của riêng bạn!</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_cart">Giỏ hàng</string>
+    <string name="nav_order">Đơn hàng</string>
+    <string name="nav_profile">Tôi</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.fragment;
+package com.example.sportfashionstore.fragment.authentication;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.sportfashionstore.MainActivity;
+import com.example.sportfashionstore.activity.MainActivity;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.activity.ActivityHome;
 import com.example.sportfashionstore.commonbase.BaseFragment;

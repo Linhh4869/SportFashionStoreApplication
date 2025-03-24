@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.fragment;
+package com.example.sportfashionstore.fragment.authentication;
 
 import android.content.Intent;
 import android.view.View;

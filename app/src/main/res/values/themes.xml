@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.SportFashionStore" parent="Base.Theme.SportFashionStore" />
+
+    <style name="CustomBottomNavigationTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+    </style>
 </resources>

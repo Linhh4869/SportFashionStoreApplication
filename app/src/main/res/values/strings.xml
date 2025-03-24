@@ -17,4 +17,8 @@
     <string name="tv_sign_up">Sign up</string>
     <string name="tv_title_login">Welcome back!</string>
     <string name="tv_title_sign_up">Create your own account!</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_order">Order</string>
+    <string name="nav_profile">Profile</string>
 </resources>

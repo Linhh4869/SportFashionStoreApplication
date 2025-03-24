@@ -3,11 +3,13 @@ package com.example.sportfashionstore.activity;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-import com.example.sportfashionstore.MainActivity;
+import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivity;
 import com.example.sportfashionstore.databinding.ActivityHomeBinding;
-import com.example.sportfashionstore.util.SharePrefHelper;
 
 public class ActivityHome extends BaseActivity<ActivityHomeBinding> {
     private boolean shouldExitApp = false;
@@ -26,12 +28,11 @@ public class ActivityHome extends BaseActivity<ActivityHomeBinding> {
             }
         });
 
-        SharePrefHelper sharePrefHelper = new SharePrefHelper(this);
-        String name = sharePrefHelper.getUserName();
-        String address = sharePrefHelper.getAddress();
-        if (!name.isEmpty() && !address.isEmpty()) {
-            String hello = "Hello " + name + " from " + address;
-            binding.tvTest.setText(hello);
-        }
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.container);
+        NavController navController = navHostFragment.getNavController();
+
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
     }
 }
