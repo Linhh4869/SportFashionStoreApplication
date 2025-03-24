@@ -6,22 +6,22 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.sportfashionstore.fragment.home.FragmentHome"
+        android:name="com.example.sportfashionstore.ui.fragment.home.FragmentHome"
         android:label="Home"/>
 
     <fragment
         android:id="@+id/nav_cart"
-        android:name="com.example.sportfashionstore.fragment.home.FragmentCart"
+        android:name="com.example.sportfashionstore.ui.fragment.home.FragmentCart"
         android:label="Cart"/>
 
     <fragment
         android:id="@+id/nav_order"
-        android:name="com.example.sportfashionstore.fragment.home.FragmentOrder"
+        android:name="com.example.sportfashionstore.ui.fragment.home.FragmentOrder"
         android:label="Order"/>
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.sportfashionstore.fragment.home.FragmentProfile"
+        android:name="com.example.sportfashionstore.ui.fragment.home.FragmentProfile"
         android:label="Profile"/>
 
 </navigation>

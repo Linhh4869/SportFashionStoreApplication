@@ -27,7 +27,7 @@ public abstract class BaseFragmentViewModel<VB extends ViewDataBinding, VM exten
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
+        binding = getViewBinding(inflater, container);
         binding.setLifecycleOwner(getViewLifecycleOwner());
         return binding.getRoot();
     }
@@ -42,8 +42,7 @@ public abstract class BaseFragmentViewModel<VB extends ViewDataBinding, VM exten
         setupUi();
     }
 
-    protected abstract int getLayoutResId();
-
+    protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);
     protected abstract void setupUi();
 
     @SuppressWarnings("unchecked")

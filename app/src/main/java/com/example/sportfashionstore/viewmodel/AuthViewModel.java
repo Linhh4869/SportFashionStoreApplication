@@ -5,16 +5,19 @@ import android.util.Patterns;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseViewModel;
 import com.example.sportfashionstore.commonbase.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.repository.FireBaseAuthRepository;
+import com.example.sportfashionstore.util.SharePrefHelper;
 import com.example.sportfashionstore.util.StringUtil;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthViewModel extends BaseViewModel {
     private final FireBaseAuthRepository authRepository = new FireBaseAuthRepository();
+    private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<FirebaseUser>> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> email = new MutableLiveData<>("");
     private final MutableLiveData<String> password = new MutableLiveData<>("");
@@ -24,6 +27,10 @@ public class AuthViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> hideErrorPassword = new MutableLiveData<>(true);
     private final MutableLiveData<Boolean> hideErrorDisplayName = new MutableLiveData<>(true);
     private final MutableLiveData<Boolean> hideErrorAddress = new MutableLiveData<>(true);
+
+    public AuthViewModel() {
+        sharePrefHelper = MyApplication.getSharePrefHelper();
+    }
 
     public LiveData<Resource<FirebaseUser>> getUserLiveData() {
         return userLiveData;
@@ -35,6 +42,10 @@ public class AuthViewModel extends BaseViewModel {
             @Override
             public void onSuccess(FirebaseUser data) {
                 setSuccessState(userLiveData, data);
+                if (data != null) {
+                    sharePrefHelper.setLoggedIn(true);
+                    sharePrefHelper.setUserName(data.getDisplayName());
+                }
             }
 
             @Override
@@ -80,6 +91,9 @@ public class AuthViewModel extends BaseViewModel {
                 @Override
                 public void onSuccess(FirebaseUser data) {
                     setSuccessState(userLiveData, data);
+                    sharePrefHelper.setUserName(_name);
+                    sharePrefHelper.setAddress(_address);
+                    sharePrefHelper.setLoggedIn(true);
                 }
 
                 @Override

@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.fragment.home;
+package com.example.sportfashionstore.ui.fragment.home;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

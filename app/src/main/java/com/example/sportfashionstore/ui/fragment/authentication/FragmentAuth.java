@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.fragment.authentication;
+package com.example.sportfashionstore.ui.fragment.authentication;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

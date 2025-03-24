@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragmentFirst"
-        android:name="com.example.sportfashionstore.fragment.authentication.FragmentFirst"
+        android:name="com.example.sportfashionstore.ui.fragment.authentication.FragmentFirst"
         android:label="fragment 0">
 
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/fragmentStandby"
-        android:name="com.example.sportfashionstore.fragment.authentication.FragmentStandby"
+        android:name="com.example.sportfashionstore.ui.fragment.authentication.FragmentStandby"
         android:label="fragment 1">
         <action
             android:id="@+id/go_to_auth"
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/fragmentAuth"
-        android:name="com.example.sportfashionstore.fragment.authentication.FragmentAuth"
+        android:name="com.example.sportfashionstore.ui.fragment.authentication.FragmentAuth"
         android:label="fragment 2">
 
     </fragment>

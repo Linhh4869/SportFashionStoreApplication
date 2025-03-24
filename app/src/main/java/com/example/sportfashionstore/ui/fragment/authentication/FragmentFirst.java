@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.fragment.authentication;
+package com.example.sportfashionstore.ui.fragment.authentication;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,9 +9,10 @@ import android.view.animation.AnimationUtils;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.sportfashionstore.activity.MainActivity;
+import com.example.sportfashionstore.ui.MainActivity;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.activity.ActivityHome;
+import com.example.sportfashionstore.ui.ActivityHome;
+import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentFirstBinding;
 import com.example.sportfashionstore.util.SharePrefHelper;
@@ -38,7 +39,7 @@ public class FragmentFirst extends BaseFragment<FragmentFirstBinding> implements
     @Override
     public void onAnimationEnd(Animation animation) {
         binding.icApp.setAnimation(null);
-        SharePrefHelper sharePrefHelper = new SharePrefHelper(requireContext());
+        SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
         if (sharePrefHelper.isLoggedIn()) {
             Intent intent = new Intent(getActivity(), ActivityHome.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

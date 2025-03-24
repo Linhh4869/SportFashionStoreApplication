@@ -9,7 +9,15 @@ public class SharePrefHelper {
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ADDRESS = "address";
 
+    private static SharePrefHelper instance;
     private final SharedPreferences sharedPreferences;
+
+    public static synchronized SharePrefHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new SharePrefHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public SharePrefHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

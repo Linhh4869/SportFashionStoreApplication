@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.activity;
+package com.example.sportfashionstore.ui;
 
 import android.widget.Toast;
 
