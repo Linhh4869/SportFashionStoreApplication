@@ -18,7 +18,7 @@ public abstract class BaseAdapter<T, VB extends ViewDataBinding> extends Recycle
     @Override
     public BaseViewHolder<VB> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        VB binding = DataBindingUtil.inflate(inflater, getLayoutResId(), parent, false);
+        VB binding = getViewBinding(inflater, parent);
         return new BaseViewHolder<>(binding);
     }
 
@@ -39,7 +39,7 @@ public abstract class BaseAdapter<T, VB extends ViewDataBinding> extends Recycle
     }
 
     public abstract void bind(VB binding, T item, int position);
-    public abstract int getLayoutResId();
+    protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);
 
     public static class BaseViewHolder<VB extends ViewDataBinding> extends RecyclerView.ViewHolder {
         public final VB binding;
