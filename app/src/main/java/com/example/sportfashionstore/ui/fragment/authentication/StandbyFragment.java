@@ -9,7 +9,7 @@ import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentStandbyBinding;
 
-public class FragmentStandby extends BaseFragment<FragmentStandbyBinding> {
+public class StandbyFragment extends BaseFragment<FragmentStandbyBinding> {
     @Override
     protected FragmentStandbyBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
         return FragmentStandbyBinding.inflate(inflater, container, false);

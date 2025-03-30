@@ -9,14 +9,14 @@ import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseViewModel;
 import com.example.sportfashionstore.commonbase.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
-import com.example.sportfashionstore.repository.FireBaseAuthRepository;
+import com.example.sportfashionstore.repository.AuthRepository;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.example.sportfashionstore.util.StringUtil;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthViewModel extends BaseViewModel {
-    private final FireBaseAuthRepository authRepository = new FireBaseAuthRepository();
+    private final AuthRepository authRepository = new AuthRepository();
     private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<FirebaseUser>> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> email = new MutableLiveData<>("");

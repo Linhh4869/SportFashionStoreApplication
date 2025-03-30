@@ -10,7 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"
+        android:theme="@style/CustomBottomNavigationTheme">
 
         <View
             android:id="@+id/header"
@@ -20,7 +22,7 @@
             android:background="@color/ocean_blue"/>
 
         <com.example.sportfashionstore.custom.CircleImageView
-            android:id="@+id/textView"
+            android:id="@+id/img_avt"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/bg_login"
@@ -29,5 +31,91 @@
             app:layout_constraintBottom_toBottomOf="@+id/header"
             android:layout_marginStart="50dp"
             android:layout_marginBottom="-40dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Manh DUy"
+            android:text="@={viewModel.userName}"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:textSize="18sp"
+            android:textColor="@color/new_black"
+            app:layout_constraintStart_toEndOf="@+id/img_avt"
+            app:layout_constraintBottom_toBottomOf="@+id/img_avt"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/field_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/img_avt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Tài khoản"
+            android:fontFamily="@font/sarabun_bold"
+            android:textSize="16sp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/setting_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/field_account"
+            style="@style/CustomBottomNavigationTheme"
+            android:background="@color/white"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_account_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="4"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_utility_personal"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="10dp"
+                style="@style/CustomBottomNavigationTheme"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/field_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/setting_account"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:text="Cài đặt chung"
+            android:fontFamily="@font/sarabun_bold"
+            android:textSize="16sp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/setting_common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/field_setting"
+            style="@style/CustomBottomNavigationTheme"
+            android:background="@color/white"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_common_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="2"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_utility_personal"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="10dp"
+                style="@style/CustomBottomNavigationTheme"/>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

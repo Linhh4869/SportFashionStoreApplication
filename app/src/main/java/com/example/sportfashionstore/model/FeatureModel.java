@@ -11,6 +11,11 @@ public class FeatureModel implements Serializable {
     @SerializedName("icon")
     private int icon;
 
+    public FeatureModel(String label, int icon) {
+        this.label = label;
+        this.icon = icon;
+    }
+
     public String getLabel() {
         return label;
     }

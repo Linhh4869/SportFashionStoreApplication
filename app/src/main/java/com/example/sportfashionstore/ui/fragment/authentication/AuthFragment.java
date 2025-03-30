@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.example.sportfashionstore.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentAuthBinding;
 
-public class FragmentAuth extends BaseFragment<FragmentAuthBinding> {
+public class AuthFragment extends BaseFragment<FragmentAuthBinding> {
 
     @Override
     protected FragmentAuthBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {

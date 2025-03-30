@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="product"
+            type="com.example.sportfashionstore.model.Product" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_product"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/shoes2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_product_description"
+            style="@style/common_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="2"
+            android:textColor="@color/new_black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_rate_product"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_product"
+            tools:text="Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_rate_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_rate_star"
+            android:drawableStart="@drawable/star_icon"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/sarabun_semi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:textColor="@color/model_black"
+            android:textSize="12sp"
+            android:includeFontPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_product"
+            tools:text="4.9" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sold"
+            style="@style/common_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_description"
+            app:layout_constraintTop_toTopOf="@+id/tv_price"
+            app:layout_constraintBottom_toBottomOf="@id/tv_price"
+            tools:text="Da ban 22,7k"
+            android:textSize="12sp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:textColor="@color/sailing_navy_blue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_sold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rate_product"
+            tools:text="50.000d"
+            android:maxLines="1"
+            android:ellipsize="end" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,12 +1,14 @@
 [versions]
 agp = "8.5.0"
 compiler = "4.12.0"
+compilerVersion = "4.16.0"
 coreSplashscreen = "1.0.1"
 facebookLogin = "latest.release"
 firebaseAuth = "23.2.0"
 firebaseBom = "33.10.0"
 firebaseFirestore = "25.1.2"
 glide = "4.12.0"
+glideVersion = "4.16.0"
 gson = "2.10.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -22,6 +24,7 @@ google-services = "4.4.2"
 
 [libraries]
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+compiler-v4160 = { module = "com.github.bumptech.glide:compiler", version.ref = "compilerVersion" }
 core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
@@ -29,6 +32,7 @@ firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "f
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-v4160 = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

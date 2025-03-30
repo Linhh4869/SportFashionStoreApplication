@@ -15,7 +15,7 @@ import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivity;
 import com.example.sportfashionstore.databinding.ActivityHomeBinding;
 
-public class ActivityHome extends BaseActivity<ActivityHomeBinding> {
+public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
     private boolean shouldExitApp = false;
 
     @Override
@@ -27,7 +27,7 @@ public class ActivityHome extends BaseActivity<ActivityHomeBinding> {
                     finish();
                 } else {
                     shouldExitApp = true;
-                    Toast.makeText(ActivityHome.this, "Nhấn lần nữa để thoát", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "Nhấn lần nữa để thoát", Toast.LENGTH_SHORT).show();
                 }
             }
         });

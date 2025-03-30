@@ -11,13 +11,13 @@ import androidx.navigation.Navigation;
 
 import com.example.sportfashionstore.ui.MainActivity;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.ui.ActivityHome;
+import com.example.sportfashionstore.ui.HomeActivity;
 import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentFirstBinding;
 import com.example.sportfashionstore.util.SharePrefHelper;
 
-public class FragmentFirst extends BaseFragment<FragmentFirstBinding> implements Animation.AnimationListener {
+public class FirstFragment extends BaseFragment<FragmentFirstBinding> implements Animation.AnimationListener {
 
     @Override
     protected FragmentFirstBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
@@ -41,7 +41,7 @@ public class FragmentFirst extends BaseFragment<FragmentFirstBinding> implements
         binding.icApp.setAnimation(null);
         SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
         if (sharePrefHelper.isLoggedIn()) {
-            Intent intent = new Intent(getActivity(), ActivityHome.class);
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             requireActivity().startActivity(intent);
             requireActivity().finish();

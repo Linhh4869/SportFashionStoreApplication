@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.example.sportfashionstore.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentCartBinding;
 
-public class FragmentCart extends BaseFragment<FragmentCartBinding> {
+public class CartFragment extends BaseFragment<FragmentCartBinding> {
     @Override
     protected FragmentCartBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
         return FragmentCartBinding.inflate(inflater, container, false);

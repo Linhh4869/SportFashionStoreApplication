@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragmentLogin"
-        android:name="com.example.sportfashionstore.ui.fragment.authentication.FragmentLogin"
+        android:name="com.example.sportfashionstore.ui.fragment.authentication.LoginFragment"
         android:label="fragment 3">
 
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/fragmentRegister"
-        android:name="com.example.sportfashionstore.ui.fragment.authentication.FragmentRegister"
+        android:name="com.example.sportfashionstore.ui.fragment.authentication.RegisterFragment"
         android:label="fragment 4">
 
         <action

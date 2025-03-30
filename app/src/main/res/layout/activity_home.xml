@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/CustomBottomNavigationTheme">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
@@ -13,7 +14,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:navGraph="@navigation/nav_graph_home"
-        app:defaultNavHost="true"/>
+        app:defaultNavHost="true"
+        android:theme="@style/CustomBottomNavigationTheme"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -24,8 +26,6 @@
         android:theme="@style/CustomBottomNavigationTheme"
         app:itemIconTint="@color/bottom_nav_item_tint"
         app:itemTextColor="@color/bottom_nav_item_tint"
-        android:background="@color/light_gray"
-        app:itemBackground="@android:color/transparent"
-        app:itemRippleColor="@android:color/transparent" />
+        android:background="@color/light_gray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

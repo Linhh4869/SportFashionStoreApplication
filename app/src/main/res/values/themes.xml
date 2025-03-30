@@ -1,13 +1,21 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SportFashionStore" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources >
+    <style name="Base.Theme.SportFashionStore" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/new_black</item>
+        <item name="colorOnSurface">@color/new_black</item>
+        <item name="android:textColor">@color/new_black</item>
     </style>
 
-    <style name="Theme.SportFashionStore" parent="Base.Theme.SportFashionStore" />
+    <style name="Theme.SportFashionStore" parent="Base.Theme.SportFashionStore" >
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="colorControlNormal">@color/new_black</item>
+        <item name="colorOnSurface">@color/new_black</item>
+        <item name="android:textColor">@color/new_black</item>
+    </style>
 
     <style name="CustomBottomNavigationTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="colorControlNormal">@color/new_black</item>
+        <item name="colorOnSurface">@color/new_black</item>
+        <item name="android:textColor">@color/new_black</item>
     </style>
 </resources>
