@@ -30,11 +30,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
                 android:text="@string/tv_title_sign_up"
                 android:textColor="@color/ocean_blue"
-                android:textSize="26sp" />
+                android:textSize="20sp" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_email"

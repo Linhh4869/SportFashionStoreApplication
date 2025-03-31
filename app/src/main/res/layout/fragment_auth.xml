@@ -14,7 +14,7 @@
         android:fontFamily="@font/fs_pf_beau_sans_pro_bold_italic"
         android:textColor="@color/white"
         android:gravity="center"
-        android:textSize="40sp"
+        android:textSize="28sp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -22,7 +22,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="76dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

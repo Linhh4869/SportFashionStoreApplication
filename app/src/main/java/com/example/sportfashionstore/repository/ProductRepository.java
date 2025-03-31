@@ -21,18 +21,6 @@ public class ProductRepository {
         this.db = FirebaseFirestore.getInstance();
     }
 
-    public interface ProductCallback {
-        void onSuccess(List<Product> products);
-
-        void onFailure(Exception e);
-    }
-
-    public interface ProductDetailCallback {
-        void onSuccess(Product product);
-
-        void onFailure(Exception e);
-    }
-
     public void getProducts(DataStateCallback<List<Product>> callback) {
         Query query = db.collection(Constants.Collection.PRODUCTS)
                 .whereEqualTo("status", "active")
@@ -71,19 +59,22 @@ public class ProductRepository {
         isLoading.set(false);
     }
 
-    // Truy vấn chi tiết sản phẩm
-    public void getProductById(String productId, ProductDetailCallback callback) {
+    public void getProductById(String productId, DataStateCallback<Product> callback) {
         db.collection(Constants.Collection.PRODUCTS).document(productId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Product product = documentSnapshot.toObject(Product.class);
-                        product.setId(documentSnapshot.getId());
-                        callback.onSuccess(product);
+                        if (product != null) {
+                            product.setId(documentSnapshot.getId());
+                            callback.onSuccess(product);
+                        }
                     } else {
-                        callback.onFailure(new Exception("Product not found"));
+                        callback.onError("Product not found");
                     }
                 })
-                .addOnFailureListener(callback::onFailure);
+                .addOnFailureListener( e -> {
+                    callback.onError(e.getMessage());
+                });
     }
 
 //    public void getProductVariants(String productId, VariantCallback callback) {
