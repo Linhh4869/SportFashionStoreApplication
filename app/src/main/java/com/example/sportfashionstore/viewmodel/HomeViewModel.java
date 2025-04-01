@@ -18,6 +18,7 @@ public class HomeViewModel extends BaseViewModel {
     private final SharePrefHelper sharePrefHelper;
     private final ProductRepository productRepository;
     private final MutableLiveData<Resource<List<Product>>> productLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Product>> productList = new MutableLiveData<>(null);
     private final MutableLiveData<String> userName = new MutableLiveData<>("");
 
     public HomeViewModel() {
@@ -32,11 +33,13 @@ public class HomeViewModel extends BaseViewModel {
             @Override
             public void onSuccess(List<Product> data) {
                 setSuccessState(productLiveData, data);
+                productList.setValue(data);
             }
 
             @Override
             public void onError(String message) {
                 setErrorState(productLiveData, message);
+                productList.setValue(null);
             }
         });
     }
@@ -51,5 +54,9 @@ public class HomeViewModel extends BaseViewModel {
 
     public MutableLiveData<Resource<List<Product>>> getProductLiveData() {
         return productLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getProductList() {
+        return productList;
     }
 }

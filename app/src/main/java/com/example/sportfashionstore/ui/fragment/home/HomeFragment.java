@@ -22,7 +22,9 @@ public class HomeFragment extends BaseFragmentViewModel<FragmentHomeBinding, Hom
     @Override
     protected void setupUi() {
         binding.setViewModel(viewModel);
-        viewModel.getProductListHome();
+        if (viewModel.getProductList().getValue() == null) {
+            viewModel.getProductListHome();
+        }
 
         productHomeAdapter = new ProductHomeAdapter();
         binding.rcvHomeProduct.setAdapter(productHomeAdapter);

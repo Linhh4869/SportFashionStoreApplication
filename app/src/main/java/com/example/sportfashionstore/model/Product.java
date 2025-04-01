@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.model;
 
+import com.example.sportfashionstore.util.Helper;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -107,7 +108,7 @@ public class Product implements Serializable {
     }
 
     public String getSold() {
-        return sold != null ? "Da ban " + sold : "";
+        return sold != null ? "Đã bán " + sold : "";
     }
 
     public void setSold(String sold) {
@@ -132,7 +133,7 @@ public class Product implements Serializable {
 
     public String getDisplayPrice() {
          Integer value = getSalePrice() > 0 ? getSalePrice() : getPrice();
-         return String.valueOf(value);
+         return String.format("%sđ", Helper.formatPrice(value));
     }
 
     public void setDisplayPrice(Integer displayPrice) {

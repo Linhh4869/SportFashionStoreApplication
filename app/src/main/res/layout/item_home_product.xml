@@ -34,6 +34,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_rate_product"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_product"
+            android:text="@{product.description}"
             tools:text="Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,6 +54,7 @@
             android:includeFontPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_product"
+            android:text="@{product.rating}"
             tools:text="4.9" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -64,6 +66,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_product_description"
             app:layout_constraintTop_toTopOf="@+id/tv_price"
             app:layout_constraintBottom_toBottomOf="@id/tv_price"
+            android:text="@{product.sold}"
             tools:text="Da ban 22,7k"
             android:textSize="12sp"/>
 
@@ -79,6 +82,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_sold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_rate_product"
+            android:text="@{product.displayPrice}"
             tools:text="50.000d"
             android:maxLines="1"
             android:ellipsize="end" />
