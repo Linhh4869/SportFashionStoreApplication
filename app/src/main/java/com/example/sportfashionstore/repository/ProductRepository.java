@@ -1,6 +1,6 @@
 package com.example.sportfashionstore.repository;
 
-import com.example.sportfashionstore.commonbase.DataStateCallback;
+import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;

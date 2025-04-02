@@ -7,8 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.DataStateCallback;
+import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.repository.AuthRepository;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.example.sportfashionstore.util.StringUtil;
@@ -19,6 +20,8 @@ public class AuthViewModel extends BaseViewModel {
     private final AuthRepository authRepository = new AuthRepository();
     private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<FirebaseUser>> userLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Resource<User>> userLoginLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> emailLogin = new MutableLiveData<>("");
     private final MutableLiveData<String> email = new MutableLiveData<>("");
     private final MutableLiveData<String> password = new MutableLiveData<>("");
     private final MutableLiveData<String> displayName = new MutableLiveData<>("");
@@ -30,18 +33,23 @@ public class AuthViewModel extends BaseViewModel {
 
     public AuthViewModel() {
         sharePrefHelper = MyApplication.getSharePrefHelper();
+        emailLogin.setValue(sharePrefHelper.getEmail());
     }
 
     public LiveData<Resource<FirebaseUser>> getUserLiveData() {
         return userLiveData;
     }
 
+    public LiveData<Resource<User>> getUserLoginLiveData() {
+        return userLoginLiveData;
+    }
+
     public void loginWithEmail(String email, String password) {
         setLoadingState(userLiveData);
         authRepository.loginWithEmail(email, password, new DataStateCallback<>() {
             @Override
-            public void onSuccess(FirebaseUser data) {
-                setSuccessState(userLiveData, data);
+            public void onSuccess(User data) {
+                setSuccessState(userLoginLiveData, data);
                 if (data != null) {
                     sharePrefHelper.setLoggedIn(true);
                     sharePrefHelper.setUserName(data.getDisplayName());
@@ -61,7 +69,7 @@ public class AuthViewModel extends BaseViewModel {
     }
     
     public void onLogin() {
-        String _email = email.getValue();
+        String _email = emailLogin.getValue();
         String _password = password.getValue();
         hideErrorEmail.setValue(isEmailValid(_email));
         hideErrorPassword.setValue(isPasswordValid(_password));
@@ -124,6 +132,10 @@ public class AuthViewModel extends BaseViewModel {
         return email;
     }
 
+    public MutableLiveData<String> getEmailLogin() {
+        return emailLogin;
+    }
+
     public MutableLiveData<String> getPassword() {
         return password;
     }
@@ -153,6 +165,10 @@ public class AuthViewModel extends BaseViewModel {
     }
 
     public void onEmailChanged(String newEmail) {
+        email.setValue(newEmail);
+    }
+
+    public void onEmailLoginChanged(String newEmail) {
         email.setValue(newEmail);
     }
 

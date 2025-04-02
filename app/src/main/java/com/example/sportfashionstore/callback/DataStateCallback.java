@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.commonbase;
+package com.example.sportfashionstore.callback;
 
 public interface DataStateCallback<T> {
     void onSuccess(T data);

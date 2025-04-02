@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.commonbase.DataStateCallback;
+import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.util.Constants;
@@ -35,11 +35,12 @@ public class AuthRepository {
                 });
     }
 
-    public void loginWithEmail(String email, String password, DataStateCallback<FirebaseUser> dataStateCallback) {
+    public void loginWithEmail(String email, String password, DataStateCallback<User> dataStateCallback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        dataStateCallback.onSuccess(firebaseAuth.getCurrentUser());
+                    if (task.isSuccessful() && firebaseAuth.getCurrentUser() != null) {
+                        String uid = firebaseAuth.getCurrentUser().getUid();
+                        getUserInfoById(uid, dataStateCallback);
                     } else {
                         String errorMsg = Objects.requireNonNull(task.getException()).getMessage();
                         dataStateCallback.onError(errorMsg != null ? errorMsg : "Login failed!");
@@ -83,5 +84,27 @@ public class AuthRepository {
                 .set(newUser)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User added to Firestore"))
                 .addOnFailureListener(e -> Log.e(TAG, "Error adding user", e));
+    }
+
+    public void getUserInfoById(String uuid, DataStateCallback<User> dataStateCallback) {
+        firestore.collection(Constants.Collection.USERS)
+                .document(uuid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    User user = documentSnapshot.toObject(User.class);
+                    dataStateCallback.onSuccess(user);
+                })
+                .addOnFailureListener(ex -> {
+                    dataStateCallback.onError(ex.getMessage());
+                });
+    }
+
+    public void signOut(DataStateCallback<String> callback) {
+        try {
+            firebaseAuth.signOut();
+            callback.onSuccess("Login successfully!");
+        } catch (Exception e) {
+            callback.onSuccess(e.getMessage());
+        }
     }
 }

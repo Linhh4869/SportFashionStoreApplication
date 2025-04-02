@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class SharePrefHelper {
     private static final String PREF_NAME = "user_prefs";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
+    private static final String KEY_EMAIL = "email";
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ADDRESS = "address";
 
@@ -41,6 +42,16 @@ public class SharePrefHelper {
 
     public String getUserName() {
         return sharedPreferences.getString(KEY_USER_NAME, "");
+    }
+
+    public void setEmail(String email) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_EMAIL, email);
+        editor.apply();
+    }
+
+    public String getEmail() {
+        return sharedPreferences.getString(KEY_EMAIL, "");
     }
 
     public void setAddress(String address) {

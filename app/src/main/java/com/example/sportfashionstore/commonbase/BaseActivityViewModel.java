@@ -10,6 +10,8 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.sportfashionstore.callback.DataStateCallback;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 

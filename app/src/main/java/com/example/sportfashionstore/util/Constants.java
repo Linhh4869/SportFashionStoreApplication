@@ -19,4 +19,15 @@ public class Constants {
         public static final String NOTIFICATIONS = "notifications";
         public static final String REVIEWS = "reviews";
     }
+
+    public enum Setting {
+        CHANGE_ROLE,
+        EDIT_INFORMATION,
+        CHANGE_PASSWORD,
+        SIGN_OUT,
+        DELETE_ACCOUNT,
+        LANGUAGE,
+        THEME
+
+    }
 }

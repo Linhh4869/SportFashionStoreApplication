@@ -44,7 +44,7 @@ public class LoginFragment extends BaseFragmentViewModel<FragmentLoginBinding, A
             binding.tvErrorPass.setVisibility(hideError ? View.GONE : View.VISIBLE);
         });
 
-        viewModel.getUserLiveData().observe(getViewLifecycleOwner(), resource -> {
+        viewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), resource -> {
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
                 Intent intent = new Intent(requireActivity(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
