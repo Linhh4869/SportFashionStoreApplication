@@ -41,6 +41,9 @@ public class Product implements Serializable {
     @SerializedName("status")
     private String status;
 
+    @SerializedName("saleClothes")
+    private boolean saleClothes;
+
     private Integer displayPrice;
 
     public String getId() {
@@ -132,11 +135,19 @@ public class Product implements Serializable {
     }
 
     public String getDisplayPrice() {
-         Integer value = getSalePrice() > 0 ? getSalePrice() : getPrice();
-         return String.format("%sđ", Helper.formatPrice(value));
+         displayPrice = getSalePrice() > 0 ? getSalePrice() : getPrice();
+         return String.format("%sđ", Helper.formatPrice(displayPrice));
     }
 
     public void setDisplayPrice(Integer displayPrice) {
         this.displayPrice = displayPrice;
+    }
+
+    public boolean isSaleClothes() {
+        return saleClothes;
+    }
+
+    public void setSaleClothes(boolean saleClothes) {
+        this.saleClothes = saleClothes;
     }
 }

@@ -47,6 +47,10 @@ public class User implements Serializable {
         this.updatedAt = String.valueOf(updatedAt);
     }
 
+    public User() {
+
+    }
+
     public String getUid() {
         return uid;
     }

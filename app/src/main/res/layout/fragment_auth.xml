@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:background="@color/ocean_blue"
         android:alpha="0.8"
-        android:text="D.M~ Store"
+        android:text="@string/app_name"
         android:fontFamily="@font/fs_pf_beau_sans_pro_bold_italic"
         android:textColor="@color/white"
         android:gravity="center"

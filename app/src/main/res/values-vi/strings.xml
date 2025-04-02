@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sport Fashion Store</string>
+    <string name="app_name">Sportique</string>
     <string name="title_splash" translatable="false">Sẵn sàng cho phong cách mới\n Thế giới thời trang thể thao</string>
     <string name="content_splash" translatable="false">Khám phá giày và trang phục thể thao từ các thương hiệu hàng đầu\n Nhận gợi ý sản phẩm phù hợp với phong cách năng động của bạn\n Miễn phí vận chuyển nhanh cho mọi đơn hàng</string>
     <string name="hint_password">Nhập password</string>

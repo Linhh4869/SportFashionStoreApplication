@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="product"
             type="com.example.sportfashionstore.model.Product" />
@@ -10,12 +12,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_white_radius">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_product"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:clipToOutline="true"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/shoes2" />
 
@@ -25,50 +32,65 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
+            android:text="@{product.description}"
             android:textColor="@color/new_black"
             android:textSize="13sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_rate_product"
+            app:layout_constraintEnd_toStartOf="@+id/ll_rating"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_product"
-            android:text="@{product.description}"
             tools:text="Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi Running Shoe - Nairobi" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_rate_product"
+        <LinearLayout
+            android:id="@+id/ll_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/bg_rate_star"
-            android:drawableStart="@drawable/star_icon"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/sarabun_semi_bold"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:textColor="@color/model_black"
-            android:textSize="12sp"
-            android:includeFontPadding="false"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_product_description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_product"
-            android:text="@{product.rating}"
-            tools:text="4.9" />
+            app:layout_constraintTop_toTopOf="@+id/tv_product_description">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                app:srcCompat="@drawable/star_icon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_rate_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/sarabun_semi_bold"
+                android:includeFontPadding="false"
+                android:text="@{product.rating}"
+                android:textColor="@color/model_black"
+                android:textSize="12sp"
+                tools:text="4.9" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_sold"
             style="@style/common_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{product.sold}"
+            android:textColor="@color/medium_gray"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_price"
+            app:layout_constraintEnd_toEndOf="@+id/ll_rating"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_description"
             app:layout_constraintTop_toTopOf="@+id/tv_price"
-            app:layout_constraintBottom_toBottomOf="@id/tv_price"
-            android:text="@{product.sold}"
-            tools:text="Da ban 22,7k"
-            android:textSize="12sp"/>
+            tools:text="Da ban 22,7k" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_price"
@@ -76,15 +98,15 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:layout_marginEnd="5dp"
+            android:ellipsize="end"
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:maxLines="1"
+            android:text="@{product.displayPrice}"
             android:textColor="@color/sailing_navy_blue"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_sold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_rate_product"
-            android:text="@{product.displayPrice}"
-            tools:text="50.000d"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            app:layout_constraintStart_toStartOf="@+id/tv_product_description"
+            app:layout_constraintTop_toBottomOf="@+id/ll_rating"
+            tools:text="50.000d" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

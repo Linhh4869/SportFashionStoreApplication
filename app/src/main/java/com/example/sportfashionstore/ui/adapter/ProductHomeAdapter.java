@@ -3,11 +3,14 @@ package com.example.sportfashionstore.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemHomeProductBinding;
 import com.example.sportfashionstore.model.Product;
+import com.example.sportfashionstore.util.Helper;
 
 public class ProductHomeAdapter extends BaseAdapter<Product, ItemHomeProductBinding> {
     @Override
@@ -19,10 +22,13 @@ public class ProductHomeAdapter extends BaseAdapter<Product, ItemHomeProductBind
                 .error(R.drawable.coat0)
                 .into(binding.imgProduct);
 
-//        binding.tvPrice.setText(item.getDisplayPrice());
-//        binding.tvRateProduct.setText(item.getRating());
-//        binding.tvProductDescription.setText(item.getDescription());
-//        binding.tvSold.setText(item.getSold());
+        int saleColor = ResourcesCompat.getColor(binding.getRoot().getResources(), R.color.sailing_coral_red, null);
+        int notSaleColor = ResourcesCompat.getColor(binding.getRoot().getResources(), R.color.sailing_navy_blue, null);
+        binding.tvPrice.setTextColor(item.isSaleClothes() ? saleColor : notSaleColor);
+
+        binding.getRoot().setOnClickListener(v -> {
+            Helper.showMyToast(binding.getRoot().getContext(), item.getName());
+        });
     }
 
     @Override

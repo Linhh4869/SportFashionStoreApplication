@@ -53,6 +53,7 @@ public class AuthViewModel extends BaseViewModel {
                 if (data != null) {
                     sharePrefHelper.setLoggedIn(true);
                     sharePrefHelper.setUserName(data.getDisplayName());
+                    sharePrefHelper.setEmail(data.getEmail());
                 }
             }
 
@@ -102,6 +103,7 @@ public class AuthViewModel extends BaseViewModel {
                     sharePrefHelper.setUserName(_name);
                     sharePrefHelper.setAddress(_address);
                     sharePrefHelper.setLoggedIn(true);
+                    sharePrefHelper.setEmail(_email);
                 }
 
                 @Override

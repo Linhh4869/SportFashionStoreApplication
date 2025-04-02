@@ -2,6 +2,7 @@ package com.example.sportfashionstore.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -29,5 +30,9 @@ public class Helper {
         } catch (Exception ex) {
             return String.valueOf(price);
         }
+    }
+
+    public static void showMyToast(Context context, String content) {
+        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
     }
 }
