@@ -32,6 +32,16 @@ public class Helper {
         }
     }
 
+    public static String formatPriceNumber(long price) {
+        try {
+            DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+            otherSymbols.setGroupingSeparator('.');
+            return new DecimalFormat(NUMBER_FORMAT).format(price).replace(",", ".");
+        } catch (Exception ex) {
+            return String.valueOf(price);
+        }
+    }
+
     public static void showMyToast(Context context, String content) {
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
     }

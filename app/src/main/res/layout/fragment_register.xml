@@ -13,11 +13,12 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_fragment_register">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.example.sportfashionstore.custom.CustomRoundedImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.2"
             android:scaleType="fitXY"
+            app:radius_top_right="25dp"
             android:src="@drawable/bg_register" />
 
         <LinearLayout
