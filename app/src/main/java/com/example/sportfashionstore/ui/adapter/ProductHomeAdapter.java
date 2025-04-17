@@ -19,7 +19,7 @@ public class ProductHomeAdapter extends BaseAdapter<Product, ItemHomeProductBind
         binding.setProduct(item);
         Glide.with(binding.getRoot().getContext())
                 .load(item.getImages().get(0))
-                .placeholder(R.drawable.shoes2)
+                .placeholder(R.drawable.icon_clothes)
                 .error(R.drawable.coat0)
                 .into(binding.imgProduct);
 

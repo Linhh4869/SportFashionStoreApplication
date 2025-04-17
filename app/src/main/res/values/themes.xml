@@ -1,5 +1,5 @@
 <resources >
-    <style name="Base.Theme.SportFashionStore" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Base.Theme.SportFashionStore" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorControlNormal">@color/new_black</item>
         <item name="colorOnSurface">@color/new_black</item>
         <item name="android:textColor">@color/new_black</item>
@@ -12,7 +12,7 @@
         <item name="android:textColor">@color/new_black</item>
     </style>
 
-    <style name="CustomBottomNavigationTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="CustomBottomNavigationTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:colorControlHighlight">@android:color/transparent</item>
         <item name="colorControlNormal">@color/new_black</item>
         <item name="colorOnSurface">@color/new_black</item>
