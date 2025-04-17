@@ -9,7 +9,10 @@ import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -106,5 +109,31 @@ public class AuthRepository {
         } catch (Exception e) {
             callback.onSuccess(e.getMessage());
         }
+    }
+
+    public void changePassword(String email, String password, String newPassword, DataStateCallback<String> callback) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            return;
+        }
+
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+        user.reauthenticate(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                user.updatePassword(newPassword).addOnCompleteListener(updateTask -> {
+                    if (updateTask.isSuccessful()) {
+                        callback.onSuccess("Đổi mật khẩu thành công");
+                    } else {
+                        callback.onError(Objects.requireNonNull(updateTask.getException()).getMessage());
+                    }
+                });
+            } else {
+                String errorMessage = Objects.requireNonNull(task.getException()).getMessage();
+                if (task.getException() instanceof FirebaseAuthRecentLoginRequiredException) {
+                    errorMessage = "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.";
+                }
+                callback.onError(errorMessage);
+            }
+        });
     }
 }

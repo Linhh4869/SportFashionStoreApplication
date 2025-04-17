@@ -89,4 +89,17 @@ public class PersonalViewModel extends BaseViewModel {
             }
         });
     }
+
+    private void changePassword(String currentPassword, String newPassword) {
+        authRepository.changePassword(sharePrefHelper.getEmail(), currentPassword, newPassword, new DataStateCallback<>() {
+            @Override
+            public void onSuccess(String data) {
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
 }

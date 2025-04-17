@@ -60,4 +60,9 @@ dependencies {
     implementation libs.firebase.auth
     implementation libs.play.services.auth // Đăng nhập Google
     implementation libs.facebook.login // Đăng nhập Facebook
+
+    // Room
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
+    implementation libs.room.ktx
 }
