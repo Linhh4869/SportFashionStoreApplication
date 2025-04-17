@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.viewmodel;
 
+import android.content.Intent;
 import android.util.Patterns;
 
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,8 @@ import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.repository.AuthRepository;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.example.sportfashionstore.util.StringUtil;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -112,6 +115,26 @@ public class AuthViewModel extends BaseViewModel {
                 }
             });
         }
+    }
+
+    public Intent getGoogleSignInIntent() {
+        return authRepository.getGoogleSignInIntent();
+    }
+
+    public void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        authRepository.handleGoogleSignInResult(completedTask)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        userLiveData.setValue(task.getResult());
+//                    } else {
+//                        errorLiveData.setValue(task.getException().getMessage());
+//                    }
+//                });
     }
 
     private boolean isEmailValid(String email) {

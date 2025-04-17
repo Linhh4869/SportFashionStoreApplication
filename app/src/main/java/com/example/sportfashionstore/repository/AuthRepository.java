@@ -1,19 +1,28 @@
 package com.example.sportfashionstore.repository;
 
+import android.content.Intent;
+
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sportfashionstore.app.AppContextProvider;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.util.Constants;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -22,6 +31,14 @@ public class AuthRepository {
     private static final String TAG = "FirebaseAuthRepo";
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private GoogleSignInClient googleSignInClient;
+
+    public AuthRepository() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(Constants.WEB_CLIENT_ID)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(AppContextProvider.getContext(), gso);}
 
     public void registerWithEmail(String email, String password, String displayName, String address,
                                   DataStateCallback<FirebaseUser> dataStateCallback) {
@@ -135,5 +152,40 @@ public class AuthRepository {
                 callback.onError(errorMessage);
             }
         });
+    }
+
+    public Intent getGoogleSignInIntent() {
+        return googleSignInClient.getSignInIntent();
+    }
+
+    public Task<FirebaseUser> handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult();
+
+            if (account != null) {
+                String idToken = account.getIdToken();
+                AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+
+                // Sử dụng signInWithCredential và xử lý kết quả
+                return FirebaseAuth.getInstance()
+                        .signInWithCredential(credential)
+                        .continueWithTask(task -> {
+                            if (task.isSuccessful()) {
+                                // Trả về Task chứa FirebaseUser
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                return Tasks.forResult(user);
+                            } else {
+                                // Ném ngoại lệ nếu đăng nhập thất bại
+                                throw task.getException();
+                            }
+                        });
+            } else {
+                // Trả về Task thất bại nếu account == null
+                return Tasks.forException(new Exception("Google Sign-In account is null"));
+            }
+        } catch (Exception e) {
+            // Trả về Task thất bại nếu có lỗi
+            return Tasks.forException(e);
+        }
     }
 }

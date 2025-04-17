@@ -12,7 +12,20 @@
           "package_name": "com.example.sportfashionstore"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1013292885134-66h47c23q55u6a67jnu6ta6lpucf4kmm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportfashionstore",
+            "certificate_hash": "b3b64cc1b3789214166544be974da1fe4e7b5061"
+          }
+        },
+        {
+          "client_id": "1013292885134-1af85bjde3k97tql2hah9ovik2l25pt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAAahlpH2ROrMTKi2gjbyhCWWiczvpZXNg"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013292885134-1af85bjde3k97tql2hah9ovik2l25pt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

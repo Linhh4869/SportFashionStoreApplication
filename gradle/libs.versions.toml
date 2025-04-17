@@ -3,12 +3,14 @@ agp = "8.5.0"
 compiler = "4.12.0"
 compilerVersion = "4.16.0"
 coreSplashscreen = "1.0.1"
+credentialsPlayServicesAuth = "1.5.0"
 facebookLogin = "latest.release"
 firebaseAuth = "23.2.0"
 firebaseBom = "33.10.0"
 firebaseFirestore = "25.1.2"
 glide = "4.12.0"
 glideVersion = "4.16.0"
+googleid = "1.1.1"
 gson = "2.10.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -29,6 +31,7 @@ roomRuntime = "2.7.0"
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 compiler-v4160 = { module = "com.github.bumptech.glide:compiler", version.ref = "compilerVersion" }
 core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
@@ -36,6 +39,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-v4160 = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

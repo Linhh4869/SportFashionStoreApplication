@@ -11,6 +11,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sharePrefHelper = SharePrefHelper.getInstance(this);
+        AppContextProvider.initialize(this);
     }
 
     public static SharePrefHelper getSharePrefHelper() {
