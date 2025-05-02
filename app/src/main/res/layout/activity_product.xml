@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="product"
+            type="com.example.sportfashionstore.model.Product" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/less_gray">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="false"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/btn_cart"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="101dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.github.rubensousa.gravitysnaphelper.GravitySnapRecyclerView
+                    android:id="@+id/rcv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:snapEnabled="true"
+                    app:snapGravity="center"
+                    app:snapMaxFlingSizeFraction="0.85"
+                    app:snapScrollMsPerInch="85"
+                    app:snapToPadding="false" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_short_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    tools:text="Ao so mi xanh"
+                    app:layout_constraintTop_toBottomOf="@+id/rcv_image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="10dp"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/item_choosing_clothes"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_short_desc" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_position"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_login_google"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="11/15"
+                    android:textColor="@color/medium_gray"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rcv_image"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/btn_back"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:alpha="0.3"
+                    android:background="@drawable/bg_gray_button"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_left_arrow" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+                    android:gravity="bottom"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/sailing_coral_red"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rcv_item"
+                    tools:text="25000d" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_sale_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:gravity="bottom"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/medium_gray"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+                    app:layout_constraintStart_toEndOf="@+id/tv_price"
+                    tools:text="25000d" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:gravity="bottom"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/new_black"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Đã bán 108"
+                    android:text="@{product.sold}"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/sarabun_medium"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_price"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/new_black"
+                    tools:text="Áo khoác bò nam trẻ trung"
+                    android:layout_marginStart="10dp"
+                    android:text="@{product.description}"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@+id/tv_desc"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_desc"
+                    tools:text="4.7"
+                    android:fontFamily="@font/sarabun_semi_bold"
+                    android:textSize="16sp"
+                    android:text="@{product.rating}"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_star"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_icon"
+                    app:layout_constraintStart_toEndOf="@+id/tv_rating"
+                    app:layout_constraintTop_toTopOf="@id/tv_rating"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                    android:layout_marginStart="5dp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/ic_star"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/sarabun_semi_bold"
+                    android:text="Đánh giá sản phẩm"
+                    android:textColor="@color/new_black"
+                    android:layout_marginStart="10dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_cart"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/ocean_blue"
+            android:text="Thêm vào giỏ hàng"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:drawableEnd="@drawable/ic_white_cart"
+            android:textColor="@color/white"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/my_orange"
+            android:text="Mua ngay"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

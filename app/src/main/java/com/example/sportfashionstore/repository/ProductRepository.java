@@ -2,6 +2,7 @@ package com.example.sportfashionstore.repository;
 
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Product;
+import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -77,20 +78,21 @@ public class ProductRepository {
                 });
     }
 
-//    public void getProductVariants(String productId, VariantCallback callback) {
-//        db.collection("productVariants")
-//                .whereEqualTo("productId", productId)
-//                .whereEqualTo("status", "active")
-//                .get()
-//                .addOnSuccessListener(queryDocumentSnapshots -> {
-//                    List<ProductVariant> variants = new ArrayList<>();
-//                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-//                        ProductVariant variant = document.toObject(ProductVariant.class);
-//                        variants.add(variant);
-//                    }
-//                    callback.onSuccess(variants);
-//                })
-//                .addOnFailureListener(callback::onFailure);
-//    }
+    public void getProductVariants(String productId, DataStateCallback<List<ProductVariant>> callback) {
+        db.collection(Constants.Collection.PRODUCT_VARIANTS)
+                .whereEqualTo("productId", productId)
+                .whereEqualTo("status", "active")
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<ProductVariant> variants = new ArrayList<>();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        ProductVariant variant = document.toObject(ProductVariant.class);
+                        variants.add(variant);
+                    }
+                    callback.onSuccess(variants);
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
 
 }

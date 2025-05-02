@@ -18,8 +18,15 @@ android {
     }
 
     signingConfigs {
+        debug {
+            storeFile file("../my-release-test.keystore")
+            storePassword KEY_PASS
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASS
+        }
+
         release {
-            storeFile file("my-release-test.keystore")
+            storeFile file("../my-release-test.keystore")
             storePassword KEY_PASS
             keyAlias KEY_ALIAS
             keyPassword KEY_PASS
@@ -27,7 +34,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -59,8 +70,6 @@ dependencies {
     implementation libs.navigation.ui
     implementation libs.glide
     annotationProcessor libs.compiler
-    implementation(libs.glide.v4160)
-    annotationProcessor(libs.compiler.v4160)
 
     // Import the Firebase
     implementation platform(libs.firebase.bom)
@@ -69,8 +78,9 @@ dependencies {
     implementation libs.firebase.auth
     implementation libs.play.services.auth // Đăng nhập Google
     implementation libs.facebook.login // Đăng nhập Facebook
-    implementation 'androidx.credentials:credentials:1.5.0'
+    implementation libs.credentials
     implementation libs.credentials.play.services.auth
+    implementation libs.gravitysnaphelper
     implementation libs.googleid
 
     // Room

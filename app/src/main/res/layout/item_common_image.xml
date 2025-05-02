@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.appcompat.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/img_clothes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:srcCompat="@drawable/coat0"
+        android:scaleType="fitXY">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+</layout>

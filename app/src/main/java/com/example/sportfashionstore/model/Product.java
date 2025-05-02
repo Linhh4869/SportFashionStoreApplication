@@ -42,7 +42,12 @@ public class Product implements Serializable {
     private String status;
 
     @SerializedName("saleClothes")
-    private boolean saleClothes;
+    private boolean saleClothes = false;
+
+    @SerializedName("size")
+    private List<String> sizeList;
+
+    private List<ProductVariant> productVariants;
 
     private Integer displayPrice;
 
@@ -139,6 +144,11 @@ public class Product implements Serializable {
          return String.format("%sđ", Helper.formatPrice(displayPrice));
     }
 
+    public String getDisplaySalePrice() {
+        displayPrice = getPrice();
+        return String.format("%sđ", Helper.formatPrice(displayPrice));
+    }
+
     public void setDisplayPrice(Integer displayPrice) {
         this.displayPrice = displayPrice;
     }
@@ -149,5 +159,21 @@ public class Product implements Serializable {
 
     public void setSaleClothes(boolean saleClothes) {
         this.saleClothes = saleClothes;
+    }
+
+    public List<String> getSizeList() {
+        return sizeList != null ? sizeList : new ArrayList<>();
+    }
+
+    public void setSizeList(List<String> sizeList) {
+        this.sizeList = sizeList;
+    }
+
+    public List<ProductVariant> getProductVariants() {
+        return productVariants != null ? productVariants : new ArrayList<>();
+    }
+
+    public void setProductVariants(List<ProductVariant> productVariants) {
+        this.productVariants = productVariants;
     }
 }

@@ -16,13 +16,16 @@ public class ProductVariant implements Serializable {
     private String price;
 
     @SerializedName("inventory")
-    private String inventory;
+    private Integer inventory;
 
     @SerializedName("images")
     private String images;
 
     @SerializedName("status")
     private String status;
+
+    @SerializedName("desc")
+    private String description;
 
     public String getProductId() {
         return productId;
@@ -48,11 +51,11 @@ public class ProductVariant implements Serializable {
         this.price = price;
     }
 
-    public String getInventory() {
+    public Integer getInventory() {
         return inventory;
     }
 
-    public void setInventory(String inventory) {
+    public void setInventory(Integer inventory) {
         this.inventory = inventory;
     }
 
@@ -70,5 +73,13 @@ public class ProductVariant implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description != null ? description : "";
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

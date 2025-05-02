@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_sheet"
+        android:maxHeight="600dp">
+
+        <com.example.sportfashionstore.custom.CustomRoundedImageView
+            android:id="@+id/img_product"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:scaleType="fitXY"
+            app:radius_top_left="12dp"
+            app:radius_top_right="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/coat0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:textColor="@color/sailing_coral_red"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/img_product"
+            app:layout_constraintBottom_toBottomOf="@+id/img_product"
+            app:layout_constraintStart_toEndOf="@+id/img_product"
+            tools:text="25000d" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sale_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/sarabun_bold"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:textColor="@color/medium_gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+            app:layout_constraintStart_toEndOf="@+id/tv_price"
+            tools:text="25000d" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvInventory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kho: 1234"
+            app:layout_constraintBottom_toBottomOf="@+id/img_product"
+            app:layout_constraintStart_toStartOf="@+id/tv_price"
+            android:textSize="14sp"
+            android:textColor="@color/medium_gray"
+            app:fontFamily="@font/sarabun_semi_bold"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_close"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_gray_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_product" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layout_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="400dp"
+            app:layout_constraintTop_toBottomOf="@+id/img_product"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/gray"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lb_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/sarabun_semi_bold"
+                    android:text="Màu sắc"
+                    android:textColor="@color/model_black"
+                    android:textSize="14sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/lb_color"
+                    app:spanCount="2"
+                    tools:itemCount="10" />
+
+                <LinearLayout
+                    android:id="@+id/ll_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/rcv_color">
+
+                    <View
+                        android:id="@+id/line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/gray" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/lb_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/sarabun_semi_bold"
+                        android:text="Kích cỡ"
+                        android:textColor="@color/model_black"
+                        android:textSize="14sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="10dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@+id/lb_color"
+                        app:spanCount="5"
+                        tools:itemCount="6" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_size" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lb_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/sarabun_semi_bold"
+                    android:text="Số lượng"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:textColor="@color/model_black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_size" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btn_increase"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/bg_ocean_blue"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/lb_quantity"
+                    app:layout_constraintTop_toTopOf="@+id/lb_quantity"
+                    android:layout_marginEnd="20dp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    tools:text="11"
+                    android:textSize="16sp"
+                    android:textColor="@color/model_black"
+                    android:fontFamily="@font/sarabun_bold"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_increase"
+                    app:layout_constraintTop_toTopOf="@+id/btn_increase"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_increase"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btn_decrease"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/bg_red"
+                    android:src="@drawable/ic_decrease"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_quantity"
+                    app:layout_constraintTop_toTopOf="@+id/btn_increase"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@+id/lb_quantity"
+                    android:layout_marginTop="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Thanh toan"
+            app:layout_constraintTop_toBottomOf="@+id/layout_body"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_blue_button"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:fontFamily="@font/sarabun_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
