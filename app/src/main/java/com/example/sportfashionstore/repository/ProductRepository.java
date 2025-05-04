@@ -86,10 +86,15 @@ public class ProductRepository {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<ProductVariant> variants = new ArrayList<>();
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        ProductVariant variant = document.toObject(ProductVariant.class);
-                        variants.add(variant);
+                    try {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            ProductVariant variant = document.toObject(ProductVariant.class);
+                            variants.add(variant);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                     callback.onSuccess(variants);
                 })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));

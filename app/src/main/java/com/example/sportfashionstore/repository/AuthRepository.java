@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,8 +96,8 @@ public class AuthRepository {
                 address,
                 user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "",
                 Constants.Role.BUYER,
-                System.currentTimeMillis(),
-                System.currentTimeMillis()
+                Timestamp.now(),
+                Timestamp.now()
         );
 
         firestore.collection(Constants.Collection.USERS)

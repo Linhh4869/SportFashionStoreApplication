@@ -218,7 +218,7 @@
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn"
+            android:id="@+id/btn_pay"
             android:layout_width="0dp"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"

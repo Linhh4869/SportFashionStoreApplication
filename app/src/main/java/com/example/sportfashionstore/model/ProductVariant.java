@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.model;
 
+import com.google.firebase.firestore.PropertyName;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -16,16 +17,17 @@ public class ProductVariant implements Serializable {
     private String price;
 
     @SerializedName("inventory")
-    private Integer inventory;
+    private String inventory;
 
-    @SerializedName("images")
-    private String images;
+    @SerializedName("image")
+    private String image;
 
     @SerializedName("status")
     private String status;
 
+    @PropertyName("desc")
     @SerializedName("desc")
-    private String description;
+    private String desc;
 
     public String getProductId() {
         return productId;
@@ -51,20 +53,27 @@ public class ProductVariant implements Serializable {
         this.price = price;
     }
 
-    public Integer getInventory() {
+    public String getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public String getInvText() {
+        if (inventory == null)
+            return "";
+
+        return "Kho: " + inventory;
+    }
+
+    public void setInventory(String inventory) {
         this.inventory = inventory;
     }
 
-    public String getImages() {
-        return images;
+    public String getImage() {
+        return image;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getStatus() {
@@ -75,11 +84,11 @@ public class ProductVariant implements Serializable {
         this.status = status;
     }
 
-    public String getDescription() {
-        return description != null ? description : "";
+    public String getDesc() {
+        return desc != null ? desc : "";
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

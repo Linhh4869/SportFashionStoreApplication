@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.commonbase;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.custom.LoadingDialog;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.lang.reflect.ParameterizedType;
@@ -40,6 +43,23 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding> extend
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupUi();
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            View bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                behavior.setFitToContents(true);
+            }
+        });
+
+        return dialog;
     }
 
     protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);

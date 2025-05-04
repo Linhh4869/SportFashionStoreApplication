@@ -15,6 +15,8 @@ import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.adapter.ChoosingImageAdapter;
 import com.example.sportfashionstore.ui.adapter.CommonImageAdapter;
+import com.example.sportfashionstore.ui.fragment.home.ChooseProductFragment;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
@@ -27,12 +29,8 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
     private CommonImageAdapter commonImageAdapter;
     private ChoosingImageAdapter choosingImageAdapter;
     int productSize = 0;
-    private List<ProductVariant> productVariantList = new ArrayList<>();
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_product;
-    }
+    private final List<ProductVariant> productVariantList = new ArrayList<>();
+    private Product product;
 
     @Override
     protected void setupUi() {
@@ -68,7 +66,11 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
         });
 
         binding.btnCart.setOnClickListener(v -> {
+            showBottomSheet(Constants.ADD_CART);
+        });
 
+        binding.btnPay.setOnClickListener(v -> {
+            showBottomSheet(Constants.PAY_NOW);
         });
     }
 
@@ -78,7 +80,7 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
                 productVariantList.clear();
                 productVariantList.addAll(resource.data);
-                Product product = Objects.requireNonNull(viewModel.getProductLiveData().getValue()).data;
+                product = Objects.requireNonNull(viewModel.getProductLiveData().getValue()).data;
                 commonImageAdapter.setData(product.getImages());
                 choosingImageAdapter.setData(product.getImages());
 
@@ -105,7 +107,12 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
     private void updatePositionText(int position) {
         String value = (position + 1) + "/" + productSize;
         binding.tvPosition.setText(value);
-        binding.tvShortDesc.setText(productVariantList.get(position).getDescription());
+        binding.tvShortDesc.setText(productVariantList.get(position).getDesc());
+    }
+
+    private void showBottomSheet(String tag) {
+        ChooseProductFragment chooseProductFragment = new ChooseProductFragment();
+        chooseProductFragment.show(getSupportFragmentManager(), tag);
     }
 
     @Override

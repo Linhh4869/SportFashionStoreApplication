@@ -1,6 +1,10 @@
 package com.example.sportfashionstore.commonbase;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -11,29 +15,34 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sportfashionstore.callback.DataStateCallback;
+import com.example.sportfashionstore.custom.LoadingDialog;
+import com.example.sportfashionstore.util.StringUtil;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
     protected VB binding;
     protected VM viewModel;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, getLayoutResId());
+        binding = getViewBinding();
         binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
 
         viewModel = createViewModel();
 
         setupObservers();
+        setTransparentStatusBar();
         setupUi();
+        observeBaseViewModel();
     }
 
-    protected abstract int getLayoutResId();
     protected abstract void setupUi();
     protected abstract void setupObservers();
 
@@ -47,36 +56,38 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
         throw new IllegalStateException("BaseActivity requires a generic ViewModel type.");
     }
 
-    protected void observeBaseViewModel() {
-        if (viewModel != null) {
-            viewModel.getLoading().observe(this, this::handleLoading);
-            viewModel.getErrorMessage().observe(this, this::showToast);
+    private VB getViewBinding() {
+        try {
+            Type superclass = getClass().getGenericSuperclass();
+            Class<VB> bindingClass = (Class<VB>) ((ParameterizedType) superclass).getActualTypeArguments()[0];
+
+            Method inflateMethod = bindingClass.getMethod("inflate", android.view.LayoutInflater.class);
+            return (VB) inflateMethod.invoke(null, getLayoutInflater());
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating ViewBinding", e);
         }
     }
 
-    protected <T> void observeState(LiveData<Resource<T>> liveData, DataStateCallback<T> callback) {
-        liveData.observe(this, resource -> {
-            if (resource != null) {
-                switch (resource.state) {
-                    case LOADING:
-                        handleLoading(true);
-                        break;
-                    case SUCCESS:
-                        handleLoading(false);
-                        callback.onSuccess(resource.data);
-                        break;
-                    case ERROR:
-                        handleLoading(false);
-                        showToast(resource.message);
-                        callback.onError(resource.message);
-                        break;
-                }
+    protected void observeBaseViewModel() {
+        if (viewModel != null) {
+            if (loadingDialog != null) {
+                viewModel.getLoading().observe(this, this::handleLoading);
             }
-        });
+
+            viewModel.getErrorMessage().observe(this, message -> {
+                if (StringUtil.isNotNullAndEmpty(message)) {
+                    showToast(message);
+                }
+            });
+        }
     }
 
     private void handleLoading(boolean isLoading) {
-        // Show/hide loading UI (if needed)
+        if (isLoading) {
+            loadingDialog.show();
+        } else {
+            loadingDialog.dismiss();
+        }
     }
 
     protected void showToast(String message) {
@@ -87,5 +98,14 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    private void setTransparentStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        Window win = this.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        winParams.flags &= ~WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        win.setAttributes(winParams);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 }

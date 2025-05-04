@@ -2,8 +2,8 @@ package com.example.sportfashionstore.model;
 
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.StringUtil;
+import com.google.firebase.Timestamp;
 import com.google.gson.annotations.SerializedName;
-import com.google.protobuf.StringValue;
 
 import java.io.Serializable;
 
@@ -30,12 +30,12 @@ public class User implements Serializable {
     private String role;
 
     @SerializedName("createdAt")
-    private String createdAt;
+    private Timestamp createdAt;
 
     @SerializedName("updatedAt")
-    private String updatedAt;
+    private Timestamp updatedAt;
 
-    public User(String uid, String email, String displayName, String phoneNumber, String address, String avatar, String role, long createdAt, long updatedAt) {
+    public User(String uid, String email, String displayName, String phoneNumber, String address, String avatar, String role, Timestamp createdAt, Timestamp updatedAt) {
         this.uid = uid;
         this.email = email;
         this.displayName = displayName;
@@ -43,8 +43,8 @@ public class User implements Serializable {
         this.address = address;
         this.avatar = avatar;
         this.role = role;
-        this.createdAt = String.valueOf(createdAt) ;
-        this.updatedAt = String.valueOf(updatedAt);
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public User() {
@@ -107,19 +107,19 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

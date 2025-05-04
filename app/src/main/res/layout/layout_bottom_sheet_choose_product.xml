@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/sarabun_bold"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
             android:gravity="bottom"
             android:includeFontPadding="false"
             android:textColor="@color/medium_gray"
@@ -55,7 +55,7 @@
             tools:text="25000d" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvInventory"
+            android:id="@+id/tv_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kho: 1234"
@@ -67,8 +67,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_close"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_gray_close"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             android:id="@+id/layout_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="400dp"
+            android:maxHeight="300dp"
             app:layout_constraintTop_toBottomOf="@+id/img_product"
             android:orientation="vertical">
 
@@ -98,11 +98,12 @@
                     android:id="@+id/lb_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/sarabun_semi_bold"
                     android:text="Màu sắc"
                     android:textColor="@color/model_black"
                     android:textSize="14sp"
+                    android:includeFontPadding="false"
                     android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line1" />
@@ -112,7 +113,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/lb_color"
                     app:spanCount="2"
@@ -137,9 +137,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/sarabun_semi_bold"
                         android:text="Kích cỡ"
+                        android:includeFontPadding="false"
                         android:textColor="@color/model_black"
                         android:textSize="14sp" />
 
@@ -148,7 +149,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
-                        android:layout_marginTop="10dp"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_constraintTop_toBottomOf="@+id/lb_color"
                         app:spanCount="5"
@@ -159,7 +159,7 @@
                     android:id="@+id/line3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/gray"
                     app:layout_constraintTop_toBottomOf="@+id/ll_size" />
 
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/sarabun_semi_bold"
                     android:text="Số lượng"
                     android:includeFontPadding="false"
@@ -180,14 +180,15 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btn_increase"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/bg_ocean_blue"
                     android:src="@drawable/ic_add"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@+id/lb_quantity"
                     app:layout_constraintTop_toTopOf="@+id/lb_quantity"
-                    android:layout_marginEnd="20dp"/>
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="5dp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_quantity"
@@ -197,22 +198,21 @@
                     android:textSize="16sp"
                     android:textColor="@color/model_black"
                     android:fontFamily="@font/sarabun_bold"
+                    android:includeFontPadding="false"
                     app:layout_constraintEnd_toStartOf="@+id/btn_increase"
                     app:layout_constraintTop_toTopOf="@+id/btn_increase"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_increase"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="7dp"
                     android:gravity="center"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btn_decrease"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/bg_red"
                     android:src="@drawable/ic_decrease"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="7dp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_quantity"
-                    app:layout_constraintTop_toTopOf="@+id/btn_increase"/>
-
+                    app:layout_constraintTop_toTopOf="@+id/btn_increase" />
 
                 <View
                     android:layout_width="match_parent"
@@ -224,6 +224,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_pay"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Thanh toan"

@@ -2,6 +2,8 @@ package com.example.sportfashionstore.util;
 
 public class Constants {
     public static final String WEB_CLIENT_ID = "1013292885134-1af85bjde3k97tql2hah9ovik2l25pt9.apps.googleusercontent.com";
+    public static final String PAY_NOW = "pay_now";
+    public static final String ADD_CART = "add_cart";
 
     public static class Role {
         public static final String BUYER = "BUYER";
