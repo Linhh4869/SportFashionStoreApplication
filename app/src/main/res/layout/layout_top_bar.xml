@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_blue_left_arrow"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title_screen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:fontFamily="@font/sarabun_medium"
+        android:textColor="@color/new_black"
+        tools:text="Thanh toan"
+        android:layout_weight="1"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"/>
+</LinearLayout>

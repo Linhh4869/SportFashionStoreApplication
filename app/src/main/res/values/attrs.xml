@@ -10,4 +10,8 @@
         <attr name="radius_bottom_right" format="dimension" />
         <attr name="is_circle" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="CommonActionBar">
+        <attr name="title" format="string"/>
+    </declare-styleable>
 </resources>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-
+        <variable
+            name="nameButton"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -227,7 +229,7 @@
             android:id="@+id/btn_pay"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Thanh toan"
+            tools:text="Thanh toan"
             app:layout_constraintTop_toBottomOf="@+id/layout_body"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_blue_button"

@@ -23,7 +23,7 @@
             app:radius_top_left="6dp"
             app:radius_top_right="6dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/shoes2" />
+            tools:src="@drawable/coat0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_product_description"

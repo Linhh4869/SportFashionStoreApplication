@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sarabun_bold"
+            android:textSize="14sp"
+            android:textColor="@color/new_black"
+            tools:text="Tong so tien"
+            android:includeFontPadding="false"
+            android:layout_marginStart="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:fontFamily="@font/sarabun_bold"
+            android:textSize="14sp"
+            android:textColor="@color/model_black"
+            tools:text="100.000d"
+            android:includeFontPadding="false"
+            android:layout_marginEnd="10dp"/>
+
+    </LinearLayout>
+</layout>

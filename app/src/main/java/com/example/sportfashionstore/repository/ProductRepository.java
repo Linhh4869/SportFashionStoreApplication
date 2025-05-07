@@ -89,7 +89,10 @@ public class ProductRepository {
                     try {
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
                             ProductVariant variant = document.toObject(ProductVariant.class);
-                            variants.add(variant);
+                            if (variant != null) {
+                                variant.setProductVariantId(document.getId());
+                                variants.add(variant);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

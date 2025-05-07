@@ -10,6 +10,9 @@ public class ProductVariant implements Serializable {
     @SerializedName("productId")
     private String productId;
 
+    @SerializedName("productVariantId")
+    private String productVariantId;
+
     @SerializedName("size")
     private List<String> size;
 
@@ -90,5 +93,13 @@ public class ProductVariant implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getProductVariantId() {
+        return productVariantId;
+    }
+
+    public void setProductVariantId(String productVariantId) {
+        this.productVariantId = productVariantId;
     }
 }

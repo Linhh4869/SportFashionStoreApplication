@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cartData"
+            type="com.example.sportfashionstore.data.entity.CartEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_white_radius"
+        android:paddingBottom="10dp">
+
+        <com.example.sportfashionstore.custom.CustomRoundedImageView
+            android:id="@+id/img_product"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/coat0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:radius_bottom_left="8dp"
+            app:radius_top_left="8dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/sarabun_bold"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textColor="@color/new_black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_product"
+            app:layout_constraintTop_toTopOf="@+id/img_product"
+            android:text="@{cartData.description}"
+            tools:text="Áo thun form rộng nam nữ APT unisex" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sarabun_medium"
+            android:includeFontPadding="false"
+            android:textColor="@color/medium_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_desc"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desc"
+            android:text="@{cartData.parameter}"
+            tools:text="Den, M" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:textColor="@color/sailing_coral_red"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_product"
+            app:layout_constraintStart_toStartOf="@+id/tv_desc"
+            tools:text="25000d" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sale_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:textColor="@color/medium_gray"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_price_product"
+            app:layout_constraintStart_toEndOf="@+id/tv_price_product"
+            tools:text="25000d" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/sarabun_bold"
+            android:includeFontPadding="false"
+            android:textColor="@color/medium_gray"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_price_product"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{cartData.displayQuantity}"
+            tools:text="x1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_button"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="Mua hàng"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_product" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_remove"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_checkout"
+            app:layout_constraintEnd_toStartOf="@+id/btn_checkout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

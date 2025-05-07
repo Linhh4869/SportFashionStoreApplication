@@ -1,27 +1,24 @@
 package com.example.sportfashionstore.ui.fragment.home;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
-import com.example.sportfashionstore.commonbase.BaseFragment;
+import com.bumptech.glide.Glide;
+import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
+import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.FragmentCartBinding;
+import com.example.sportfashionstore.ui.CheckoutActivity;
+import com.example.sportfashionstore.ui.adapter.CartAdapter;
 import com.example.sportfashionstore.viewmodel.AuthViewModel;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
+import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 
-public class CartFragment extends BaseFragmentViewModel<FragmentCartBinding, AuthViewModel> {
-    private static final int RC_SIGN_IN = 9001;
-    private ActivityResultLauncher<Intent> googleSignInLauncher;
+import java.util.List;
+import java.util.Objects;
 
+public class CartFragment extends BaseFragmentViewModel<FragmentCartBinding, ChooseProductViewModel> {
     @Override
     protected FragmentCartBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
         return FragmentCartBinding.inflate(inflater, container, false);
@@ -29,50 +26,28 @@ public class CartFragment extends BaseFragmentViewModel<FragmentCartBinding, Aut
 
     @Override
     protected void setupUi() {
-        googleSignInLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                        Intent data = result.getData();
-                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//                        viewModel.handleGoogleSignInResult(task);
-                        handleResult(task);
+        viewModel.getAllCartItems().observe(getViewLifecycleOwner(), data -> {
+            if (data == null || data.isEmpty()) {
+                binding.layoutError.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            binding.layoutError.setVisibility(View.GONE);
+            CartAdapter cartAdapter = new CartAdapter(new CartAdapter.ItemCartListener() {
+                @Override
+                public void onDeleteItemCart(CartEntity cart) {
+                    viewModel.deleteItemCart(cart);
                 }
-        );
 
-        binding.textView.setOnClickListener(v ->
-                startGoogleSignIn()
-        );
-    }
-
-    private void startGoogleSignIn() {
-        Intent signInIntent = viewModel.getGoogleSignInIntent();
-        googleSignInLauncher.launch(signInIntent);
-    }
-
-    private void handleResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            completedTask.addOnCompleteListener(taskResult -> {
-                if (taskResult.isSuccessful()) {
-                    GoogleSignInAccount account = completedTask.getResult();
-                    String idToken = account.getIdToken();
-                    Log.d("idToken", "idToken: " + idToken);
-
-                } else {
-                    Exception exception = taskResult.getException();
-                    if (exception instanceof ApiException) {
-                        ApiException apiException = (ApiException) exception;
-                        int statusCode = apiException.getStatusCode();
-                        String errorMessage = apiException.getMessage();
-                        String name = apiException.getStatusMessage();
-                        Log.e("GoogleSignInError", "StatusCode: " + statusCode + ", Message: " + errorMessage + ", Name: " + name);
-                    } else if (exception != null) {
-                        Log.e("GoogleSignInError", "Lỗi không xác định: " + exception.getMessage());
-                    }
+                @Override
+                public void onPayItemCart(CartEntity cartEntity) {
+                    Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+                    intent.putExtra(CheckoutActivity.KEY_DATA, cartEntity.getId());
+                    requireActivity().startActivity(intent);
                 }
             });
-
-        } catch (Exception e) {
-            Log.d("idToken", "idToken: " + e.getMessage());
-        }
+            cartAdapter.setData(data);
+            binding.rcvCart.setAdapter(cartAdapter);
+        });
     }
 }

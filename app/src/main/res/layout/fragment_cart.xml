@@ -7,34 +7,77 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/less_gray"
         android:theme="@style/CustomBottomNavigationTheme">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn chưa có đơn hàng nào!"
-            android:textColor="@color/white"
-            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <LinearLayout
+            android:id="@+id/view_top"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/bg_blue_button"
-            android:padding="20dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
 
-        <com.example.sportfashionstore.custom.CustomRoundedImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/bg_login"
-            app:radius="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_blue_left_arrow"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="10dp"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title_screen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:fontFamily="@font/sarabun_medium"
+                android:textColor="@color/new_black"
+                android:text="Giỏ hàng"
+                android:layout_weight="1"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_error"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:elevation="2dp"
+            app:layout_constraintTop_toBottomOf="@id/view_top"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chưa có đơn hàng nào trong giỏ hàng!"
+                android:textColor="@color/model_black"
+                android:textSize="18sp"
+                android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_cart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/view_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_cart"
+            android:layout_marginHorizontal="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
