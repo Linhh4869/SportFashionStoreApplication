@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +21,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding> extends BottomSheetDialogFragment {
+public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM extends BaseViewModel> extends BottomSheetDialogFragment {
     protected VB binding;
+    protected VM viewModel;
     private LoadingDialog loadingDialog;
 
     @Override
@@ -42,7 +44,8 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding> extend
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupUi();
+        initView();
+        observerData();
     }
 
     @NonNull
@@ -56,6 +59,7 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding> extend
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 behavior.setFitToContents(true);
+                bottomSheet.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_sheet_slide_up));
             }
         });
 
@@ -63,5 +67,7 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding> extend
     }
 
     protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);
-    protected abstract void setupUi();
+    protected abstract VM getViewModel();
+    protected abstract void initView();
+    protected abstract void observerData();
 }

@@ -27,8 +27,7 @@ import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 import java.util.List;
 import java.util.Objects;
 
-public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomSheetChooseProductBinding> {
-    private ChooseProductViewModel viewModel;
+public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomSheetChooseProductBinding, ChooseProductViewModel> {
     private SizeAdapter sizeAdapter;
 
     @Override
@@ -37,8 +36,12 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
     }
 
     @Override
-    protected void setupUi() {
-        viewModel = new ViewModelProvider(requireActivity()).get(ChooseProductViewModel.class);
+    protected ChooseProductViewModel getViewModel() {
+        return new ViewModelProvider(requireActivity()).get(ChooseProductViewModel.class);
+    }
+
+    @Override
+    protected void initView() {
         Product product = Objects.requireNonNull(viewModel.getProductLiveData().getValue()).data;
         List<ProductVariant> productVariants = product.getProductVariants();
 
@@ -93,7 +96,10 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
         });
         sizeAdapter.setData(viewModel.setStateSize(productVariants.get(0)));
         binding.rcvSize.setAdapter(sizeAdapter);
+    }
 
+    @Override
+    protected void observerData() {
         viewModel.getQuantity().observe(getViewLifecycleOwner(), quantity -> {
             binding.tvQuantity.setText(String.valueOf(quantity));
         });
@@ -115,7 +121,7 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 requireActivity().startActivity(intent);
-                }, 500);
+            }, 500);
         });
 
         viewModel.addToCartSuccess().observe(getViewLifecycleOwner(), message -> {
