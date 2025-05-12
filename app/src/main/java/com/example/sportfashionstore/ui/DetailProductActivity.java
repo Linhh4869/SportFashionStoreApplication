@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.ui;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.Gravity;
 import android.view.View;

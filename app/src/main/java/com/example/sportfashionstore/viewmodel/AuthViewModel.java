@@ -57,6 +57,7 @@ public class AuthViewModel extends BaseViewModel {
                     sharePrefHelper.setLoggedIn(true);
                     sharePrefHelper.setUserName(data.getDisplayName());
                     sharePrefHelper.setEmail(data.getEmail());
+                    sharePrefHelper.setAddress(data.getAddress());
                 }
             }
 

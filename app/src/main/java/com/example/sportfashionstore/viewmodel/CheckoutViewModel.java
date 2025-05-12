@@ -17,7 +17,8 @@ public class CheckoutViewModel extends BaseViewModel {
     private final CartRepository cartRepository;
     private final MutableLiveData<String> userName = new MutableLiveData<>("");
     private final MutableLiveData<String> address = new MutableLiveData<>("");
-    private MutableLiveData<CartEntity> cartEntityLiveData = new MutableLiveData<>();
+    private final MutableLiveData<CartEntity> cartEntityLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> enablePayButton = new MutableLiveData<>();
 
     public CheckoutViewModel() {
         cartRepository = new CartRepository();
@@ -36,12 +37,7 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     public void getInfoPayment(long id) {
-        cartRepository.getCartItemById(id, new CartRepository.CartItemCallback() {
-            @Override
-            public void onCartItemLoaded(CartEntity cartItem) {
-                setCartEntityLiveData(cartItem);
-            }
-        });
+        cartRepository.getCartItemById(id, this::setCartEntityLiveData);
     }
 
     public void clearData(long id) {
@@ -53,6 +49,7 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     public void setCartEntityLiveData(CartEntity cartEntityLiveData) {
+        enablePayButton.postValue(cartEntityLiveData != null);
         this.cartEntityLiveData.postValue(cartEntityLiveData);
     }
 
@@ -62,5 +59,9 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public MutableLiveData<String> getAddress() {
         return address;
+    }
+
+    public MutableLiveData<Boolean> getEnablePayButton() {
+        return enablePayButton;
     }
 }

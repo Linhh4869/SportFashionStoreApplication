@@ -32,11 +32,7 @@ public class ProductHomeAdapter extends BaseAdapter<Product, ItemHomeProductBind
         int notSaleColor = ResourcesCompat.getColor(binding.getRoot().getResources(), R.color.sailing_navy_blue, null);
         binding.tvPrice.setTextColor(item.isSaleClothes() ? saleColor : notSaleColor);
 
-        // text gạch ngang
-//        binding.tvPrice.setPaintFlags(binding.tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
         binding.getRoot().setOnClickListener(v -> {
-            Helper.showMyToast(binding.getRoot().getContext(), item.getName());
             listener.onItemClicked(item);
         });
     }

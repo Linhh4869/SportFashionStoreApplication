@@ -29,26 +29,34 @@ public class CartRepository {
         return allCartItems;
     }
 
-    public void insertCartItem(final CartEntity cartItem) {
-        executorService.execute(() -> {
-            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-            CartEntity existingItem = cartDao.getCartItemByProductInfo(
-                    cartItem.getProductId(),
-                    cartItem.getProductVariantId()
-            );
+    public long insertCartItem(final CartEntity cartItem) {
+        try {
+            return executorService.submit(() -> {
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                CartEntity existingItem = cartDao.getCartItemByProductInfo(
+                        cartItem.getProductId(),
+                        cartItem.getProductVariantId()
+                );
 
-            if (existingItem != null && cartItem.isShowCart() == 1) {
-                // Nếu đã tồn tại, cập nhật số lượng
-                CartEntity updatedItem = existingItem.copy();
-                updatedItem.setQuantity(existingItem.getQuantity() + cartItem.getQuantity());
-                updatedItem.setUpdatedAt(Timestamp.now());
-                cartDao.updateCartItem(updatedItem);
-            } else {
-                // Nếu chưa tồn tại, thêm mới
-                cartDao.insertCartItem(cartItem);
-            }
-        });
+                if (existingItem != null && cartItem.isShowCart() == 1) {
+                    // Nếu đã tồn tại, cập nhật số lượng
+                    CartEntity updatedItem = existingItem.copy();
+                    updatedItem.setQuantity(existingItem.getQuantity() + cartItem.getQuantity());
+                    updatedItem.setUpdatedAt(Timestamp.now());
+                    cartDao.updateCartItem(updatedItem);
+                    return existingItem.getId();  // Trả về ID của sản phẩm đã tồn tại
+                } else {
+                    // Nếu chưa tồn tại, thêm mới
+                    return cartDao.insertCartItem(cartItem);  // Trả về ID của sản phẩm mới
+                }
+            }).get();  // Đợi kết quả từ executorService
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
+
 
     public interface CartItemCallback {
         void onCartItemLoaded(CartEntity cartItem);

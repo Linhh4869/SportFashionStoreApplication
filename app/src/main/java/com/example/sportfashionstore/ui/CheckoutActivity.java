@@ -8,20 +8,19 @@ import androidx.core.content.res.ResourcesCompat;
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
+import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
+import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
     public static final String KEY_DATA = "CART_DATA";
+    private CartEntity mCart = null;
 
     @Override
     protected void setupUi() {
-        long id = 0;
-        if (getIntent() != null && getIntent().getSerializableExtra(KEY_DATA) != null) {
-            id = (long) getIntent().getSerializableExtra(KEY_DATA);
-        }
-
+        long id = getIntent().getLongExtra(KEY_DATA, -1);
         viewModel.getInfoPayment(id);
     }
 
@@ -32,6 +31,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                 return;
             }
 
+            mCart = cart;
             binding.setData(cart);
             binding.setInfo(viewModel);
 
@@ -57,6 +57,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             int mPrice = (int) (cart.getSalePrice() > 0 ? cart.getSalePrice() : cart.getPrice());
             int allProductPrice = mPrice * cart.getQuantity();
             int totalPrice = allProductPrice + 15000;
+            binding.tvTotalCost.setText(String.format("%sđ", Helper.formatPrice(totalPrice)));
             InfoPaymentAdapter infoPaymentAdapter = new InfoPaymentAdapter();
             infoPaymentAdapter.setData(viewModel.getInfoPaymentList(allProductPrice, totalPrice));
             binding.rcvPayment.setAdapter(infoPaymentAdapter);
@@ -66,12 +67,20 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             });
 
             binding.btnBack.setOnClickListener(v -> {
-                if (cart.isShowCart() == 0) {
-                    viewModel.clearData(cart.getId());
-                }
-
                 onBackPressed();
             });
         });
+
+        viewModel.getEnablePayButton().observe(this, isEnable -> {
+            binding.btnCheckout.setEnabled(isEnable);
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mCart != null && mCart.isShowCart() == 0) {
+            viewModel.clearData(mCart.getId());
+        }
     }
 }

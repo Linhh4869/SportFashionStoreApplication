@@ -38,6 +38,7 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM ext
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = getViewBinding(inflater, container);
         binding.setLifecycleOwner(getViewLifecycleOwner());
+        viewModel = getViewModel();
         return binding.getRoot();
     }
 

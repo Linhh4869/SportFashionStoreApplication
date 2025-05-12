@@ -13,7 +13,7 @@ import com.example.sportfashionstore.util.TimeStampConverter;
 
 @Database(
         entities = {CartEntity.class},
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 @TypeConverters({TimeStampConverter.class})

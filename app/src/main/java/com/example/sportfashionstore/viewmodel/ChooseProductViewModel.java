@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Handler;
 
 public class ChooseProductViewModel extends BaseViewModel {
     private final ProductRepository productRepository;
@@ -34,6 +33,7 @@ public class ChooseProductViewModel extends BaseViewModel {
     private final MutableLiveData<String> _selectedSize = new MutableLiveData<>("");
     private MutableLiveData<Integer> _quantity = new MutableLiveData<>(1);
     private final MutableLiveData<ProductVariant> currentVariant = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> enablePayButton = new MutableLiveData<>(false);
     private int MAX_VALUE = 99;
     private final SingleLiveData<CartEntity> navigateToCheckout = new SingleLiveData<>();
     private final SingleLiveData<String> addToCart = new SingleLiveData<>();
@@ -120,7 +120,6 @@ public class ChooseProductViewModel extends BaseViewModel {
         }
     }
 
-    // Phương thức giảm số lượng
     public void decreaseQuantity() {
         Integer currentValue = _quantity.getValue();
         if (currentValue != null && currentValue > 1) {
@@ -140,7 +139,6 @@ public class ChooseProductViewModel extends BaseViewModel {
         String size = getSelectedSize();
         int isShowCart = tag.equals(Constants.ADD_CART) ? 1 : 0;
 
-
         CartEntity cartEntity = new CartEntity(
                 product.getId(),
                 variant.getProductVariantId(),
@@ -157,12 +155,24 @@ public class ChooseProductViewModel extends BaseViewModel {
                 isShowCart
         );
 
-        cartRepository.insertCartItem(cartEntity);
+        long id = cartRepository.insertCartItem(cartEntity);
 
         if (tag.equals(Constants.PAY_NOW)) {
+            cartEntity.setId(id);
             setDataCheckout(cartEntity);
         } else if (tag.equals(Constants.ADD_CART)) {
             onAddToCart();
+        }
+        resetState();
+    }
+
+    public void resetState() {
+        _quantity.setValue(1);
+        _selectedSize.setValue("");
+        if (productLiveData.getValue() != null && !productLiveData.getValue().data.getProductVariants().isEmpty()) {
+            ProductVariant variant = productLiveData.getValue().data.getProductVariants().get(0);
+            setCurrentVariant(variant);
+            setMAX_VALUE(Integer.parseInt(variant.getInventory()));
         }
     }
 
@@ -190,8 +200,8 @@ public class ChooseProductViewModel extends BaseViewModel {
         return _quantity;
     }
 
-    public void set_quantity(MutableLiveData<Integer> _quantity) {
-        this._quantity = _quantity;
+    public void setQuantity(int quantity) {
+        _quantity.postValue(quantity);
     }
 
     public MutableLiveData<ProductVariant> getCurrentVariant() {
@@ -204,6 +214,10 @@ public class ChooseProductViewModel extends BaseViewModel {
 
     public void setMAX_VALUE(int MAX_VALUE) {
         this.MAX_VALUE = MAX_VALUE;
+    }
+
+    public int getMAX_VALUE() {
+        return MAX_VALUE;
     }
 
     public SingleLiveData<CartEntity> onNavigateToCheckout() {
@@ -224,5 +238,13 @@ public class ChooseProductViewModel extends BaseViewModel {
 
     public LiveData<List<CartEntity>> getAllCartItems() {
         return allCartItems;
+    }
+
+    public MutableLiveData<Boolean> getEnablePayButton() {
+        return enablePayButton;
+    }
+
+    public void setEnableButton(boolean isEnable) {
+        enablePayButton.postValue(isEnable);
     }
 }

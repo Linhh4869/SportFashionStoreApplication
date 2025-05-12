@@ -63,10 +63,6 @@ public class CartEntity implements Serializable {
         this.isShowCart = isShowCart;
     }
 
-    public CartEntity() {
-
-    }
-
     public long getId() {
         return id;
     }

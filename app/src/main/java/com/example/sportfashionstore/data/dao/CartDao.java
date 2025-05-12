@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCartItem(CartEntity cart);
+    long insertCartItem(CartEntity cart);
 
     @Update
     void updateCartItem(CartEntity cart);

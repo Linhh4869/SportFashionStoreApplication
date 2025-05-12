@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
 
     @Override
     protected void initView() {
+        viewModel = new ViewModelProvider(requireActivity()).get(ChooseProductViewModel.class);
         Product product = Objects.requireNonNull(viewModel.getProductLiveData().getValue()).data;
         List<ProductVariant> productVariants = product.getProductVariants();
 
@@ -93,6 +95,7 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
 
         sizeAdapter = new SizeAdapter(item -> {
             viewModel.setSelectedSize(item.getSize());
+            viewModel.setEnableButton(true);
         });
         sizeAdapter.setData(viewModel.setStateSize(productVariants.get(0)));
         binding.rcvSize.setAdapter(sizeAdapter);
@@ -102,6 +105,8 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
     protected void observerData() {
         viewModel.getQuantity().observe(getViewLifecycleOwner(), quantity -> {
             binding.tvQuantity.setText(String.valueOf(quantity));
+            binding.btnIncrease.setEnabled(quantity < viewModel.getMAX_VALUE());
+            binding.btnDecrease.setEnabled(quantity > 1);
         });
 
         viewModel.getCurrentVariant().observe(getViewLifecycleOwner(), variant -> {
@@ -113,19 +118,21 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomS
 
             binding.tvInventory.setText(variant.getInvText());
             viewModel.setMAX_VALUE(Integer.parseInt(variant.getInventory()));
+            viewModel.setQuantity(1);
         });
 
-        viewModel.onNavigateToCheckout().observe(getViewLifecycleOwner(), cartEntity -> {
-            Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+        viewModel.onNavigateToCheckout().observe(this, cartEntity -> {
+            Intent intent = new Intent(getContext(), CheckoutActivity.class);
             intent.putExtra(CheckoutActivity.KEY_DATA, cartEntity.getId());
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                requireActivity().startActivity(intent);
-            }, 500);
+            getContext().startActivity(intent);
         });
 
         viewModel.addToCartSuccess().observe(getViewLifecycleOwner(), message -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        });
+
+        viewModel.getEnablePayButton().observe(getViewLifecycleOwner(), enableButton -> {
+            binding.btnPay.setEnabled(enableButton);
         });
     }
 }
