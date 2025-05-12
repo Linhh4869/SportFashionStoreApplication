@@ -29,13 +29,14 @@ public class CartRepository {
         return allCartItems;
     }
 
-    public long insertCartItem(final CartEntity cartItem) {
+    public long insertCartItem(final CartEntity cartItem, String size) {
         try {
             return executorService.submit(() -> {
                 // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
                 CartEntity existingItem = cartDao.getCartItemByProductInfo(
                         cartItem.getProductId(),
-                        cartItem.getProductVariantId()
+                        cartItem.getProductVariantId(),
+                        size
                 );
 
                 if (existingItem != null && cartItem.isShowCart() == 1) {
@@ -49,7 +50,7 @@ public class CartRepository {
                     // Nếu chưa tồn tại, thêm mới
                     return cartDao.insertCartItem(cartItem);  // Trả về ID của sản phẩm mới
                 }
-            }).get();  // Đợi kết quả từ executorService
+            }).get();
 
         } catch (Exception e) {
             e.printStackTrace();

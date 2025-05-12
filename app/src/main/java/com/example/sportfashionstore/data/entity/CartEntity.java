@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.sportfashionstore.model.Order;
 import com.example.sportfashionstore.util.Helper;
 import com.google.firebase.Timestamp;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -216,5 +216,20 @@ public class CartEntity implements Serializable {
         copy.setCreatedAt(this.createdAt);
         copy.setUpdatedAt(Timestamp.now());
         return copy;
+    }
+
+    public Order convertToOrder() {
+        Order order = new Order();
+        order.setProductId(getProductId());
+        order.setVariantId(getProductVariantId());
+        order.setPrice(getPrice());
+        order.setSalePrice(getSalePrice());
+        order.setSaleClothes(isSalePrice());
+        order.setColorType(getColor());
+        order.setSize(getSize());
+        order.setQuantity(getQuantity());
+        order.setDescription(getDescription());
+
+        return order;
     }
 }

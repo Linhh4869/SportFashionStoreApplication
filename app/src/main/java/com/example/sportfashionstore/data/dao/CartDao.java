@@ -32,8 +32,8 @@ public interface CartDao {
     @Query("DELETE FROM carts WHERE id = :id")
     void deleteCartItemById(long id);
 
-    @Query("SELECT * FROM carts WHERE product_id = :productId AND product_variant_id = :productVariantId")
-    CartEntity getCartItemByProductInfo(String productId, String productVariantId);
+    @Query("SELECT * FROM carts WHERE product_id = :productId AND product_variant_id = :productVariantId AND size = :size")
+    CartEntity getCartItemByProductInfo(String productId, String productVariantId, String size);
 
     @Query("SELECT * FROM carts WHERE id = :id")
     CartEntity getCartItemById(long id);

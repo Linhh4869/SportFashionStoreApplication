@@ -155,7 +155,7 @@ public class ChooseProductViewModel extends BaseViewModel {
                 isShowCart
         );
 
-        long id = cartRepository.insertCartItem(cartEntity);
+        long id = cartRepository.insertCartItem(cartEntity, getSelectedSize());
 
         if (tag.equals(Constants.PAY_NOW)) {
             cartEntity.setId(id);
