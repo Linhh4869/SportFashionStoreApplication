@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.ui;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
+import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
@@ -63,7 +65,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             binding.rcvPayment.setAdapter(infoPaymentAdapter);
 
             binding.btnCheckout.setOnClickListener(v -> {
-                viewModel.clearData(cart.getId());
+                viewModel.saveOrder(cart);
             });
 
             binding.btnBack.setOnClickListener(v -> {
@@ -73,6 +75,13 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
 
         viewModel.getEnablePayButton().observe(this, isEnable -> {
             binding.btnCheckout.setEnabled(isEnable);
+        });
+
+        viewModel.getSaveOrderLiveData().observe(this, resource -> {
+            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

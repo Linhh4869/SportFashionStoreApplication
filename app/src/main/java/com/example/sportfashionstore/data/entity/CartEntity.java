@@ -229,6 +229,7 @@ public class CartEntity implements Serializable {
         order.setSize(getSize());
         order.setQuantity(getQuantity());
         order.setDescription(getDescription());
+        order.setImage(getImage());
 
         return order;
     }

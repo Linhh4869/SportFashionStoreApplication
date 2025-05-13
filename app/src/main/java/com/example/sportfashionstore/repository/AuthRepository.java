@@ -32,7 +32,7 @@ public class AuthRepository {
     private static final String TAG = "FirebaseAuthRepo";
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private GoogleSignInClient googleSignInClient;
+    private final GoogleSignInClient googleSignInClient;
 
     public AuthRepository() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

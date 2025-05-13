@@ -7,18 +7,28 @@ import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.data.AppDatabase;
 import com.example.sportfashionstore.data.dao.CartDao;
 import com.example.sportfashionstore.data.entity.CartEntity;
+import com.example.sportfashionstore.model.Order;
+import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CartRepository {
+    private final FirebaseFirestore db;
     private final CartDao cartDao;
     private final LiveData<List<CartEntity>> allCartItems;
     private final ExecutorService executorService;
+    private final FirebaseAuth firebaseAuth;
 
     public CartRepository() {
+        this.db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         AppDatabase database = MyApplication.getAppDatabase();
         cartDao = database.cartDao();
         allCartItems = cartDao.getAllCartItems();
@@ -89,5 +99,21 @@ public class CartRepository {
                 cartDao.deleteCartItemById(id);
             }
         });
+    }
+
+    public void addNewOrder(Order order, DataStateCallback<String> callback) {
+        order.setOrderId(UUID.randomUUID().toString());
+        order.setCreatedAt(Timestamp.now());
+        order.setUpdateAt(Timestamp.now());
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            order.setUserId(user.getUid());
+        }
+
+        db.collection(Constants.Collection.ORDERS)
+                .document(order.getOrderId())
+                .set(order)
+                .addOnSuccessListener(aVoid -> callback.onSuccess(""))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 }

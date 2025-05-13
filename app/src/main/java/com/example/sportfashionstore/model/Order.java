@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class Order implements Serializable {
     private String orderId;
+    private String userId;
     private String customerInfo;
     private String shipperId;
     private int status;
@@ -184,5 +185,13 @@ public class Order implements Serializable {
 
     public void setShipperInfo(String shipperInfo) {
         this.shipperInfo = shipperInfo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
