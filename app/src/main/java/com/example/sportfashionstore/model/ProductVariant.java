@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ProductVariant implements Serializable {
+    @SerializedName("id")
+    private String id;
+
     @SerializedName("productId")
     private String productId;
 
@@ -31,6 +34,14 @@ public class ProductVariant implements Serializable {
     @PropertyName("desc")
     @SerializedName("desc")
     private String desc;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getProductId() {
         return productId;

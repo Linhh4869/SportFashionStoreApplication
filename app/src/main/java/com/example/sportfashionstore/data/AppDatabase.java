@@ -7,22 +7,23 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.sportfashionstore.data.dao.AddressDao;
 import com.example.sportfashionstore.data.dao.CartDao;
+import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.util.TimeStampConverter;
 
 @Database(
-        entities = {CartEntity.class},
+        entities = {CartEntity.class, AddressEntity.class},
         version = 2,
         exportSchema = false
 )
 @TypeConverters({TimeStampConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "app_database";
-
-    private static AppDatabase INSTANCE;
-
+    private static volatile AppDatabase INSTANCE;
     public abstract CartDao cartDao();
+    public abstract AddressDao addressDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

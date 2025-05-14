@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <View
+            android:id="@+id/line_header"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/less_gray"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <RadioButton
+            android:id="@+id/btn_check"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:buttonTint="@color/ocean_blue"
+            android:gravity="center"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@+id/line_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/btn_check"
+            app:layout_constraintTop_toTopOf="@id/btn_check"
+            app:layout_constraintBottom_toBottomOf="@id/btn_check"
+            android:layout_marginStart="10dp"
+            tools:text="Nguyen Van A"
+            android:fontFamily="@font/sarabun_bold"
+            android:textColor="@color/new_black"
+            android:includeFontPadding="false"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="0983000002"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_name"
+            android:layout_marginStart="10dp"
+            android:textSize="13sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:textColor="@color/medium_gray"
+            android:includeFontPadding="false"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Ngo 12 Giai Phong Ba Dinh Ha Noi"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/new_black"
+            android:textSize="13sp"
+            android:fontFamily="@font/sarabun_medium"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_edit_address"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_blue_edit"
+            app:layout_constraintBottom_toBottomOf="@id/btn_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_blue_stroke"
+            android:text="Mặc định"
+            android:textSize="12sp"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="3dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:fontFamily="@font/sarabun_medium"
+            android:textColor="@color/ocean_blue"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

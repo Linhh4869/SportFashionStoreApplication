@@ -13,6 +13,8 @@ import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
+import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
+import com.example.sportfashionstore.ui.fragment.home.ChooseProductFragment;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
@@ -24,6 +26,19 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
     protected void setupUi() {
         long id = getIntent().getLongExtra(KEY_DATA, -1);
         viewModel.getInfoPayment(id);
+        viewModel.getChooseAddress();
+
+        binding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
+        binding.layoutSelectedAddress.setOnClickListener(v -> {
+            showBottomSheet();
+        });
+
+        binding.layoutChooseAddress.setOnClickListener(v -> {
+            showBottomSheet();
+        });
     }
 
     @Override
@@ -67,10 +82,20 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             binding.btnCheckout.setOnClickListener(v -> {
                 viewModel.saveOrder(cart);
             });
+        });
 
-            binding.btnBack.setOnClickListener(v -> {
-                onBackPressed();
-            });
+        viewModel.getSelectedAddress().observe(this, address -> {
+            if (address == null) {
+                binding.layoutChooseAddress.setVisibility(View.VISIBLE);
+                binding.layoutSelectedAddress.setVisibility(View.GONE);
+                return;
+            }
+
+            binding.layoutChooseAddress.setVisibility(View.GONE);
+            binding.layoutSelectedAddress.setVisibility(View.VISIBLE);
+            binding.tvName.setText(address.getName());
+            binding.tvPhone.setText(address.getPhone());
+            binding.tvAddress.setText(address.getAddress());
         });
 
         viewModel.getEnablePayButton().observe(this, isEnable -> {
@@ -83,6 +108,11 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                 startActivity(intent);
             }
         });
+    }
+
+    private void showBottomSheet() {
+        AddressFragment addressFragment = new AddressFragment();
+        addressFragment.show(getSupportFragmentManager(), "");
     }
 
     @Override

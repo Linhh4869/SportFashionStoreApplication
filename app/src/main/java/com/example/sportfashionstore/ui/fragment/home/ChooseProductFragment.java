@@ -2,9 +2,6 @@ package com.example.sportfashionstore.ui.fragment.home;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseBottomSheetFragment;
-import com.example.sportfashionstore.databinding.LayoutBottomSheetChooseProductBinding;
+import com.example.sportfashionstore.databinding.FragmentBottomSheetChooseProductBinding;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.CheckoutActivity;
@@ -28,12 +25,12 @@ import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 import java.util.List;
 import java.util.Objects;
 
-public class ChooseProductFragment extends BaseBottomSheetFragment<LayoutBottomSheetChooseProductBinding, ChooseProductViewModel> {
+public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBottomSheetChooseProductBinding, ChooseProductViewModel> {
     private SizeAdapter sizeAdapter;
 
     @Override
-    protected LayoutBottomSheetChooseProductBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
-        return LayoutBottomSheetChooseProductBinding.inflate(inflater, container, false);
+    protected FragmentBottomSheetChooseProductBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
+        return FragmentBottomSheetChooseProductBinding.inflate(inflater, container, false);
     }
 
     @Override

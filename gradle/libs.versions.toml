@@ -26,6 +26,7 @@ google-services = "4.4.2"
 roomCompiler = "2.7.0"
 roomKtx = "2.7.0"
 roomRuntime = "2.7.0"
+lifecycleLivedata = "2.9.0"
 
 [libraries]
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
@@ -54,6 +55,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycleLivedata" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -103,4 +103,21 @@ public class ProductRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    public void getProductVariantById(String variantId, DataStateCallback<ProductVariant> callback) {
+        db.collection(Constants.Collection.PRODUCT_VARIANTS).document(variantId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        ProductVariant variant = documentSnapshot.toObject(ProductVariant.class);
+                        if (variant != null) {
+                            variant.setId(documentSnapshot.getId());
+                            callback.onSuccess(variant);
+                        }
+                    } else {
+                        callback.onError("Product not found");
+                    }
+                })
+                .addOnFailureListener( e -> {
+                    callback.onError(e.getMessage());
+                });
+    }
 }

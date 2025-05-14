@@ -8,11 +8,13 @@ import com.example.sportfashionstore.data.AppDatabase;
 import com.example.sportfashionstore.data.dao.CartDao;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.model.Order;
+import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.List;
 import java.util.UUID;
@@ -101,7 +103,7 @@ public class CartRepository {
         });
     }
 
-    public void addNewOrder(Order order, DataStateCallback<String> callback) {
+    public void addNewOrder(Order order, int updateQuantity, String variantId, DataStateCallback<String> callback) {
         order.setOrderId(UUID.randomUUID().toString());
         order.setCreatedAt(Timestamp.now());
         order.setUpdateAt(Timestamp.now());
@@ -110,9 +112,14 @@ public class CartRepository {
             order.setUserId(user.getUid());
         }
 
-        db.collection(Constants.Collection.ORDERS)
-                .document(order.getOrderId())
-                .set(order)
+        updateOrder(variantId, updateQuantity, order, callback);
+    }
+
+    public void updateOrder(String variantId, int updateQuantity, Order order, DataStateCallback<String> callback) {
+        WriteBatch batch = db.batch();
+        batch.update(db.collection(Constants.Collection.PRODUCT_VARIANTS).document(variantId), "quantity", updateQuantity);
+        batch.set(db.collection(Constants.Collection.ORDERS).document(order.getOrderId()), order);
+        batch.commit()
                 .addOnSuccessListener(aVoid -> callback.onSuccess(""))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
