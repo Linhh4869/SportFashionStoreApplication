@@ -40,4 +40,10 @@ public interface AddressDao {
 
     @Query("SELECT * FROM address")
     List<AddressEntity> getAllAddressList();
+
+    @Query("UPDATE address SET isSelected = 0 WHERE isSelected = 1")
+    void updateSelectedRecord();
+
+    @Query("UPDATE address SET isDefaultAddress = 0 WHERE isDefaultAddress = 1")
+    void updateDefaultRecord();
 }

@@ -31,13 +31,14 @@ public class CheckoutViewModel extends BaseViewModel {
     private final MutableLiveData<String> address = new MutableLiveData<>("");
     private final MutableLiveData<CartEntity> cartEntityLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> enablePayButton = new MutableLiveData<>();
-    private final MutableLiveData<AddressEntity> selectedAddress = new MutableLiveData<>();
+    private final MutableLiveData<AddressEntity> selectedAddress = new MutableLiveData<>(null);
     private final MutableLiveData<Resource<String>> saveOrderLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<AddressEntity>> allAddress = new MutableLiveData<>();
     private final MutableLiveData<String> nameLiveData = new MutableLiveData<>("");
     private final MutableLiveData<String> phoneLiveData = new MutableLiveData<>("");
     private final MutableLiveData<String> addressLiveData = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> defaultAddressLiveData = new MutableLiveData<>(false);
+    private final MutableLiveData<AddressEntity> editingAddress = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isButtonDialogEnabled = new MediatorLiveData<>();
 
     public CheckoutViewModel() {
@@ -75,7 +76,7 @@ public class CheckoutViewModel extends BaseViewModel {
 
             @Override
             public void onError(String message) {
-                setSelectedAddress(null);
+                getAllAddressList();
             }
         });
     }
@@ -85,6 +86,9 @@ public class CheckoutViewModel extends BaseViewModel {
             @Override
             public void onSuccess(List<AddressEntity> data) {
                 allAddress.postValue(data);
+                if (selectedAddress.getValue() == null) {
+                    selectedAddress.postValue(data.get(0));
+                }
             }
 
             @Override
@@ -95,45 +99,26 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     public void updateSelectedAddress(AddressEntity address) {
-        AddressEntity oldSelectedAdd = getSelectedAddress().getValue();
-        if (oldSelectedAdd != null && oldSelectedAdd.getId() != address.getId()) {
-            oldSelectedAdd.setSelected(0);
-            addressRepository.updateAddress(oldSelectedAdd);
-            selectedAddress.postValue(address);
+        addressRepository.updateSelectedRecord();
+        if (address.isDefaultAddress() == 1) {
+            addressRepository.updateDefaultRecord();
         }
+        addressRepository.updateAddress(address);
         getChooseAddress();
-    }
-
-    public void updateDefaultAddress(AddressEntity address) {
-        addressRepository.getDefaultAddress(new DataStateCallback<>() {
-            @Override
-            public void onSuccess(AddressEntity data) {
-                if (data != null && data.getId() != address.getId()) {
-                    data.setDefaultAddress(0);
-                    addressRepository.updateAddress(data);
-                    addressRepository.updateAddress(address);
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        });
     }
 
     public void setDataUpdateDialog(AddressEntity address) {
         if (address == null) {
-            nameLiveData.postValue("");
-            phoneLiveData.postValue("");
-            addressLiveData.postValue("");
+            nameLiveData.setValue("");
+            phoneLiveData.setValue("");
+            addressLiveData.setValue("");
             return;
         }
 
-        nameLiveData.postValue(address.getName());
-        phoneLiveData.postValue(address.getPhone());
-        addressLiveData.postValue(address.getAddress());
-        defaultAddressLiveData.postValue(address.isDefaultAddress() == 1);
+        nameLiveData.setValue(address.getName());
+        phoneLiveData.setValue(address.getPhone());
+        addressLiveData.setValue(address.getAddress());
+        defaultAddressLiveData.setValue(address.isDefaultAddress() == 1);
     }
 
     private boolean isValidInfo(String value) {
@@ -204,7 +189,7 @@ public class CheckoutViewModel extends BaseViewModel {
                     }
 
                     int updateQuantity = currentQuantity - cartEntity.getQuantity();
-                    updateOrder(order, cartEntity.getId(), updateQuantity, data.getId());
+                    updateOrder(order, updateQuantity, data.getId());
                 } catch (Exception e) {
                     setErrorState(saveOrderLiveData, e.getMessage());
                 }
@@ -217,12 +202,12 @@ public class CheckoutViewModel extends BaseViewModel {
         });
     }
 
-    private void updateOrder(Order order, long cartId, int updateQuantity, String variantId) {
+    private void updateOrder(Order order, int updateQuantity, String variantId) {
         cartRepository.addNewOrder(order, updateQuantity, variantId, new DataStateCallback<>() {
             @Override
             public void onSuccess(String data) {
                 setSuccessState(saveOrderLiveData, data);
-                clearData(cartId);
+                clearData();
             }
 
             @Override
@@ -232,8 +217,8 @@ public class CheckoutViewModel extends BaseViewModel {
         });
     }
 
-    public void clearData(long id) {
-        cartRepository.deleteCartItemById(id);
+    public void clearData() {
+        cartRepository.deleteCartItemById();
     }
 
     public LiveData<CartEntity> getCartEntityLiveData() {
@@ -295,5 +280,13 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public MediatorLiveData<Boolean> getIsButtonDialogEnabled() {
         return isButtonDialogEnabled;
+    }
+
+    public MutableLiveData<AddressEntity> getEditingAddress() {
+        return editingAddress;
+    }
+
+    public void setEditingAddress(AddressEntity address) {
+        editingAddress.setValue(address);
     }
 }

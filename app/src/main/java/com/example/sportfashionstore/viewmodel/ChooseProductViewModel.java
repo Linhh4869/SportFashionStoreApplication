@@ -31,7 +31,7 @@ public class ChooseProductViewModel extends BaseViewModel {
     private final MutableLiveData<Resource<List<ProductVariant>>> variantLiveData = new MutableLiveData<>();
     private final ArrayList<String> defaultSize = new ArrayList<>(Arrays.asList("M", "L", "XL", "2XL", "3XL"));
     private final MutableLiveData<String> _selectedSize = new MutableLiveData<>("");
-    private MutableLiveData<Integer> _quantity = new MutableLiveData<>(1);
+    private final MutableLiveData<Integer> _quantity = new MutableLiveData<>(1);
     private final MutableLiveData<ProductVariant> currentVariant = new MutableLiveData<>();
     private final MutableLiveData<Boolean> enablePayButton = new MutableLiveData<>(false);
     private int MAX_VALUE = 99;
@@ -127,7 +127,7 @@ public class ChooseProductViewModel extends BaseViewModel {
         }
     }
 
-    public void handleButton(String tag) {
+    public void handleButton(int isShowCart) {
         if (productLiveData == null || productLiveData.getValue() == null || productLiveData.getValue().data == null
                 || currentVariant.getValue() == null || _quantity.getValue() == null || !StringUtil.isNotNullAndEmpty(_selectedSize.getValue())) {
             return;
@@ -137,7 +137,6 @@ public class ChooseProductViewModel extends BaseViewModel {
         ProductVariant variant = currentVariant.getValue();
         int quantity = _quantity.getValue();
         String size = getSelectedSize();
-        int isShowCart = tag.equals(Constants.ADD_CART) ? 1 : 0;
 
         CartEntity cartEntity = new CartEntity(
                 product.getId(),
@@ -155,12 +154,12 @@ public class ChooseProductViewModel extends BaseViewModel {
                 isShowCart
         );
 
-        long id = cartRepository.insertCartItem(cartEntity, getSelectedSize());
+        long id = cartRepository.insertCartItem(cartEntity);
 
-        if (tag.equals(Constants.PAY_NOW)) {
+        if (isShowCart == 0) {
             cartEntity.setId(id);
             setDataCheckout(cartEntity);
-        } else if (tag.equals(Constants.ADD_CART)) {
+        } else if (isShowCart == 1) {
             onAddToCart();
         }
         resetState();

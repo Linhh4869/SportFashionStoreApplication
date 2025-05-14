@@ -41,14 +41,14 @@ public class CartRepository {
         return allCartItems;
     }
 
-    public long insertCartItem(final CartEntity cartItem, String size) {
+    public long insertCartItem(final CartEntity cartItem) {
         try {
             return executorService.submit(() -> {
                 // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
                 CartEntity existingItem = cartDao.getCartItemByProductInfo(
-                        cartItem.getProductId(),
                         cartItem.getProductVariantId(),
-                        size
+                        cartItem.getColor(),
+                        cartItem.getSize()
                 );
 
                 if (existingItem != null && cartItem.isShowCart() == 1) {
@@ -94,13 +94,8 @@ public class CartRepository {
         executorService.execute(() -> cartDao.deleteCartItem(cartItem));
     }
 
-    public void deleteCartItemById(final long id) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                cartDao.deleteCartItemById(id);
-            }
-        });
+    public void deleteCartItemById() {
+        executorService.execute(cartDao::deleteItemNotCart);
     }
 
     public void addNewOrder(Order order, int updateQuantity, String variantId, DataStateCallback<String> callback) {

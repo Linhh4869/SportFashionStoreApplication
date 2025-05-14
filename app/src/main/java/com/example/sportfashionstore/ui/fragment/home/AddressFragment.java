@@ -20,6 +20,11 @@ import java.util.List;
 
 public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddressBinding, CheckoutViewModel> {
     private AddressAdapter addressAdapter;
+    private final OnDismissDialog mListener;
+
+    public AddressFragment(OnDismissDialog mListener) {
+        this.mListener = mListener;
+    }
 
     @Override
     protected FragmentChooseAddressBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
@@ -36,13 +41,14 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
         viewModel.getAllAddressList();
         addressAdapter = new AddressAdapter(item -> {
             viewModel.updateSelectedAddress(item);
-            new Handler(Looper.getMainLooper()).postDelayed(this::dismiss, 500);
+            dismiss();
         });
+
         addressAdapter.setEditAddressListener(item -> {
             viewModel.setDataUpdateDialog(item);
             showDialog(item.getId(), UpdateAddressDialog.UPDATE_ADDRESS);
         });
-        addressAdapter.setData(new ArrayList<>());
+
         binding.rcvAddress.setAdapter(addressAdapter);
         binding.btnAddAddress.setOnClickListener(v -> {
             viewModel.setDataUpdateDialog(null);
@@ -60,8 +66,20 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
         });
     }
 
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        mListener.onDismiss();
+    }
+
     private void showDialog(long id, int tag) {
-        UpdateAddressDialog updateAddressDialog = new UpdateAddressDialog(getActivity(), getViewLifecycleOwner(), id, tag);
+        UpdateAddressDialog updateAddressDialog = new UpdateAddressDialog(getActivity(), getViewLifecycleOwner(), id, tag, () -> {
+            viewModel.getAllAddressList();
+        });
         updateAddressDialog.show();
+    }
+
+    public interface OnDismissDialog {
+        void onDismiss();
     }
 }

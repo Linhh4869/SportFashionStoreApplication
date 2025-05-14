@@ -27,6 +27,7 @@ import java.util.Objects;
 
 public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBottomSheetChooseProductBinding, ChooseProductViewModel> {
     private SizeAdapter sizeAdapter;
+    private int isShowCart = -1;
 
     @Override
     protected FragmentBottomSheetChooseProductBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
@@ -59,8 +60,10 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBotto
 
         if (getTag() != null && getTag().equals(Constants.PAY_NOW)) {
             binding.btnPay.setText("Thanh toán");
+            isShowCart = 0;
         } else if (getTag() != null && getTag().equals(Constants.ADD_CART)) {
             binding.btnPay.setText("Thêm vào giỏ hàng");
+            isShowCart = 1;
         }
 
         binding.btnDecrease.setOnClickListener(v -> {
@@ -77,7 +80,7 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBotto
 
         binding.btnPay.setOnClickListener(v -> {
             dismiss();
-            viewModel.handleButton(getTag());
+            viewModel.handleButton(isShowCart);
         });
 
         ColorAdapter colorAdapter = new ColorAdapter(item -> {

@@ -20,7 +20,6 @@ import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
     public static final String KEY_DATA = "CART_DATA";
-    private CartEntity mCart = null;
 
     @Override
     protected void setupUi() {
@@ -48,7 +47,6 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                 return;
             }
 
-            mCart = cart;
             binding.setData(cart);
             binding.setInfo(viewModel);
 
@@ -111,15 +109,13 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
     }
 
     private void showBottomSheet() {
-        AddressFragment addressFragment = new AddressFragment();
+        AddressFragment addressFragment = new AddressFragment(() -> viewModel.getChooseAddress());
         addressFragment.show(getSupportFragmentManager(), "");
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (mCart != null && mCart.isShowCart() == 0) {
-            viewModel.clearData(mCart.getId());
-        }
+        viewModel.clearData();
     }
 }

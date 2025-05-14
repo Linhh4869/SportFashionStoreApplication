@@ -29,11 +29,11 @@ public interface CartDao {
     @Query("SELECT * FROM carts WHERE isShowCart = 1")
     LiveData<List<CartEntity>> getAllCartItems();
 
-    @Query("DELETE FROM carts WHERE id = :id")
-    void deleteCartItemById(long id);
+    @Query("DELETE FROM carts WHERE isShowCart = 0")
+    void deleteItemNotCart();
 
-    @Query("SELECT * FROM carts WHERE product_id = :productId AND product_variant_id = :productVariantId AND size = :size")
-    CartEntity getCartItemByProductInfo(String productId, String productVariantId, String size);
+    @Query("SELECT * FROM carts WHERE product_variant_id = :productVariantId AND color = :color AND size = :size")
+    CartEntity getCartItemByProductInfo(String productVariantId, String color, String size);
 
     @Query("SELECT * FROM carts WHERE id = :id")
     CartEntity getCartItemById(long id);

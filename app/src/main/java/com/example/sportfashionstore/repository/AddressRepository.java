@@ -87,4 +87,12 @@ public class AddressRepository {
             }
         });
     }
+
+    public void updateSelectedRecord() {
+        executorService.execute(addressDao::updateSelectedRecord);
+    }
+
+    public void updateDefaultRecord() {
+        executorService.execute(addressDao::updateDefaultRecord);
+    }
 }

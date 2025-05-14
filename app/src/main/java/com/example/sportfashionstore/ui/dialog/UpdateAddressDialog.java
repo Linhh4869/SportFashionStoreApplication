@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.sportfashionstore.commonbase.BaseDialog;
+import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.DialogUpdateAddressBinding;
+import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
 public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, CheckoutViewModel> {
@@ -21,12 +23,14 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
     private final LifecycleOwner lifecycleOwner;
     private int typeDialog = -1;
     private long addressId = -1;
+    private AddressFragment.OnDismissDialog mListener;
 
-    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, long addressId, int typeDialog) {
+    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, long addressId, int typeDialog, AddressFragment.OnDismissDialog mListener) {
         super(context);
         this.lifecycleOwner = lifecycleOwner;
         this.addressId = addressId;
         this.typeDialog = typeDialog;
+        this.mListener = mListener;
     }
 
     @Override
@@ -42,6 +46,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
     @Override
     protected void initView() {
         binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(lifecycleOwner);
         if (typeDialog == ADD_ADDRESS) {
             binding.btnDeleteAddress.setVisibility(View.GONE);
             binding.tvTitle.setText("Địa chỉ mới");
@@ -60,7 +65,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
 
         binding.btnDeleteAddress.setOnClickListener(v -> {
             viewModel.deleteAddress(addressId);
-            new Handler(Looper.getMainLooper()).postDelayed(this::dismiss, 500);
+            dismiss();
         });
 
         binding.btnConfirm.setOnClickListener(v -> {
@@ -69,7 +74,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
             } else if (typeDialog == UPDATE_ADDRESS) {
                 viewModel.updateAddress(addressId);
             }
-            new Handler(Looper.getMainLooper()).postDelayed(this::dismiss, 500);
+            dismiss();
         });
     }
 
@@ -78,5 +83,11 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
         viewModel.getIsButtonDialogEnabled().observe(lifecycleOwner, isEnable -> {
             binding.btnConfirm.setEnabled(isEnable);
         });
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        mListener.onDismiss();
     }
 }
