@@ -1,8 +1,14 @@
 package com.example.sportfashionstore.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.sportfashionstore.R;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -42,7 +48,23 @@ public class Helper {
         }
     }
 
-    public static void showMyToast(Context context, String content) {
-        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+    public static void showMyToast(Activity activity, String content) {
+        if (activity == null || content == null || content.isEmpty()) {
+            return;
+        }
+        try {
+            LayoutInflater inflater = activity.getLayoutInflater();
+            View layout = inflater.inflate(R.layout.custom_toast_full_content, null);
+
+            TextView textView = layout.findViewById(R.id.textView);
+            textView.setText(content);
+
+            android.widget.Toast toast = new android.widget.Toast(activity);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
+        } catch (Exception ex) {
+            // Do nothing
+        }
     }
 }

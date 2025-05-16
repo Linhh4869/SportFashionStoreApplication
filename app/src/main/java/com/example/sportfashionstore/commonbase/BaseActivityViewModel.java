@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.custom.LoadingDialog;
+import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.util.StringUtil;
 
 import java.lang.reflect.Method;
@@ -91,7 +92,7 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
     }
 
     protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Helper.showMyToast(this, message);
     }
 
     @Override

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sportfashionstore.custom.LoadingDialog;
+import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.util.StringUtil;
 
 import java.lang.reflect.ParameterizedType;
@@ -88,6 +89,6 @@ public abstract class BaseFragmentViewModel<VB extends ViewDataBinding, VM exten
     }
 
     protected void showToast(String message) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        Helper.showMyToast(getActivity(), message);
     }
 }

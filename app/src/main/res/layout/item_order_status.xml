@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="order"
+            type="com.example.sportfashionstore.model.Order" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_product"
             app:layout_constraintTop_toTopOf="@+id/img_product"
+            android:text="@{order.description}"
             tools:text="Áo thun form rộng nam nữ APT unisex" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -48,6 +55,7 @@
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@+id/tv_desc"
             app:layout_constraintTop_toBottomOf="@+id/tv_desc"
+            android:text="@{order.parameter}"
             tools:text="Den, M" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -58,6 +66,7 @@
             android:textSize="14sp"
             android:textColor="@color/model_black"
             tools:text="58000d"
+            android:text="@{order.displayTotalPrice}"
             app:layout_constraintBottom_toBottomOf="@+id/img_product"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="10dp"
@@ -68,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Tong so tien (1 san pham): "
+            android:text="@{order.displayDescribe}"
             app:layout_constraintEnd_toStartOf="@+id/tv_total_price"
             app:layout_constraintBottom_toBottomOf="@+id/tv_total_price"
             android:textColor="@color/new_black"
@@ -88,6 +98,7 @@
             android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_total_price"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{order.displayPrice}"
             tools:text="25000d" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -103,6 +114,7 @@
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_price_product"
             app:layout_constraintEnd_toStartOf="@+id/tv_price_product"
+            android:text="@{order.displaySalePrice}"
             tools:text="25000d" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -116,6 +128,7 @@
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_parameter"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{order.displayQuantity}"
             tools:text="x1" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -129,7 +142,7 @@
             android:gravity="center"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:text="Mua hàng"
+            android:text="Hủy đơn hàng"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp"
@@ -148,6 +161,20 @@
             android:fontFamily="@font/sarabun_medium"
             android:textSize="14sp"
             android:includeFontPadding="false"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_content_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:includeFontPadding="false"
+            android:textSize="14sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/label_status"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_status"
+            tools:text="Đang giao hàng" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

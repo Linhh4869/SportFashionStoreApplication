@@ -14,7 +14,7 @@ import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ItemCartBinding;
 
 public class CartAdapter extends BaseAdapter<CartEntity, ItemCartBinding> {
-    private ItemCartListener listener;
+    private final ItemCartListener listener;
 
     public CartAdapter(ItemCartListener listener) {
         this.listener = listener;

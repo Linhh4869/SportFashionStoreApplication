@@ -177,7 +177,7 @@ public class CheckoutViewModel extends BaseViewModel {
         getAllAddressList();
     }
 
-    public void saveOrder(CartEntity cartEntity) {
+    public void saveOrder(CartEntity cartEntity, int totalPrice) {
         Order order = cartEntity.convertToOrder();
         User user = new User();
         AddressEntity selectedAdd = selectedAddress.getValue();
@@ -187,6 +187,7 @@ public class CheckoutViewModel extends BaseViewModel {
         user.setPhoneNumber(selectedAdd.getPhone());
         String userInfo = new Gson().toJson(user);
         order.setCustomerInfo(userInfo);
+        order.setTotalPrice(totalPrice);
 
         setLoadingState(saveOrderLiveData);
         productRepository.getProductVariantById(cartEntity.getProductVariantId(), new DataStateCallback<>() {

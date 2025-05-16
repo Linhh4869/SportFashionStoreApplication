@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.model;
 
+import com.example.sportfashionstore.util.Helper;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Order implements Serializable {
     private String productId;
     private String variantId;
     private long price;
+    private long totalPrice;
     private long salePrice;
     private boolean isSaleClothes;
     private String image;
@@ -26,6 +28,7 @@ public class Order implements Serializable {
     private String description;
     private int quantity;
     private String shipperInfo;
+    private OrderStatus contentStatus;
 
     public String getOrderId() {
         return orderId;
@@ -193,5 +196,52 @@ public class Order implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public OrderStatus getContentStatus() {
+        return contentStatus;
+    }
+
+    public void setContentStatus(OrderStatus contentStatus) {
+        this.contentStatus = contentStatus;
+    }
+
+    public String getParameter() {
+        if (getColorType().isEmpty() || getSize().isEmpty()) {
+            return "";
+        }
+        return getColorType() + ", " + getSize();
+    }
+
+    public String getDisplayQuantity() {
+        return String.format("x%s", getQuantity());
+    }
+
+    public String getDisplayPrice() {
+        int displayPrice = Math.toIntExact(getSalePrice() > 0 ? getSalePrice() : getPrice());
+        return String.format("%sđ", Helper.formatPrice(displayPrice));
+    }
+
+    public String getDisplayDescribe() {
+        int displayPrice = Math.toIntExact(getSalePrice() > 0 ? getSalePrice() : getPrice());
+        return String.format("%sđ", Helper.formatPrice(displayPrice));
+    }
+
+    public String getDisplaySalePrice() {
+        int displayPrice = (int) getPrice();
+        return String.format("Tổng số tiền (%s sản phẩm): ", getQuantity());
+    }
+
+    public String getDisplayTotalPrice() {
+        int displayPrice = (int) getTotalPrice();
+        return String.format("%sđ", Helper.formatPrice(displayPrice));
     }
 }

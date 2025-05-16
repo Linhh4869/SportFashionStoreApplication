@@ -78,7 +78,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             binding.rcvPayment.setAdapter(infoPaymentAdapter);
 
             binding.btnCheckout.setOnClickListener(v -> {
-                viewModel.saveOrder(cart);
+                viewModel.saveOrder(cart, totalPrice);
             });
         });
 
