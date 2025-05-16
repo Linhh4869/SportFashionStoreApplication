@@ -40,6 +40,7 @@ public class CheckoutViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> defaultAddressLiveData = new MutableLiveData<>(false);
     private final MutableLiveData<AddressEntity> editingAddress = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isButtonDialogEnabled = new MediatorLiveData<>();
+    private final MediatorLiveData<Boolean> isEnableCheckoutButton = new MediatorLiveData<>(false);
 
     public CheckoutViewModel() {
         cartRepository = new CartRepository();
@@ -51,7 +52,9 @@ public class CheckoutViewModel extends BaseViewModel {
         isButtonDialogEnabled.addSource(nameLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(phoneLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(addressLiveData, value -> updateButtonState());
+        isEnableCheckoutButton.addSource(selectedAddress, value -> updateEnableCheckoutBtn());
         updateButtonState();
+        updateEnableCheckoutBtn();
     }
 
     public List<InfoPayment> getInfoPaymentList(int price, int totalPrice) {
@@ -132,6 +135,11 @@ public class CheckoutViewModel extends BaseViewModel {
         isButtonDialogEnabled.postValue(isEnabled);
     }
 
+    private void updateEnableCheckoutBtn() {
+        boolean isEnable = selectedAddress.getValue() != null;
+        isEnableCheckoutButton.postValue(isEnable);
+    }
+
     public void deleteAddress(long id) {
         addressRepository.deleteAddressById(id);
         getAllAddressList();
@@ -172,8 +180,11 @@ public class CheckoutViewModel extends BaseViewModel {
     public void saveOrder(CartEntity cartEntity) {
         Order order = cartEntity.convertToOrder();
         User user = new User();
-        user.setDisplayName(getUserName().getValue());
-        user.setAddress(getAddress().getValue());
+        AddressEntity selectedAdd = selectedAddress.getValue();
+        if (selectedAdd == null) return;
+        user.setDisplayName(selectedAdd.getName());
+        user.setAddress(selectedAdd.getAddress());
+        user.setPhoneNumber(selectedAdd.getPhone());
         String userInfo = new Gson().toJson(user);
         order.setCustomerInfo(userInfo);
 
