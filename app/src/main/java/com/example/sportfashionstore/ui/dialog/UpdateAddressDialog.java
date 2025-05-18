@@ -22,13 +22,13 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
     public static final int ADD_ADDRESS = 2;
     private final LifecycleOwner lifecycleOwner;
     private int typeDialog = -1;
-    private long addressId = -1;
-    private AddressFragment.OnDismissDialog mListener;
+    private final AddressEntity address;
+    private final AddressFragment.OnDismissDialog mListener;
 
-    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, long addressId, int typeDialog, AddressFragment.OnDismissDialog mListener) {
+    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, AddressEntity address, int typeDialog, AddressFragment.OnDismissDialog mListener) {
         super(context);
         this.lifecycleOwner = lifecycleOwner;
-        this.addressId = addressId;
+        this.address = address;
         this.typeDialog = typeDialog;
         this.mListener = mListener;
     }
@@ -50,9 +50,17 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
         if (typeDialog == ADD_ADDRESS) {
             binding.btnDeleteAddress.setVisibility(View.GONE);
             binding.tvTitle.setText("Địa chỉ mới");
+            binding.edtAddress.setText("");
+            binding.edtName.setText("");
+            binding.edtPhone.setText("");
+            binding.btnSetDefault.setChecked(false);
         } else if (typeDialog == UPDATE_ADDRESS) {
             binding.btnDeleteAddress.setVisibility(View.VISIBLE);
             binding.tvTitle.setText("Sửa địa chỉ");
+            binding.edtAddress.setText(address.getAddress());
+            binding.edtName.setText(address.getName());
+            binding.edtPhone.setText(address.getPhone());
+            binding.btnSetDefault.setChecked(address.isDefaultAddress() == 1);
         }
 
         binding.btnClose.setOnClickListener(v -> {
@@ -64,7 +72,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
         });
 
         binding.btnDeleteAddress.setOnClickListener(v -> {
-            viewModel.deleteAddress(addressId);
+            viewModel.deleteAddress(address);
             dismiss();
         });
 
@@ -72,7 +80,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
             if (typeDialog == ADD_ADDRESS) {
                 viewModel.addNewAddress();
             } else if (typeDialog == UPDATE_ADDRESS) {
-                viewModel.updateAddress(addressId);
+                viewModel.updateAddress(address);
             }
             dismiss();
         });

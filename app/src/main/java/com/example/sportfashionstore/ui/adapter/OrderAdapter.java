@@ -14,7 +14,7 @@ public class OrderAdapter extends BaseAdapter<Order, ItemOrderStatusBinding> {
     @Override
     public void bind(ItemOrderStatusBinding binding, Order item, int position) {
         binding.setOrder(item);
-        binding.tvContentStatus.setText(item.getContentStatus().getDesc());
+//        binding.tvContentStatus.setText(item.getContentStatus().getDesc());
         binding.tvContentStatus.setTextColor(item.getContentStatus().getTextColor());
 
         Glide.with(binding.getRoot().getContext())

@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.repository;
 
+import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Order;
 import com.example.sportfashionstore.model.OrderStatus;
@@ -24,7 +25,7 @@ public class OrderRepository {
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         statusMap = new HashMap<>();
-        statusMap.put(0, new OrderStatus("Đang chờ xử lý", android.R.color.holo_orange_light));
+        statusMap.put(0, new OrderStatus("Đang chờ xử lý", R.color.my_orange));
         statusMap.put(1, new OrderStatus("Đơn hàng đang chờ vận chuyển", android.R.color.holo_blue_light));
         statusMap.put(2, new OrderStatus("Đơn hàng đang được vận chuyển", android.R.color.holo_green_light));
         statusMap.put(3, new OrderStatus("Đã nhận hàng", android.R.color.holo_green_dark));

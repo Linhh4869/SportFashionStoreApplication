@@ -5,6 +5,7 @@ compilerVersion = "4.16.0"
 coreSplashscreen = "1.0.1"
 credentialsPlayServicesAuth = "1.5.0"
 facebookLogin = "latest.release"
+financialConnections = "21.13.0"
 firebaseAuth = "23.2.0"
 firebaseBom = "33.10.0"
 firebaseFirestore = "25.1.2"
@@ -26,7 +27,8 @@ google-services = "4.4.2"
 roomCompiler = "2.7.0"
 roomKtx = "2.7.0"
 roomRuntime = "2.7.0"
-lifecycleLivedata = "2.9.0"
+lifecycleLivedata = "2.8.0"
+stripeAndroid = "21.13.0"
 
 [libraries]
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
@@ -34,6 +36,7 @@ core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = 
 credentials = { module = "androidx.credentials:credentials", version.ref = "credentialsPlayServicesAuth" }
 credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
+financial-connections = { module = "com.stripe:financial-connections", version.ref = "financialConnections" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -56,6 +59,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCom
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycleLivedata" }
+stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -23,6 +23,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+
 public class CheckoutViewModel extends BaseViewModel {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
@@ -41,6 +43,7 @@ public class CheckoutViewModel extends BaseViewModel {
     private final MutableLiveData<AddressEntity> editingAddress = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isButtonDialogEnabled = new MediatorLiveData<>();
     private final MediatorLiveData<Boolean> isEnableCheckoutButton = new MediatorLiveData<>(false);
+    private MutableLiveData<Unit> refreshEvent = new MutableLiveData<>();
 
     public CheckoutViewModel() {
         cartRepository = new CartRepository();
@@ -140,29 +143,18 @@ public class CheckoutViewModel extends BaseViewModel {
         isEnableCheckoutButton.postValue(isEnable);
     }
 
-    public void deleteAddress(long id) {
-        addressRepository.deleteAddressById(id);
+    public void deleteAddress(AddressEntity address) {
+        addressRepository.deleteAddress(address);
         getAllAddressList();
     }
 
-    public void updateAddress(long id) {
-        addressRepository.getAddressById(id, new DataStateCallback<AddressEntity>() {
-            @Override
-            public void onSuccess(AddressEntity data) {
-                int isDefault = Boolean.TRUE.equals(defaultAddressLiveData.getValue()) ? 1 : 0;
-                data.setName(nameLiveData.getValue());
-                data.setAddress(addressLiveData.getValue());
-                data.setPhone(phoneLiveData.getValue());
-                data.setDefaultAddress(isDefault);
-                addressRepository.updateAddress(data);
-                getAllAddressList();
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        });
+    public void updateAddress(AddressEntity address) {
+        address.setName(nameLiveData.getValue());
+        address.setPhone(phoneLiveData.getValue());
+        address.setAddress(addressLiveData.getValue());
+        address.setDefaultAddress(Boolean.TRUE.equals(defaultAddressLiveData.getValue()) ? 1 : 0);
+        addressRepository.updateAddress(address);
+        getAllAddressList();
     }
 
     public void addNewAddress() {
@@ -188,6 +180,7 @@ public class CheckoutViewModel extends BaseViewModel {
         String userInfo = new Gson().toJson(user);
         order.setCustomerInfo(userInfo);
         order.setTotalPrice(totalPrice);
+        order.setStatus(0);
 
         setLoadingState(saveOrderLiveData);
         productRepository.getProductVariantById(cartEntity.getProductVariantId(), new DataStateCallback<>() {
@@ -300,5 +293,13 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public void setEditingAddress(AddressEntity address) {
         editingAddress.setValue(address);
+    }
+
+    public LiveData<Unit> getRefreshEvent() {
+        return refreshEvent;
+    }
+
+    public void triggerRefresh() {
+        refreshEvent.setValue(Unit.INSTANCE);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.model;
 
+import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.util.Helper;
 import com.google.firebase.Timestamp;
 
@@ -29,6 +30,11 @@ public class Order implements Serializable {
     private int quantity;
     private String shipperInfo;
     private OrderStatus contentStatus;
+
+    public Order() {
+
+    }
+
 
     public String getOrderId() {
         return orderId;
@@ -207,7 +213,7 @@ public class Order implements Serializable {
     }
 
     public OrderStatus getContentStatus() {
-        return contentStatus;
+        return contentStatus != null ? contentStatus : new OrderStatus("", R.color.black);
     }
 
     public void setContentStatus(OrderStatus contentStatus) {
@@ -230,13 +236,12 @@ public class Order implements Serializable {
         return String.format("%sđ", Helper.formatPrice(displayPrice));
     }
 
-    public String getDisplayDescribe() {
-        int displayPrice = Math.toIntExact(getSalePrice() > 0 ? getSalePrice() : getPrice());
+    public String getDisplaySalePrice() {
+        int displayPrice = Math.toIntExact(getPrice());
         return String.format("%sđ", Helper.formatPrice(displayPrice));
     }
 
-    public String getDisplaySalePrice() {
-        int displayPrice = (int) getPrice();
+    public String getDisplayDescribe() {
         return String.format("Tổng số tiền (%s sản phẩm): ", getQuantity());
     }
 

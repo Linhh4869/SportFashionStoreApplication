@@ -11,8 +11,12 @@ public class OrderStatus implements Serializable {
         this.textColor = textColor;
     }
 
+    public OrderStatus() {
+        
+    }
+
     public String getDesc() {
-        return desc;
+        return desc != null ? desc : "";
     }
 
     public void setDesc(String desc) {

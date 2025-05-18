@@ -46,13 +46,13 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
 
         addressAdapter.setEditAddressListener(item -> {
             viewModel.setDataUpdateDialog(item);
-            showDialog(item.getId(), UpdateAddressDialog.UPDATE_ADDRESS);
+            showDialog(item, UpdateAddressDialog.UPDATE_ADDRESS);
         });
 
         binding.rcvAddress.setAdapter(addressAdapter);
         binding.btnAddAddress.setOnClickListener(v -> {
             viewModel.setDataUpdateDialog(null);
-            showDialog(-1, UpdateAddressDialog.ADD_ADDRESS);
+            showDialog(null, UpdateAddressDialog.ADD_ADDRESS);
         });
     }
 
@@ -64,6 +64,10 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
             }
             addressAdapter.setData(list);
         });
+
+        viewModel.getRefreshEvent().observe(getViewLifecycleOwner(), unit -> {
+            viewModel.getAllAddressList();
+        });
     }
 
     @Override
@@ -72,11 +76,17 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
         mListener.onDismiss();
     }
 
-    private void showDialog(long id, int tag) {
-        UpdateAddressDialog updateAddressDialog = new UpdateAddressDialog(getActivity(), getViewLifecycleOwner(), id, tag, () -> {
-            viewModel.getAllAddressList();
+    private void showDialog(AddressEntity address, int tag) {
+        UpdateAddressDialog updateAddressDialog = new UpdateAddressDialog(getActivity(), getViewLifecycleOwner(), address, tag, () -> {
+            viewModel.triggerRefresh();
         });
         updateAddressDialog.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.getAllAddressList();
     }
 
     public interface OnDismissDialog {

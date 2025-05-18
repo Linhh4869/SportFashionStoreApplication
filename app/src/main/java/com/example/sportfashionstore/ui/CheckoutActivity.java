@@ -1,7 +1,10 @@
 package com.example.sportfashionstore.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -10,19 +13,22 @@ import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
-import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
 import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
-import com.example.sportfashionstore.ui.fragment.home.ChooseProductFragment;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
+import com.stripe.android.paymentsheet.*;
 
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
     public static final String KEY_DATA = "CART_DATA";
+    private PaymentSheet paymentSheet;
+    private String paymentClientSecret;
+    private PaymentSheet.CustomerConfiguration customerConfig;
 
     @Override
     protected void setupUi() {
+        paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
         long id = getIntent().getLongExtra(KEY_DATA, -1);
         viewModel.getInfoPayment(id);
         viewModel.getChooseAddress();
@@ -111,6 +117,30 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
     private void showBottomSheet() {
         AddressFragment addressFragment = new AddressFragment(() -> viewModel.getChooseAddress());
         addressFragment.show(getSupportFragmentManager(), "");
+    }
+
+    private void presentPaymentSheet() {
+        final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("Example, Inc.")
+                .customer(customerConfig)
+                // Set `allowsDelayedPaymentMethods` to true if your business handles payment methods
+                // delayed notification payment methods like US bank accounts.
+                .allowsDelayedPaymentMethods(true)
+                .build();
+        paymentSheet.presentWithPaymentIntent(
+                paymentClientSecret,
+                configuration
+        );
+    }
+
+    private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
+        if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
+            Log.d(TAG, "Canceled");
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
+            Log.e(TAG, "Got error: ", ((PaymentSheetResult.Failed) paymentSheetResult).getError());
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            // Display for example, an order confirmation screen
+            Log.d(TAG, "Completed");
+        }
     }
 
     @Override
