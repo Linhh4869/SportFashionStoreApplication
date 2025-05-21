@@ -91,6 +91,17 @@ dependencies {
 
     // Stripe Android SDK
     implementation libs.stripe.android
+    implementation libs.stripe.java
     // Include the financial connections SDK to support US bank account as a payment method
     implementation libs.financial.connections
+
+    // Retrofit
+    implementation libs.retrofit
+    // Retrofit with Converter
+    implementation libs.converter.scalars
+    implementation libs.converter.gson
+    implementation libs.logging.interceptor
+
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation libs.lifecycle.runtime.ktx
 }

@@ -3,6 +3,7 @@ package com.example.sportfashionstore.util;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -66,5 +67,10 @@ public class Helper {
         } catch (Exception ex) {
             // Do nothing
         }
+    }
+
+    public static String decodeBase64ToString(String base64String) {
+        byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+        return new String(decodedBytes);
     }
 }

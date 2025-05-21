@@ -16,8 +16,10 @@ import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
 import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
+import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.*;
 
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
@@ -29,6 +31,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
     @Override
     protected void setupUi() {
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
+        PaymentConfiguration.init(this, Helper.decodeBase64ToString(Constants.PUBLIC_KEY));
         long id = getIntent().getLongExtra(KEY_DATA, -1);
         viewModel.getInfoPayment(id);
         viewModel.getChooseAddress();
@@ -84,7 +87,8 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             binding.rcvPayment.setAdapter(infoPaymentAdapter);
 
             binding.btnCheckout.setOnClickListener(v -> {
-                viewModel.saveOrder(cart, totalPrice);
+//                viewModel.saveOrder(cart, totalPrice);
+                viewModel.prepareShowPaymentSheet();
             });
         });
 
@@ -112,24 +116,29 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                 startActivity(intent);
             }
         });
+
+        viewModel.getCusConfigLiveData().observe(this, resource -> {
+            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
+                Helper.showMyToast(this, "In process!");
+                customerConfig = resource.data;
+                paymentClientSecret = viewModel.getPaymentClientSecretLiveData();
+                final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("Example, Inc.")
+                        .customer(customerConfig)
+                        // Set `allowsDelayedPaymentMethods` to true if your business handles payment methods
+                        // delayed notification payment methods like US bank accounts.
+                        .allowsDelayedPaymentMethods(true)
+                        .build();
+                paymentSheet.presentWithPaymentIntent(
+                        paymentClientSecret,
+                        configuration
+                );
+            }
+        });
     }
 
     private void showBottomSheet() {
         AddressFragment addressFragment = new AddressFragment(() -> viewModel.getChooseAddress());
         addressFragment.show(getSupportFragmentManager(), "");
-    }
-
-    private void presentPaymentSheet() {
-        final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("Example, Inc.")
-                .customer(customerConfig)
-                // Set `allowsDelayedPaymentMethods` to true if your business handles payment methods
-                // delayed notification payment methods like US bank accounts.
-                .allowsDelayedPaymentMethods(true)
-                .build();
-        paymentSheet.presentWithPaymentIntent(
-                paymentClientSecret,
-                configuration
-        );
     }
 
     private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {

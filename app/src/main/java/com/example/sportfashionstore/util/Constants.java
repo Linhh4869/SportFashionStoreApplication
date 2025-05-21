@@ -2,6 +2,9 @@ package com.example.sportfashionstore.util;
 
 public class Constants {
     public static final String WEB_CLIENT_ID = "1013292885134-1af85bjde3k97tql2hah9ovik2l25pt9.apps.googleusercontent.com";
+    public static final String PUBLIC_KEY = "cGtfdGVzdF81MVJQbTcxUnB6UHJOSUc1am1Xd25HcFQ1TlNwTzJweHBNRmwxSW5MeWJIMkF4ZFlJZFBEaGZuUDhSazR3b3ZreGJLMVdVRTZESENnMkdvcUV0M2RnZ0pVZTAwb3NmSlE1cW8=";
+    public static final String SK_KEY = "c2tfdGVzdF81MVJQbTcxUnB6UHJOSUc1amxYMFhucHhveHpveVJuRk5SMVRsUktBdjJqUFloOE5XU1NZM2p6UTNJSFlqcjcxem9CRjhNOGhJWmhSUG9UcGM2V2RPeDlKTDAwZlZPTlZZZXg=";
+    public static final String STRIPE_VERSION = "2025-04-30.basil";
     public static final String PAY_NOW = "pay_now";
     public static final String ADD_CART = "add_cart";
 

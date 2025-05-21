@@ -13,12 +13,15 @@ import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.model.InfoPayment;
 import com.example.sportfashionstore.model.Order;
 import com.example.sportfashionstore.model.ProductVariant;
+import com.example.sportfashionstore.model.StripePaymentModel;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.repository.AddressRepository;
 import com.example.sportfashionstore.repository.CartRepository;
 import com.example.sportfashionstore.repository.ProductRepository;
+import com.example.sportfashionstore.repository.StripeRepository;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.google.gson.Gson;
+import com.stripe.android.paymentsheet.PaymentSheet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class CheckoutViewModel extends BaseViewModel {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final AddressRepository addressRepository;
+    private final StripeRepository stripeRepository;
     private final MutableLiveData<String> userName = new MutableLiveData<>("");
     private final MutableLiveData<String> address = new MutableLiveData<>("");
     private final MutableLiveData<CartEntity> cartEntityLiveData = new MutableLiveData<>();
@@ -43,12 +47,18 @@ public class CheckoutViewModel extends BaseViewModel {
     private final MutableLiveData<AddressEntity> editingAddress = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isButtonDialogEnabled = new MediatorLiveData<>();
     private final MediatorLiveData<Boolean> isEnableCheckoutButton = new MediatorLiveData<>(false);
-    private MutableLiveData<Unit> refreshEvent = new MutableLiveData<>();
+    private final MutableLiveData<Unit> refreshEvent = new MutableLiveData<>();
+    private final MutableLiveData<String> paymentClientSecretLiveData = new MutableLiveData<>();
+    public MutableLiveData<Resource<PaymentSheet.CustomerConfiguration>> cusConfigLiveData = new MutableLiveData<>();
+    private String uid = "";
+    private PaymentSheet.CustomerConfiguration customerConfig;
+
 
     public CheckoutViewModel() {
         cartRepository = new CartRepository();
         productRepository = new ProductRepository();
         addressRepository = new AddressRepository();
+        stripeRepository = new StripeRepository();
         SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
         userName.setValue(sharePrefHelper.getUserName());
         address.setValue(sharePrefHelper.getAddress());
@@ -222,6 +232,64 @@ public class CheckoutViewModel extends BaseViewModel {
         });
     }
 
+    public void prepareShowPaymentSheet() {
+        setLoadingState(cusConfigLiveData);
+        stripeRepository.getCustomer(new DataStateCallback<StripePaymentModel>() {
+            @Override
+            public void onSuccess(StripePaymentModel data) {
+                if (data == null) {
+                    setErrorState(cusConfigLiveData, "Khong tao duoc customer");
+                    return;
+                }
+                uid = data.getId();
+                getEphemeralKey();
+            }
+
+            @Override
+            public void onError(String message) {
+                setErrorState(cusConfigLiveData, message);
+            }
+        });
+    }
+
+    private void getEphemeralKey() {
+        stripeRepository.createEphemeralKey(uid, new DataStateCallback<>() {
+            @Override
+            public void onSuccess(StripePaymentModel data) {
+                if (data == null) {
+                    setErrorState(cusConfigLiveData, "Loi roi");
+                    return;
+                }
+                customerConfig = new PaymentSheet.CustomerConfiguration(uid, data.getId());
+                getPaymentIntent();
+            }
+
+            @Override
+            public void onError(String message) {
+                setErrorState(cusConfigLiveData, message);
+            }
+        });
+    }
+
+    private void getPaymentIntent() {
+        stripeRepository.createPaymentIntent(uid, 1000000, "VND", new DataStateCallback<>() {
+            @Override
+            public void onSuccess(StripePaymentModel data) {
+                if (data == null) {
+                    setErrorState(cusConfigLiveData, "Loi roi");
+                    return;
+                }
+                paymentClientSecretLiveData.setValue(data.getId());
+                setSuccessState(cusConfigLiveData, customerConfig);
+            }
+
+            @Override
+            public void onError(String message) {
+                setErrorState(cusConfigLiveData, "");
+            }
+        });
+    }
+
     public void clearData() {
         cartRepository.deleteCartItemById();
     }
@@ -301,5 +369,13 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public void triggerRefresh() {
         refreshEvent.setValue(Unit.INSTANCE);
+    }
+
+    public MutableLiveData<Resource<PaymentSheet.CustomerConfiguration>> getCusConfigLiveData() {
+        return cusConfigLiveData;
+    }
+
+    public String getPaymentClientSecretLiveData() {
+        return paymentClientSecretLiveData.getValue();
     }
 }

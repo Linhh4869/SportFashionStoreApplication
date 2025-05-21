@@ -37,6 +37,7 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
         setContentView(binding.getRoot());
 
         viewModel = createViewModel();
+        loadingDialog = new LoadingDialog(this);
 
         setupObservers();
         setTransparentStatusBar();
