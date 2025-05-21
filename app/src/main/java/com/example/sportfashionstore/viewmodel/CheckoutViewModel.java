@@ -260,7 +260,7 @@ public class CheckoutViewModel extends BaseViewModel {
                     setErrorState(cusConfigLiveData, "Loi roi");
                     return;
                 }
-                customerConfig = new PaymentSheet.CustomerConfiguration(uid, data.getId());
+                customerConfig = new PaymentSheet.CustomerConfiguration(uid, data.getSecret());
                 getPaymentIntent();
             }
 
@@ -279,7 +279,7 @@ public class CheckoutViewModel extends BaseViewModel {
                     setErrorState(cusConfigLiveData, "Loi roi");
                     return;
                 }
-                paymentClientSecretLiveData.setValue(data.getId());
+                paymentClientSecretLiveData.setValue(data.getClientSecret());
                 setSuccessState(cusConfigLiveData, customerConfig);
             }
 

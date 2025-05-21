@@ -11,6 +11,12 @@ public class StripePaymentModel implements Serializable {
     @SerializedName("error")
     private Error error;
 
+    @SerializedName("client_secret")
+    private String clientSecret;
+
+    @SerializedName("secret")
+    private String secret;
+
     public Error getError() {
         return error;
     }
@@ -25,6 +31,22 @@ public class StripePaymentModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     public static class Error implements Serializable {
