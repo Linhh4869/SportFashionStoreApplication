@@ -100,7 +100,7 @@ public class AuthViewModel extends BaseViewModel {
                 && Boolean.TRUE.equals(hideErrorPassword.getValue())
                 && Boolean.TRUE.equals(hideErrorDisplayName.getValue())
                 && Boolean.TRUE.equals(hideErrorAddress.getValue())) {
-            User registerUser = new User(_email, _name, _role);
+            User registerUser = new User(_name, _email, _role);
             setLoadingState(userLiveData);
             authRepository.registerWithEmail(registerUser, _password, new DataStateCallback<>() {
                 @Override

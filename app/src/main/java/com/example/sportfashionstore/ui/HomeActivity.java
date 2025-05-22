@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -11,6 +13,7 @@ import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.commonbase.BaseActivity;
 import com.example.sportfashionstore.databinding.ActivityHomeBinding;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.SharePrefHelper;
 
 public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
@@ -34,15 +37,6 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
         SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
         String currentRole = sharePrefHelper.getRole();
 
-        switch (currentRole) {
-            case "BUYER":
-                break;
-            case "OWNER":
-                break;
-            case "SHIPPER":
-                break;
-        }
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.container);
         NavController navController = navHostFragment.getNavController();
@@ -57,7 +51,30 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
             return NavigationUI.onNavDestinationSelected(item, navController);
         });
 
-        if (getIntent().getStringExtra(KEY_SCREEN) != null) {
+        NavInflater navInflater = navController.getNavInflater();
+        NavGraph navGraph;
+        int menuId;
+
+        switch (currentRole) {
+            case Constants.Role.OWNER:
+                navGraph = navInflater.inflate(R.navigation.nav_graph_owner_store);
+                menuId = R.menu.bottom_nav_owner;
+                break;
+            case Constants.Role.SHIPPER:
+                navGraph = navInflater.inflate(R.navigation.nav_graph_shipper);
+                menuId = R.menu.bottom_nav_shipper;
+                break;
+            default:
+                navGraph = navInflater.inflate(R.navigation.nav_graph_home);
+                menuId = R.menu.bottom_nav_menu;
+                break;
+        }
+
+        navController.setGraph(navGraph);
+        binding.bottomNavigation.getMenu().clear();
+        binding.bottomNavigation.inflateMenu(menuId);
+
+        if (getIntent().getStringExtra(KEY_SCREEN) != null && currentRole.equals(Constants.Role.BUYER)) {
             try {
                 String screen = getIntent().getStringExtra(KEY_SCREEN);
                 if (screen == null || screen.isEmpty())
