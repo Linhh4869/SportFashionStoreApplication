@@ -2,20 +2,24 @@ package com.example.sportfashionstore.ui;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
+import com.example.sportfashionstore.ui.dialog.UpdateAddressDialog;
 import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
+import com.example.sportfashionstore.ui.fragment.home.ResultOrderFragment;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
@@ -37,7 +41,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
         viewModel.getChooseAddress();
 
         binding.btnBack.setOnClickListener(v -> {
-            onBackPressed();
+            viewModel.clearData();
         });
 
         binding.layoutSelectedAddress.setOnClickListener(v -> {
@@ -46,6 +50,14 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
 
         binding.layoutChooseAddress.setOnClickListener(v -> {
             showBottomSheet();
+        });
+
+        binding.llPayHome.setOnClickListener(v -> {
+            viewModel.setPaymentForm(Constants.CASH_ON_DELIVERY);
+        });
+
+        binding.llPayCredit.setOnClickListener(v -> {
+            viewModel.setPaymentForm(Constants.PAY_WITH_CREDIT);
         });
     }
 
@@ -78,17 +90,17 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                     .error(R.drawable.coat0)
                     .into(binding.imgProduct);
 
-            int mPrice = (int) (cart.getSalePrice() > 0 ? cart.getSalePrice() : cart.getPrice());
-            int allProductPrice = mPrice * cart.getQuantity();
-            int totalPrice = allProductPrice + 15000;
-            binding.tvTotalCost.setText(String.format("%sđ", Helper.formatPrice(totalPrice)));
+            binding.tvTotalCost.setText(String.format("%sđ", Helper.formatPrice(viewModel.getTotalPrice())));
             InfoPaymentAdapter infoPaymentAdapter = new InfoPaymentAdapter();
-            infoPaymentAdapter.setData(viewModel.getInfoPaymentList(allProductPrice, totalPrice));
+            infoPaymentAdapter.setData(viewModel.getInfoPaymentList());
             binding.rcvPayment.setAdapter(infoPaymentAdapter);
 
             binding.btnCheckout.setOnClickListener(v -> {
-//                viewModel.saveOrder(cart, totalPrice);
-                viewModel.prepareShowPaymentSheet();
+                if (viewModel.getPaymentForm().getValue() == Constants.CASH_ON_DELIVERY) {
+                    viewModel.saveOrder(false);
+                } else if (viewModel.getPaymentForm().getValue() == Constants.PAY_WITH_CREDIT) {
+                    viewModel.prepareShowPaymentSheet();
+                }
             });
         });
 
@@ -112,8 +124,11 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
 
         viewModel.getSaveOrderLiveData().observe(this, resource -> {
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
+                binding.container.setVisibility(View.VISIBLE);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new ResultOrderFragment())
+                        .commit();
             }
         });
 
@@ -134,11 +149,27 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
                 );
             }
         });
+
+        viewModel.getPaymentForm().observe(this, payForm -> {
+            boolean isCash = payForm == Constants.CASH_ON_DELIVERY;
+            binding.icPayHome.setImageResource(isCash ? R.drawable.ic_blue_check : R.drawable.ic_blue_outline_circle);
+            binding.icPayCredit.setImageResource(isCash ? R.drawable.ic_blue_outline_circle : R.drawable.ic_blue_check);
+        });
     }
 
     private void showBottomSheet() {
-        AddressFragment addressFragment = new AddressFragment(() -> viewModel.getChooseAddress());
+        AddressFragment addressFragment = new AddressFragment(
+                (address, tag) -> new Handler().postDelayed(
+                        () -> showDialog(address, tag), 500)
+        );
         addressFragment.show(getSupportFragmentManager(), "");
+    }
+
+    private void showDialog(AddressEntity address, int tag) {
+        UpdateAddressDialog updateAddressDialog = new UpdateAddressDialog(
+                this, this, address, tag,
+                () -> new Handler().postDelayed(this::showBottomSheet, 500));
+        updateAddressDialog.show();
     }
 
     private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
@@ -146,15 +177,11 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             Log.d(TAG, "Canceled");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
             Log.e(TAG, "Got error: ", ((PaymentSheetResult.Failed) paymentSheetResult).getError());
+            Helper.showMyToast(this, "Xảy ra lỗi trong quá trình thanh toán, vui lòng thử lại!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             // Display for example, an order confirmation screen
             Log.d(TAG, "Completed");
+            viewModel.saveOrder(true);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        viewModel.clearData();
     }
 }

@@ -94,7 +94,7 @@ public class CartRepository {
         executorService.execute(() -> cartDao.deleteCartItem(cartItem));
     }
 
-    public void deleteCartItemById() {
+    public void deleteCartItemNotCart() {
         executorService.execute(cartDao::deleteItemNotCart);
     }
 

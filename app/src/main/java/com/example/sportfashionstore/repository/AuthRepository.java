@@ -41,14 +41,14 @@ public class AuthRepository {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(AppContextProvider.getContext(), gso);}
 
-    public void registerWithEmail(String email, String password, String displayName, String address,
+    public void registerWithEmail(User registerUser, String password,
                                   DataStateCallback<FirebaseUser> dataStateCallback) {
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(registerUser.getEmail(), password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        saveUserToFirestore(user, displayName, address);
+                        saveUserToFirestore(user, registerUser);
                         dataStateCallback.onSuccess(user);
                     } else {
                         dataStateCallback.onError(Objects.requireNonNull(task.getException()).getMessage());
@@ -77,7 +77,7 @@ public class AuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        saveUserToFirestore(user, user.getDisplayName(), "");
+                        saveUserToFirestore(user, new User());
                         userLiveData.setValue(Resource.success(user));
                     } else {
                         userLiveData.setValue(Resource.error(task.getException().getMessage(), null));
@@ -85,17 +85,16 @@ public class AuthRepository {
                 });
     }
 
-    private void saveUserToFirestore(FirebaseUser user, String displayName, String address) {
+    private void saveUserToFirestore(FirebaseUser user, User regiterUser) {
         if (user == null) return;
 
         User newUser = new User(
                 user.getUid(),
                 user.getEmail(),
-                displayName,
+                regiterUser.getDisplayName(),
                 user.getPhoneNumber(),
-                address,
                 user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "",
-                Constants.Role.BUYER,
+                regiterUser.getRole(),
                 Timestamp.now(),
                 Timestamp.now()
         );

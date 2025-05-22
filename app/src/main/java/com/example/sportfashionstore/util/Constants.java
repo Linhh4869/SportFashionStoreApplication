@@ -7,10 +7,13 @@ public class Constants {
     public static final String STRIPE_VERSION = "2025-04-30.basil";
     public static final String PAY_NOW = "pay_now";
     public static final String ADD_CART = "add_cart";
+    public static final String CURRENCY = "VND";
+    public static final int CASH_ON_DELIVERY = 1;
+    public static final int PAY_WITH_CREDIT = 2;
 
     public static class Role {
         public static final String BUYER = "BUYER";
-        public static final String SELLER = "SELLER";
+        public static final String OWNER = "OWNER";
         public static final String SHIPPER = "SHIPPER";
     }
 

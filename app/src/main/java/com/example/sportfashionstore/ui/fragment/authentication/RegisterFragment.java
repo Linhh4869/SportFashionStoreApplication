@@ -13,6 +13,7 @@ import com.example.sportfashionstore.ui.HomeActivity;
 import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.databinding.FragmentRegisterBinding;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.AuthViewModel;
 
 public class RegisterFragment extends BaseFragmentViewModel<FragmentRegisterBinding, AuthViewModel> {
@@ -36,6 +37,14 @@ public class RegisterFragment extends BaseFragmentViewModel<FragmentRegisterBind
             navController.navigate(R.id.back_to_login);
         });
 
+        binding.btnRoleBuyer.setOnClickListener(v -> {
+            viewModel.setSelectedRole(Constants.Role.BUYER);
+        });
+
+        binding.btnRoleShipper.setOnClickListener(v -> {
+            viewModel.setSelectedRole(Constants.Role.SHIPPER);
+        });
+
         viewModel.getHideErrorEmail().observe(getViewLifecycleOwner(), hideError -> {
             binding.tvErrorEmail.setVisibility(hideError ? View.GONE : View.VISIBLE);
         });
@@ -48,9 +57,6 @@ public class RegisterFragment extends BaseFragmentViewModel<FragmentRegisterBind
             binding.tvErrorName.setVisibility(hideError ? View.GONE : View.VISIBLE);
         });
 
-        viewModel.getHideErrorAddress().observe(getViewLifecycleOwner(), hideError -> {
-            binding.tvErrorAddress.setVisibility(hideError ? View.GONE : View.VISIBLE);
-        });
 
         viewModel.getUserLiveData().observe(getViewLifecycleOwner(), resource -> {
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {

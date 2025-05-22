@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:id="@+id/view_top"
@@ -29,7 +29,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_blue_left_arrow"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -42,7 +42,7 @@
                 android:textColor="@color/new_black"
                 android:text="Thanh toán"
                 android:layout_weight="1"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"/>
         </LinearLayout>
 
@@ -114,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
                     android:layout_marginHorizontal="0dp"
+                    android:visibility="gone"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:background="@drawable/bg_white_radius">
 
@@ -137,7 +138,6 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="7dp"
                         tools:text="Nguyen Van A"
-                        android:text="@={info.userName}"
                         android:fontFamily="@font/sarabun_bold"
                         android:textColor="@color/new_black"
                         android:includeFontPadding="false"/>
@@ -160,7 +160,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         tools:text="Ngo 12 Giai Phong Ba Dinh Ha Noi"
-                        android:text="@={info.address}"
                         app:layout_constraintStart_toStartOf="@+id/tv_name"
                         app:layout_constraintEnd_toStartOf="@+id/icon_end"
                         app:layout_constraintTop_toBottomOf="@+id/tv_name"
@@ -233,7 +232,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginVertical="5dp"
+                        android:layout_marginVertical="10dp"
                         android:src="@drawable/coat0"
                         android:layout_marginStart="10dp"
                         app:radius_top_left="8dp"
@@ -331,38 +330,93 @@
                         android:textSize="15sp"
                         android:text="Phương thức thanh toán"/>
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ic_money"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ll_pay_home"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="@+id/tv_header"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_header"
+                        android:paddingHorizontal="10dp"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_money"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tv_header"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ic_money"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:layout_constraintStart_toStartOf="@+id/tv_header"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_header"
+                            android:src="@drawable/ic_money"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="10dp"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/sarabun_medium"
+                            android:textColor="@color/model_black"
+                            android:textSize="13sp"
+                            android:text="Thanh toán khi nhận hàng"
+                            android:layout_gravity="center"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ic_pay_home"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_blue_check"
+                            android:layout_marginEnd="10dp"/>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/line_payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginHorizontal="10dp"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_pay_home"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pay_credit"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/ic_money"
-                        app:layout_constraintStart_toEndOf="@+id/ic_money"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/sarabun_medium"
-                        android:textColor="@color/model_black"
-                        android:textSize="14sp"
-                        android:text="Thanh toán khi nhận hàng"/>
+                        android:paddingHorizontal="10dp"
+                        android:layout_marginTop="5dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:layout_constraintTop_toBottomOf="@+id/line_payment"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_credit_card"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="10dp"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/sarabun_medium"
+                            android:textColor="@color/model_black"
+                            android:textSize="13sp"
+                            android:text="Thanh toán bằng thẻ credit/debit"
+                            android:layout_gravity="center"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ic_pay_credit"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_blue_outline_circle"
+                            android:layout_marginEnd="10dp"/>
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/ic_money"/>
+                        app:layout_constraintTop_toBottomOf="@id/ll_pay_credit"/>
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_blue_check"
-                        app:layout_constraintBottom_toBottomOf="@+id/ic_money"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="10dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -399,6 +453,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:elevation="4dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

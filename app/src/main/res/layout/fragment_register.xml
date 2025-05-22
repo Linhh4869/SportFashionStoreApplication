@@ -37,12 +37,22 @@
                 android:textColor="@color/ocean_blue"
                 android:textSize="20sp" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textSize="12sp"
+                android:includeFontPadding="false"
+                app:fontFamily="@font/sarabun_semi_bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="16dp"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_email"
                 style="@style/style_edit_text"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:hint="@string/hint_email"
                 android:maxLines="1"
                 android:text="@={viewModel.email}" />
@@ -57,12 +67,22 @@
                 android:text="Email không hợp lệ"
                 android:visibility="gone" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mật khẩu:"
+                android:textSize="12sp"
+                android:includeFontPadding="false"
+                app:fontFamily="@font/sarabun_semi_bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_password"
                 style="@style/style_edit_text"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -78,12 +98,22 @@
                 android:text="Mật khẩu không hợp lệ"
                 android:visibility="gone" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng:"
+                android:textSize="12sp"
+                android:includeFontPadding="false"
+                app:fontFamily="@font/sarabun_semi_bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_display_name"
                 style="@style/style_edit_text"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:hint="@string/hint_name"
                 android:text="@={viewModel.displayName}"
                 android:maxLines="1" />
@@ -98,25 +128,43 @@
                 android:text="Tên đăng nhập không được để trống hoặc quá ngắn"
                 android:visibility="gone" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edt_address"
-                style="@style/style_edit_text"
-                android:layout_width="match_parent"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="20dp"
-                android:hint="@string/hint_address"
-                android:text="@={viewModel.address}"
-                android:maxLines="1" />
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_error_address"
-                style="@style/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loại tài khoản:"
+                android:textSize="12sp"
+                android:includeFontPadding="false"
+                app:fontFamily="@font/sarabun_semi_bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"/>
+
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="2dp"
-                android:text="Địa chỉ không được để trống"
-                android:visibility="gone" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btn_role_buyer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Người mua hàng"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:buttonTint="@color/ocean_blue"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/btn_role_shipper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sarabun_bold"
+                    android:text="Người giao hàng"
+                    android:textSize="13sp"
+                    android:buttonTint="@color/ocean_blue" />
+            </RadioGroup>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_register"

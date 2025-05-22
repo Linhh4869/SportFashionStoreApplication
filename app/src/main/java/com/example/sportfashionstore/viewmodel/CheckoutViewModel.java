@@ -19,6 +19,7 @@ import com.example.sportfashionstore.repository.AddressRepository;
 import com.example.sportfashionstore.repository.CartRepository;
 import com.example.sportfashionstore.repository.ProductRepository;
 import com.example.sportfashionstore.repository.StripeRepository;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.google.gson.Gson;
 import com.stripe.android.paymentsheet.PaymentSheet;
@@ -52,6 +53,7 @@ public class CheckoutViewModel extends BaseViewModel {
     public MutableLiveData<Resource<PaymentSheet.CustomerConfiguration>> cusConfigLiveData = new MutableLiveData<>();
     private String uid = "";
     private PaymentSheet.CustomerConfiguration customerConfig;
+    public MutableLiveData<Integer> paymentForm = new MutableLiveData<>(Constants.CASH_ON_DELIVERY);
 
 
     public CheckoutViewModel() {
@@ -60,8 +62,6 @@ public class CheckoutViewModel extends BaseViewModel {
         addressRepository = new AddressRepository();
         stripeRepository = new StripeRepository();
         SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
-        userName.setValue(sharePrefHelper.getUserName());
-        address.setValue(sharePrefHelper.getAddress());
         isButtonDialogEnabled.addSource(nameLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(phoneLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(addressLiveData, value -> updateButtonState());
@@ -70,13 +70,34 @@ public class CheckoutViewModel extends BaseViewModel {
         updateEnableCheckoutBtn();
     }
 
-    public List<InfoPayment> getInfoPaymentList(int price, int totalPrice) {
+    public List<InfoPayment> getInfoPaymentList() {
+        if (cartEntityLiveData == null || cartEntityLiveData.getValue() == null) {
+            return new ArrayList<>();
+        }
+        CartEntity cart = cartEntityLiveData.getValue();
+        int mPrice = (int) (cart.getSalePrice() > 0 ? cart.getSalePrice() : cart.getPrice());
+        int totalPrice = getTotalPrice();
         List<InfoPayment> infoPaymentList = new ArrayList<>();
-        infoPaymentList.add(new InfoPayment("Giá sản phẩm", price));
+        infoPaymentList.add(new InfoPayment("Giá sản phẩm", mPrice));
+        if (cart.getSalePrice() > 0) {
+            int totalSalePrice = (int) (cart.getPrice() * cart.getQuantity() - totalPrice);
+            infoPaymentList.add(new InfoPayment("Tổng giá giảm", -totalSalePrice));
+        }
         infoPaymentList.add(new InfoPayment("Phí giao hàng", 15000));
         infoPaymentList.add(new InfoPayment("Tổng số tiền", totalPrice));
 
         return infoPaymentList;
+    }
+
+    public int getTotalPrice() {
+        if (cartEntityLiveData == null || cartEntityLiveData.getValue() == null) {
+            return 0;
+        }
+
+        CartEntity cart = cartEntityLiveData.getValue();
+        int mPrice = (int) (cart.getSalePrice() > 0 ? cart.getSalePrice() : cart.getPrice());
+        int allProductPrice = mPrice * cart.getQuantity();
+        return allProductPrice + 15000;
     }
 
     public void getInfoPayment(long id) {
@@ -179,7 +200,11 @@ public class CheckoutViewModel extends BaseViewModel {
         getAllAddressList();
     }
 
-    public void saveOrder(CartEntity cartEntity, int totalPrice) {
+    public void saveOrder(boolean isPaid) {
+        if (cartEntityLiveData == null || cartEntityLiveData.getValue() == null)
+            return;
+
+        CartEntity cartEntity = cartEntityLiveData.getValue();
         Order order = cartEntity.convertToOrder();
         User user = new User();
         AddressEntity selectedAdd = selectedAddress.getValue();
@@ -189,8 +214,9 @@ public class CheckoutViewModel extends BaseViewModel {
         user.setPhoneNumber(selectedAdd.getPhone());
         String userInfo = new Gson().toJson(user);
         order.setCustomerInfo(userInfo);
-        order.setTotalPrice(totalPrice);
+        order.setTotalPrice(getTotalPrice());
         order.setStatus(0);
+        order.setPaymentMethod(isPaid ? Constants.PAY_WITH_CREDIT : Constants.CASH_ON_DELIVERY);
 
         setLoadingState(saveOrderLiveData);
         productRepository.getProductVariantById(cartEntity.getProductVariantId(), new DataStateCallback<>() {
@@ -260,7 +286,7 @@ public class CheckoutViewModel extends BaseViewModel {
                     setErrorState(cusConfigLiveData, "Loi roi");
                     return;
                 }
-                customerConfig = new PaymentSheet.CustomerConfiguration(uid, data.getSecret());
+                customerConfig = new PaymentSheet.CustomerConfiguration(uid, data.getEphemeralKey());
                 getPaymentIntent();
             }
 
@@ -272,7 +298,7 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void getPaymentIntent() {
-        stripeRepository.createPaymentIntent(uid, 1000000, "VND", new DataStateCallback<>() {
+        stripeRepository.createPaymentIntent(uid, getTotalPrice(), Constants.CURRENCY, new DataStateCallback<>() {
             @Override
             public void onSuccess(StripePaymentModel data) {
                 if (data == null) {
@@ -291,7 +317,14 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     public void clearData() {
-        cartRepository.deleteCartItemById();
+        if (cartEntityLiveData == null || cartEntityLiveData.getValue() == null
+                || cartEntityLiveData.getValue().isShowCart() == 0) {
+            cartRepository.deleteCartItemNotCart();
+            return;
+        }
+
+        cartRepository.deleteCartItem(cartEntityLiveData.getValue());
+
     }
 
     public LiveData<CartEntity> getCartEntityLiveData() {
@@ -377,5 +410,13 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public String getPaymentClientSecretLiveData() {
         return paymentClientSecretLiveData.getValue();
+    }
+
+    public MutableLiveData<Integer> getPaymentForm() {
+        return paymentForm;
+    }
+
+    public void setPaymentForm(int paymentForm) {
+        this.paymentForm.setValue(paymentForm);
     }
 }

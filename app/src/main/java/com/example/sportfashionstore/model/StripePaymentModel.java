@@ -41,7 +41,7 @@ public class StripePaymentModel implements Serializable {
         this.clientSecret = clientSecret;
     }
 
-    public String getSecret() {
+    public String getEphemeralKey() {
         return secret;
     }
 

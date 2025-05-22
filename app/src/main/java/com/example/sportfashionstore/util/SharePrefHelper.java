@@ -9,6 +9,7 @@ public class SharePrefHelper {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ADDRESS = "address";
+    private static final String KEY_ROLE = "role";
 
     private static SharePrefHelper instance;
     private final SharedPreferences sharedPreferences;
@@ -60,9 +61,20 @@ public class SharePrefHelper {
         editor.apply();
     }
 
+    public void setRole(String role) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ROLE, role);
+        editor.apply();
+    }
+
     public String getAddress() {
         return sharedPreferences.getString(KEY_ADDRESS, "");
     }
+
+    public String getRole() {
+        return sharedPreferences.getString(KEY_ROLE, "");
+    }
+
 
     public void clear() {
         SharedPreferences.Editor editor = sharedPreferences.edit();

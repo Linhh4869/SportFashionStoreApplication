@@ -35,7 +35,7 @@ public class User implements Serializable {
     @SerializedName("updatedAt")
     private Timestamp updatedAt;
 
-    public User(String uid, String email, String displayName, String phoneNumber, String address, String avatar, String role, Timestamp createdAt, Timestamp updatedAt) {
+    public User(String uid, String email, String displayName, String phoneNumber, String avatar, String role, Timestamp createdAt, Timestamp updatedAt) {
         this.uid = uid;
         this.email = email;
         this.displayName = displayName;
@@ -49,6 +49,12 @@ public class User implements Serializable {
 
     public User() {
 
+    }
+
+    public User(String displayName, String email, String role) {
+        this.displayName = displayName;
+        this.email = email;
+        this.role = role;
     }
 
     public String getUid() {

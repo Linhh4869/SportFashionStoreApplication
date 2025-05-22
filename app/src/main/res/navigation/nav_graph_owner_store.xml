@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_owner_store"
+    app:startDestination="@id/nav_product_mn">
+
+    <fragment
+        android:id="@+id/nav_product_mn"
+        android:name="com.example.sportfashionstore.ui.fragment.owner.ProductManagementFragment"
+        android:label="Home"/>
+
+    <fragment
+        android:id="@+id/nav_order_mn"
+        android:name="com.example.sportfashionstore.ui.fragment.owner.OrderManagementFragment"
+        android:label="Order"/>
+
+    <fragment
+        android:id="@+id/nav_sale"
+        android:name="com.example.sportfashionstore.ui.fragment.owner.SaleRevenueFragment"
+        android:label="Sale"/>
+
+    <fragment
+        android:id="@+id/nav_personal"
+        android:name="com.example.sportfashionstore.ui.fragment.home.PersonalFragment"
+        android:label="Personal"/>
+
+
+</navigation>

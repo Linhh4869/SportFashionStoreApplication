@@ -12,6 +12,7 @@ import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.repository.AuthRepository;
+import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.SharePrefHelper;
 import com.example.sportfashionstore.util.StringUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,6 +34,7 @@ public class AuthViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> hideErrorPassword = new MutableLiveData<>(true);
     private final MutableLiveData<Boolean> hideErrorDisplayName = new MutableLiveData<>(true);
     private final MutableLiveData<Boolean> hideErrorAddress = new MutableLiveData<>(true);
+    private final MutableLiveData<String> selectedRole = new MutableLiveData<>(Constants.Role.BUYER);
 
     public AuthViewModel() {
         sharePrefHelper = MyApplication.getSharePrefHelper();
@@ -57,7 +59,7 @@ public class AuthViewModel extends BaseViewModel {
                     sharePrefHelper.setLoggedIn(true);
                     sharePrefHelper.setUserName(data.getDisplayName());
                     sharePrefHelper.setEmail(data.getEmail());
-                    sharePrefHelper.setAddress(data.getAddress());
+                    sharePrefHelper.setRole(data.getRole());
                 }
             }
 
@@ -88,24 +90,24 @@ public class AuthViewModel extends BaseViewModel {
         String _email = email.getValue();
         String _password = password.getValue();
         String _name = displayName.getValue();
-        String _address = address.getValue();
+        String _role = selectedRole.getValue();
 
         hideErrorEmail.setValue(isEmailValid(_email));
         hideErrorPassword.setValue(isPasswordValid(_password));
         hideErrorDisplayName.setValue(isDisplayNameValid(_name));
-        hideErrorAddress.setValue(isAddressValid(_address));
 
         if (Boolean.TRUE.equals(hideErrorEmail.getValue())
                 && Boolean.TRUE.equals(hideErrorPassword.getValue())
                 && Boolean.TRUE.equals(hideErrorDisplayName.getValue())
                 && Boolean.TRUE.equals(hideErrorAddress.getValue())) {
+            User registerUser = new User(_email, _name, _role);
             setLoadingState(userLiveData);
-            authRepository.registerWithEmail(_email, _password, _name, _address, new DataStateCallback<>() {
+            authRepository.registerWithEmail(registerUser, _password, new DataStateCallback<>() {
                 @Override
                 public void onSuccess(FirebaseUser data) {
                     setSuccessState(userLiveData, data);
                     sharePrefHelper.setUserName(_name);
-                    sharePrefHelper.setAddress(_address);
+                    sharePrefHelper.setRole(_role);
                     sharePrefHelper.setLoggedIn(true);
                     sharePrefHelper.setEmail(_email);
                 }
@@ -208,5 +210,13 @@ public class AuthViewModel extends BaseViewModel {
 
     public void onAddressChanged(String newAddress) {
         address.setValue(newAddress);
+    }
+
+    public MutableLiveData<String> getSelectedRole() {
+        return selectedRole;
+    }
+
+    public void setSelectedRole(String role) {
+        selectedRole.setValue(role);
     }
 }

@@ -32,6 +32,9 @@ public interface CartDao {
     @Query("DELETE FROM carts WHERE isShowCart = 0")
     void deleteItemNotCart();
 
+    @Query("DELETE FROM carts WHERE id = :id")
+    void deleteItemById(long id);
+
     @Query("SELECT * FROM carts WHERE product_variant_id = :productVariantId AND color = :color AND size = :size")
     CartEntity getCartItemByProductInfo(String productVariantId, String color, String size);
 

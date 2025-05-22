@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_success"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="120dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt đơn hàng thành công!"
+            app:layout_constraintTop_toBottomOf="@+id/icon_success"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cảm ơn quý khách đã ủng hộ sản phẩm của cửa hàng."
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/sarabun_medium"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_view_order"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Xem đơn hàng"
+            android:fontFamily="@font/sarabun_bold"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_blue_button"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content"
+            android:layout_marginHorizontal="30dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_marginTop="30dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_back_home"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Tiếp tục mua hàng"
+            android:fontFamily="@font/sarabun_bold"
+            android:textColor="@color/ocean_blue"
+            android:background="@drawable/bg_blue_stroke_radius50"
+            app:layout_constraintTop_toBottomOf="@+id/btn_view_order"
+            android:layout_marginHorizontal="30dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

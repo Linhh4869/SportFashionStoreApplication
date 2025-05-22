@@ -30,6 +30,7 @@ public class Order implements Serializable {
     private int quantity;
     private String shipperInfo;
     private OrderStatus contentStatus;
+    private int paymentMethod;
 
     public Order() {
 
@@ -248,5 +249,13 @@ public class Order implements Serializable {
     public String getDisplayTotalPrice() {
         int displayPrice = (int) getTotalPrice();
         return String.format("%sđ", Helper.formatPrice(displayPrice));
+    }
+
+    public int getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

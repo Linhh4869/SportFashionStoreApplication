@@ -73,6 +73,12 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
         binding.btnPay.setOnClickListener(v -> {
             showBottomSheet(Constants.PAY_NOW);
         });
+
+        binding.btnViewCart.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(HomeActivity.KEY_SCREEN, "carts");
+            startActivity(intent);
+        });
     }
 
     @Override

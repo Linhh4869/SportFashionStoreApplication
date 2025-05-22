@@ -23,14 +23,14 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
     private final LifecycleOwner lifecycleOwner;
     private int typeDialog = -1;
     private final AddressEntity address;
-    private final AddressFragment.OnDismissDialog mListener;
+    private final OnDismissListener mListener;
 
-    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, AddressEntity address, int typeDialog, AddressFragment.OnDismissDialog mListener) {
+    public UpdateAddressDialog(@NonNull Context context, LifecycleOwner lifecycleOwner, AddressEntity address, int typeDialog, OnDismissListener listener) {
         super(context);
         this.lifecycleOwner = lifecycleOwner;
         this.address = address;
         this.typeDialog = typeDialog;
-        this.mListener = mListener;
+        this.mListener = listener;
     }
 
     @Override
@@ -74,6 +74,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
         binding.btnDeleteAddress.setOnClickListener(v -> {
             viewModel.deleteAddress(address);
             dismiss();
+            mListener.onDismiss();
         });
 
         binding.btnConfirm.setOnClickListener(v -> {
@@ -83,6 +84,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
                 viewModel.updateAddress(address);
             }
             dismiss();
+            mListener.onDismiss();
         });
     }
 
@@ -97,5 +99,9 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
     public void dismiss() {
         super.dismiss();
         mListener.onDismiss();
+    }
+
+    public static interface OnDismissListener {
+        void  onDismiss();
     }
 }

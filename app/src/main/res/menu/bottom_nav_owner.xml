@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_product_mn"
+        android:icon="@drawable/home_icon"
+        android:title="@string/nav_home"/>
+
+    <item
+        android:id="@+id/nav_order_mn"
+        android:icon="@drawable/order_icon"
+        android:title="Quản lý đơn hàng"/>
+
+    <item
+        android:id="@+id/nav_sale"
+        android:icon="@drawable/order_icon"
+        android:title="Doanh thu"/>
+
+    <item
+        android:id="@+id/nav_personal"
+        android:icon="@drawable/info_icon"
+        android:title="@string/nav_profile"/>
+</menu>
