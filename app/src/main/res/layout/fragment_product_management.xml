@@ -1,8 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.sportfashionstore.viewmodel.ProductManagementViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/ocean_blue"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.example.sportfashionstore.custom.CustomRoundedImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/bg_register"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="15dp"
+            app:is_circle="true"
+            app:layout_constraintBottom_toBottomOf="@+id/header"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tv_user"
+            app:layout_constraintStart_toStartOf="@+id/tv_user"
+            android:text="@string/tv_title_login"
+            android:textSize="14sp"
+            android:textColor="@color/light_gray"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/sarabun_semi_bold"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:text="@={viewModel.userName}"
+            tools:text="Taylor"
+            android:textSize="18sp"
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/model_black"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Quản lý sản phẩm"
+            app:fontFamily="@font/fs_pf_beau_sans_pro_semi_bold"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:includeFontPadding="false"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_category"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            app:tabMode="scrollable"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/label_manage"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_home_product"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="5dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_category"
+            app:layout_constraintVertical_bias="0.0"
+            app:spanCount="2"
+            tools:itemCount="6"
+            tools:layout_editor_absoluteX="-31dp"
+            tools:listitem="@layout/item_home_product" />
+
+        <LinearLayout
+            android:id="@+id/btn_add_product"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@drawable/bg_white_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add_product"
+                android:layout_gravity="center"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

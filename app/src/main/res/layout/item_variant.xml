@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_gray"
+            android:padding="4dp"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.example.sportfashionstore.custom.CustomRoundedImageView
+                android:id="@+id/img_product"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/coat0"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center"
+                app:radius_top_left="8dp"
+                app:radius_bottom_left="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/new_black"
+                app:fontFamily="@font/sarabun_medium"
+                tools:text="Xanh duong dam"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_delete_variant"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintTop_toTopOf="@+id/container"
+            app:layout_constraintBottom_toBottomOf="@+id/container"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_edit_variant"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_black_edit"
+            app:layout_constraintTop_toTopOf="@+id/container"
+            app:layout_constraintBottom_toBottomOf="@+id/container"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete_variant"
+            android:layout_marginEnd="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/less_gray"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/container"
+            android:layout_marginTop="5dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

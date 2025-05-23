@@ -13,12 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="7dp"
         android:layout_marginHorizontal="5dp"
+        android:paddingBottom="5dp"
         android:background="@drawable/bg_white_radius">
 
         <com.example.sportfashionstore.custom.CustomRoundedImageView
             android:id="@+id/img_product"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:scaleType="fitXY"
             app:radius_top_left="6dp"
             app:radius_top_right="6dp"
@@ -107,5 +108,32 @@
             app:layout_constraintStart_toStartOf="@+id/tv_product_description"
             app:layout_constraintTop_toBottomOf="@+id/ll_rating"
             tools:text="50.000d" />
+
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_black_edit"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Chỉnh sửa sản phẩm"
+                android:layout_marginStart="5dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/sarabun_medium"
+                android:includeFontPadding="false"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,6 +10,8 @@ public class Constants {
     public static final String CURRENCY = "VND";
     public static final int CASH_ON_DELIVERY = 1;
     public static final int PAY_WITH_CREDIT = 2;
+    public static final String ADD_PRODUCT = "add";
+    public static final String EDIT_PRODUCT = "edit";
 
     public static class Role {
         public static final String BUYER = "BUYER";

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="category"
+            type="com.example.sportfashionstore.model.Category" />
+    </data>
+    <androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/bg_blue_stroke_radius50"
+        android:text="@{category.name}"
+        tools:text="Quần thể thao"
+        android:textColor="@color/text_view_click"
+        android:gravity="center"
+        android:fontFamily="@font/fs_pf_beau_sans_pro_semi_bold"
+        android:includeFontPadding="false"
+        android:textSize="13sp">
+
+    </androidx.appcompat.widget.AppCompatTextView>
+</layout>

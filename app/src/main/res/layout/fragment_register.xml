@@ -43,6 +43,7 @@
                 android:text="Email:"
                 android:textSize="12sp"
                 android:includeFontPadding="false"
+                android:textColor="@color/model_black"
                 app:fontFamily="@font/sarabun_semi_bold"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="16dp"/>
@@ -72,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Mật khẩu:"
                 android:textSize="12sp"
+                android:textColor="@color/model_black"
                 android:includeFontPadding="false"
                 app:fontFamily="@font/sarabun_semi_bold"
                 android:layout_marginTop="10dp"
@@ -103,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tên người dùng:"
                 android:textSize="12sp"
+                android:textColor="@color/model_black"
                 android:includeFontPadding="false"
                 app:fontFamily="@font/sarabun_semi_bold"
                 android:layout_marginTop="10dp"
@@ -133,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="Loại tài khoản:"
                 android:textSize="12sp"
+                android:textColor="@color/model_black"
                 android:includeFontPadding="false"
                 app:fontFamily="@font/sarabun_semi_bold"
                 android:layout_marginTop="10dp"
@@ -150,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Người mua hàng"
+                    android:textColor="@color/model_black"
                     android:textSize="13sp"
                     android:fontFamily="@font/sarabun_bold"
                     android:buttonTint="@color/ocean_blue"
@@ -162,6 +167,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/sarabun_bold"
                     android:text="Người giao hàng"
+                    android:textColor="@color/model_black"
                     android:textSize="13sp"
                     android:buttonTint="@color/ocean_blue" />
             </RadioGroup>
