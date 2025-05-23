@@ -31,6 +31,8 @@ public class Order implements Serializable {
     private String shipperInfo;
     private OrderStatus contentStatus;
     private int paymentMethod;
+    private String message;
+    private boolean isAvailable;
 
     public Order() {
 
@@ -257,5 +259,21 @@ public class Order implements Serializable {
 
     public void setPaymentMethod(int paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getMessage() {
+        return message != null ? message : "";
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

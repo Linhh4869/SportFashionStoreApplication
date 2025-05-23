@@ -28,11 +28,13 @@ public class OrderRepository {
     private final FirebaseAuth firebaseAuth;
     private final Map<Integer, OrderStatus> statusMap;
     private ListenerRegistration listenerRegistration;
+    String currentUser;
 
     public OrderRepository() {
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         statusMap = new HashMap<>();
+        currentUser = MyApplication.getSharePrefHelper().getRole();
         statusMap.put(0, new OrderStatus("Đang chờ xử lý", R.color.my_orange));
         statusMap.put(1, new OrderStatus("Đơn hàng đang chờ vận chuyển", android.R.color.holo_blue_light));
         statusMap.put(2, new OrderStatus("Đơn hàng đang được vận chuyển", android.R.color.holo_green_light));
@@ -48,7 +50,6 @@ public class OrderRepository {
         if (firebaseAuth.getCurrentUser() == null)
             return;
 
-        String currentUser = MyApplication.getSharePrefHelper().getRole();
         Query query;
         switch (currentUser) {
             case Constants.Role.OWNER:
@@ -56,11 +57,13 @@ public class OrderRepository {
                 break;
             case Constants.Role.SHIPPER:
                 query = db.collection(Constants.Collection.ORDERS)
-                        .whereGreaterThan("status", 0);
+                        .whereGreaterThan("staus", 1)
+                        .whereLessThan("status", 4);
                 break;
             default:
                 query = db.collection(Constants.Collection.ORDERS)
-                        .whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid());
+                        .whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                       .whereLessThan("status", 5);
                 break;
         }
 
@@ -82,6 +85,29 @@ public class OrderRepository {
                         }
                     }
                     callback.onSuccess(orders);
+                });
+
+    }
+
+    public void updateOrder(Order order) {
+        int nextStatus;
+        switch (currentUser) {
+            case Constants.Role.OWNER:
+            case Constants.Role.SHIPPER:
+                nextStatus = order.getStatus() + 1;
+                break;
+            default:
+                nextStatus = 5;
+                break;
+        }
+        db.collection(Constants.Collection.ORDERS)
+                .document(order.getOrderId())
+                .update("status", nextStatus) // Cập nhật trường status thành 2 (ví dụ)
+                .addOnSuccessListener(aVoid -> {
+                    // Cập nhật thành công
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý lỗi
                 });
 
     }
