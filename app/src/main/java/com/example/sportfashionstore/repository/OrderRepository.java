@@ -1,6 +1,9 @@
 package com.example.sportfashionstore.repository;
 
+import androidx.annotation.Nullable;
+
 import com.example.sportfashionstore.R;
+import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Order;
 import com.example.sportfashionstore.model.OrderStatus;
@@ -8,8 +11,12 @@ import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +27,7 @@ public class OrderRepository {
     private final FirebaseFirestore db;
     private final FirebaseAuth firebaseAuth;
     private final Map<Integer, OrderStatus> statusMap;
+    private ListenerRegistration listenerRegistration;
 
     public OrderRepository() {
         this.db = FirebaseFirestore.getInstance();
@@ -40,26 +48,48 @@ public class OrderRepository {
         if (firebaseAuth.getCurrentUser() == null)
             return;
 
-        Query query = db.collection(Constants.Collection.ORDERS)
-                .whereLessThan("status", 5)
-                .whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
-                .orderBy("createdAt", Query.Direction.DESCENDING);
+        String currentUser = MyApplication.getSharePrefHelper().getRole();
+        Query query;
+        switch (currentUser) {
+            case Constants.Role.OWNER:
+                query = db.collection(Constants.Collection.ORDERS);
+                break;
+            case Constants.Role.SHIPPER:
+                query = db.collection(Constants.Collection.ORDERS)
+                        .whereGreaterThan("status", 0);
+                break;
+            default:
+                query = db.collection(Constants.Collection.ORDERS)
+                        .whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid());
+                break;
+        }
 
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            List<Order> orders = new ArrayList<>();
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (DocumentSnapshot document : queryDocumentSnapshots) {
-                    Order order = document.toObject(Order.class);
-                    if (order != null) {
-                        order.setOrderId(document.getId());
-                        orders.add(order);
+        listenerRegistration = query.orderBy("createdAt", Query.Direction.DESCENDING)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+                        callback.onError(e.getMessage());
+                        return;
                     }
-                }
-            }
 
-            callback.onSuccess(orders);
-        }).addOnFailureListener(e -> {
-            callback.onError(e.getMessage());
-        });
+                    List<Order> orders = new ArrayList<>();
+                    if (queryDocumentSnapshots != null) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Order order = document.toObject(Order.class);
+                            if (order != null) {
+                                order.setOrderId(document.getId());
+                                orders.add(order);
+                            }
+                        }
+                    }
+                    callback.onSuccess(orders);
+                });
+
+    }
+
+    public void removeListener() {
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+            listenerRegistration = null;
+        }
     }
 }

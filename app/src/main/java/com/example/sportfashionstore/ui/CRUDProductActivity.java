@@ -39,7 +39,8 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             binding.tvScreen.setText("Cập nhật sản phẩm");
             binding.btnCurdProduct.setText("Cập nhật");
         }
-        String categoriesJson = getIntent().getStringExtra(KEY_CATEGORIES);
+        viewModel.getAllCategoryList(false);
+//        String categoriesJson = getIntent().getStringExtra(KEY_CATEGORIES);
 //        if (categoriesJson != null && !categoriesJson.isEmpty()) {
 //            try {
 //                Gson gson = new Gson();
@@ -110,6 +111,10 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
 
         viewModel.getSalePrice().observe(this, salePrice -> {
             binding.edtSalePrice.setText(String.valueOf(salePrice));
+        });
+
+        viewModel.getCategoryList().observe(this, list -> {
+            binding.spinnerCategory.setData(viewModel.getCategoryString(list), false);
         });
     }
 }

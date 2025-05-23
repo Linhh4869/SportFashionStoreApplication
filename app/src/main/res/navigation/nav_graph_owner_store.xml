@@ -11,13 +11,8 @@
 
     <fragment
         android:id="@+id/nav_order_mn"
-        android:name="com.example.sportfashionstore.ui.fragment.owner.OrderManagementFragment"
+        android:name="com.example.sportfashionstore.ui.fragment.home.OrderFragment"
         android:label="Order"/>
-
-    <fragment
-        android:id="@+id/nav_sale"
-        android:name="com.example.sportfashionstore.ui.fragment.owner.SaleRevenueFragment"
-        android:label="Sale"/>
 
     <fragment
         android:id="@+id/nav_personal"

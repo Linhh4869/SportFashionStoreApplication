@@ -11,11 +11,6 @@
         android:title="Quản lý đơn hàng"/>
 
     <item
-        android:id="@+id/nav_sale"
-        android:icon="@drawable/order_icon"
-        android:title="Doanh thu"/>
-
-    <item
         android:id="@+id/nav_personal"
         android:icon="@drawable/info_icon"
         android:title="@string/nav_profile"/>

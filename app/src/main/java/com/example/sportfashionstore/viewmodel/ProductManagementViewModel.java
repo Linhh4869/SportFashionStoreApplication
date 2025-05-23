@@ -44,13 +44,15 @@ public class ProductManagementViewModel extends BaseViewModel {
         this.userName = userName;
     }
 
-    public void getAllCategoryList() {
+    public void getAllCategoryList(boolean isGetProduct) {
         setLoadingState(productsLiveData);
         productMnRepo.getCategoryList(new DataStateCallback<>() {
             @Override
             public void onSuccess(ArrayList<Category> data) {
                 categoryList.setValue(data);
-                getProductsByCategory(ALL_PRODUCT);
+                if (isGetProduct) {
+                    getProductsByCategory(ALL_PRODUCT);
+                }
             }
 
             @Override

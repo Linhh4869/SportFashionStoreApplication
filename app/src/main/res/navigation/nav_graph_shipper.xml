@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/nav_shipper_order"
-        android:name="com.example.sportfashionstore.ui.fragment.shipper.ShipperOrderFragment"
+        android:name="com.example.sportfashionstore.ui.fragment.home.OrderFragment"
         android:label="Orders"/>
 
     <fragment

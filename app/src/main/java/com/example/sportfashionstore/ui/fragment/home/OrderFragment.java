@@ -32,4 +32,10 @@ public class OrderFragment extends BaseFragmentViewModel<FragmentOrderBinding, O
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        viewModel.removeListener();
+    }
 }

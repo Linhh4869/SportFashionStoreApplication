@@ -48,4 +48,8 @@ public class OrderViewModel extends BaseViewModel {
     public MutableLiveData<Resource<List<Order>>> getOrdersLiveData() {
         return ordersLiveData;
     }
+
+    public void removeListener() {
+        orderRepository.removeListener();
+    }
 }

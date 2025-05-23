@@ -28,7 +28,7 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
     @Override
     protected void setupUi() {
         binding.setViewModel(viewModel);
-        viewModel.getAllCategoryList();
+        viewModel.getAllCategoryList(true);
         ProductHomeAdapter productHomeAdapter = new ProductHomeAdapter(item -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_PRODUCT, item.getId());
