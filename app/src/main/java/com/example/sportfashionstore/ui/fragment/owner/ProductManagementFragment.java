@@ -20,6 +20,8 @@ import java.util.List;
 
 public class ProductManagementFragment extends BaseFragmentViewModel<FragmentProductManagementBinding, ProductManagementViewModel> {
     private List<Category> categories = new ArrayList<>();
+    private String categoriesJson = "";
+
     @Override
     protected FragmentProductManagementBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
         return FragmentProductManagementBinding.inflate(inflater, container, false);
@@ -33,18 +35,14 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_PRODUCT, item.getId());
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);
-            Gson gson = new Gson();
-            String categoriesJson = gson.toJson(viewModel.getCategoryList().getValue());
-            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
+//            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
             getActivity().startActivity(intent);
         });
         binding.rcvHomeProduct.setAdapter(productHomeAdapter);
         binding.btnAddProduct.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);
-            Gson gson = new Gson();
-            String categoriesJson = gson.toJson(viewModel.getCategoryList().getValue());
-            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
+//            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
             getActivity().startActivity(intent);
         });
         binding.tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -74,6 +72,7 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
 
         viewModel.getCategoryList().observe(this, cate -> {
             categories = viewModel.getCategoryList().getValue();
+//            categoriesJson = new Gson().toJson(categories);
             assert categories != null;
             categories.add(0, new Category("Tất cả", ""));
             binding.tlCategory.removeAllTabs();

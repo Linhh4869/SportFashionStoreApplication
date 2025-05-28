@@ -130,7 +130,10 @@ public class ProductManagementRepository {
                     List<Product> products = new ArrayList<>();
                     for (DocumentSnapshot doc : querySnapshot) {
                         Product product = doc.toObject(Product.class);
-                        if (product != null) products.add(product);
+                        if (product != null) {
+                            product.setId(doc.getId());
+                            products.add(product);
+                        }
                     }
 
                     if (products.isEmpty()) {
