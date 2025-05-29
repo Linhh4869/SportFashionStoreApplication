@@ -52,6 +52,8 @@ public class ProductManagementViewModel extends BaseViewModel {
                 categoryList.setValue(data);
                 if (isGetProduct) {
                     getProductsByCategory(ALL_PRODUCT);
+                } else {
+                    setSuccessState(productLiveData, null);
                 }
             }
 

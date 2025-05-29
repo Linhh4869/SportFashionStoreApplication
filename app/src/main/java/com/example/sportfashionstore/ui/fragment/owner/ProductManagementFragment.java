@@ -41,7 +41,7 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
         binding.rcvHomeProduct.setAdapter(productHomeAdapter);
         binding.btnAddProduct.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
-            intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);
+            intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.ADD_PRODUCT);
 //            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
             getActivity().startActivity(intent);
         });
@@ -71,7 +71,7 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
         });
 
         viewModel.getCategoryList().observe(this, cate -> {
-            categories = viewModel.getCategoryList().getValue();
+            categories = cate;
 //            categoriesJson = new Gson().toJson(categories);
             assert categories != null;
             categories.add(0, new Category("Tất cả", ""));

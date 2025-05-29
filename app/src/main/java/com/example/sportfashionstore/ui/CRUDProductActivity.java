@@ -83,11 +83,11 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             int price = viewModel.getPrice().getValue();
             viewModel.setSalePrice((int) (price * 0.75));
         });
-        String productId = getIntent().getStringExtra(KEY_PRODUCT);
-        if (productId == null)
-            return;
-
-        viewModel.getProductToCURD(productId);
+//        String productId = getIntent().getStringExtra(KEY_PRODUCT);
+//        if (productId == null)
+//            return;
+//
+//        viewModel.getProductToCURD(productId);
         binding.btnZeroSale.setOnClickListener(v -> {
             viewModel.setSalePrice(0);
         });
@@ -95,23 +95,23 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
 
     @Override
     protected void setupObservers() {
-        viewModel.getProductLiveData().observe(this, resource -> {
-            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
-                Product product = resource.data;
-                binding.setProduct(product);
-                viewModel.setVariantLiveData(product.getProductVariants());
-                binding.edtPrice.setText(String.valueOf(product.getPrice()));
-                binding.edtSalePrice.setText(String.valueOf(product.getSalePrice()));
-            }
-        });
-
-        viewModel.getVariantLiveData().observe(this, variants -> {
-            variantAdapter.setData(variants);
-        });
-
-        viewModel.getSalePrice().observe(this, salePrice -> {
-            binding.edtSalePrice.setText(String.valueOf(salePrice));
-        });
+//        viewModel.getProductLiveData().observe(this, resource -> {
+//            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
+//                Product product = resource.data;
+//                binding.setProduct(product);
+//                viewModel.setVariantLiveData(product.getProductVariants());
+//                binding.edtPrice.setText(String.valueOf(product.getPrice()));
+//                binding.edtSalePrice.setText(String.valueOf(product.getSalePrice()));
+//            }
+//        });
+//
+//        viewModel.getVariantLiveData().observe(this, variants -> {
+//            variantAdapter.setData(variants);
+//        });
+//
+//        viewModel.getSalePrice().observe(this, salePrice -> {
+//            binding.edtSalePrice.setText(String.valueOf(salePrice));
+//        });
 
         viewModel.getCategoryList().observe(this, list -> {
             binding.spinnerCategory.setData(viewModel.getCategoryString(list), false);
