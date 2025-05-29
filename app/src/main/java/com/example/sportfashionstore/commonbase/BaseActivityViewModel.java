@@ -32,21 +32,23 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = getViewBinding();
+        binding = createViewBinding();
         binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
 
         viewModel = createViewModel();
         loadingDialog = new LoadingDialog(this);
 
-        setupObservers();
+
         setTransparentStatusBar();
-        setupUi();
         observeBaseViewModel();
+        setupUi();
+        setupObservers();
     }
 
     protected abstract void setupUi();
     protected abstract void setupObservers();
+    protected abstract VB createViewBinding();
 
     @SuppressWarnings("unchecked")
     private VM createViewModel() {
@@ -56,18 +58,6 @@ public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM exten
             return new ViewModelProvider(this).get(viewModelClass);
         }
         throw new IllegalStateException("BaseActivity requires a generic ViewModel type.");
-    }
-
-    private VB getViewBinding() {
-        try {
-            Type superclass = getClass().getGenericSuperclass();
-            Class<VB> bindingClass = (Class<VB>) ((ParameterizedType) superclass).getActualTypeArguments()[0];
-
-            Method inflateMethod = bindingClass.getMethod("inflate", android.view.LayoutInflater.class);
-            return (VB) inflateMethod.invoke(null, getLayoutInflater());
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating ViewBinding", e);
-        }
     }
 
     protected void observeBaseViewModel() {

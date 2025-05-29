@@ -10,6 +10,7 @@ public class SharePrefHelper {
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ADDRESS = "address";
     private static final String KEY_ROLE = "role";
+    private static final String KEY_CATEGORY = "category";
 
     private static SharePrefHelper instance;
     private final SharedPreferences sharedPreferences;
@@ -67,12 +68,22 @@ public class SharePrefHelper {
         editor.apply();
     }
 
+    public void setCategory(String category) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_CATEGORY, category);
+        editor.apply();
+    }
+
     public String getAddress() {
         return sharedPreferences.getString(KEY_ADDRESS, "");
     }
 
     public String getRole() {
         return sharedPreferences.getString(KEY_ROLE, "");
+    }
+
+    public String getCategory() {
+        return sharedPreferences.getString(KEY_CATEGORY, "");
     }
 
 

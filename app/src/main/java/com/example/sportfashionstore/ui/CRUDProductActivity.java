@@ -38,21 +38,13 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         } else {
             binding.tvScreen.setText("Cập nhật sản phẩm");
             binding.btnCurdProduct.setText("Cập nhật");
+            String productId = getIntent().getStringExtra(KEY_PRODUCT);
+            if (productId != null && !productId.isEmpty()) {
+                viewModel.getProductToCURD(productId);
+            }
         }
-        viewModel.getAllCategoryList(false);
-//        String categoriesJson = getIntent().getStringExtra(KEY_CATEGORIES);
-//        if (categoriesJson != null && !categoriesJson.isEmpty()) {
-//            try {
-//                Gson gson = new Gson();
-//                Type listType = new TypeToken<ArrayList<Category>>(){}.getType();
-//                categories = gson.fromJson(categoriesJson, listType);
-//            } catch (Exception e) {
-//                categories = new ArrayList<>();
-//            }
-//        } else {
-//            categories = new ArrayList<>();
-//        }
-//        binding.spinnerCategory.setData(viewModel.getCategoryString(categories), false);
+
+        binding.spinnerCategory.setData(viewModel.getCategoryString(), false);
 
         variantAdapter = new VariantAdapter(new VariantAdapter.OnUDVariantListener() {
             @Override
@@ -69,52 +61,45 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         binding.btn25.setOnClickListener(v -> {
             if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
             int price = viewModel.getPrice().getValue();
-            viewModel.setSalePrice((int) (price * 0.25));
+            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.25)));
         });
 
         binding.btn50.setOnClickListener(v -> {
             if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
             int price = viewModel.getPrice().getValue();
-            viewModel.setSalePrice((int) (price * 0.5));
+            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.5)));
         });
 
         binding.btn75.setOnClickListener(v -> {
             if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
             int price = viewModel.getPrice().getValue();
-            viewModel.setSalePrice((int) (price * 0.75));
+            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.75)));
         });
-//        String productId = getIntent().getStringExtra(KEY_PRODUCT);
-//        if (productId == null)
-//            return;
-//
-//        viewModel.getProductToCURD(productId);
+
         binding.btnZeroSale.setOnClickListener(v -> {
             viewModel.setSalePrice(0);
+        });
+
+        binding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 
     @Override
     protected void setupObservers() {
-//        viewModel.getProductLiveData().observe(this, resource -> {
-//            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
-//                Product product = resource.data;
-//                binding.setProduct(product);
-//                viewModel.setVariantLiveData(product.getProductVariants());
-//                binding.edtPrice.setText(String.valueOf(product.getPrice()));
-//                binding.edtSalePrice.setText(String.valueOf(product.getSalePrice()));
-//            }
-//        });
-//
-//        viewModel.getVariantLiveData().observe(this, variants -> {
-//            variantAdapter.setData(variants);
-//        });
-//
-//        viewModel.getSalePrice().observe(this, salePrice -> {
-//            binding.edtSalePrice.setText(String.valueOf(salePrice));
-//        });
-
-        viewModel.getCategoryList().observe(this, list -> {
-            binding.spinnerCategory.setData(viewModel.getCategoryString(list), false);
+        viewModel.getProductLiveData().observe(this, resource -> {
+            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
+                Product product = resource.data;
+                binding.setProduct(product);
+                variantAdapter.setData(product.getProductVariants());
+                binding.edtPrice.setText(String.valueOf(product.getPrice()));
+                binding.edtSalePrice.setText(String.valueOf(product.getSalePrice()));
+            }
         });
+    }
+
+    @Override
+    protected ActivityCrudProductBinding createViewBinding() {
+        return ActivityCrudProductBinding.inflate(getLayoutInflater());
     }
 }

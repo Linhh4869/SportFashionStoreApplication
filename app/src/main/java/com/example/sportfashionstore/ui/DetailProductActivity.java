@@ -111,6 +111,11 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
         });
     }
 
+    @Override
+    protected ActivityProductBinding createViewBinding() {
+        return ActivityProductBinding.inflate(getLayoutInflater());
+    }
+
     private void updatePositionText(int position) {
         String value = (position + 1) + "/" + productSize;
         binding.tvPosition.setText(value);
