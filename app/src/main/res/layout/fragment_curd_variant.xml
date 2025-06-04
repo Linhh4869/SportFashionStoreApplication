@@ -14,12 +14,23 @@
         android:background="@drawable/bg_bottom_sheet"
         android:paddingBottom="20dp">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_top"
+            android:layout_width="35dp"
+            android:layout_height="2dp"
+            android:background="#262828"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="50dp"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chỉnh sửa mẫu sản phẩm"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
@@ -48,6 +59,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:maxLines="1"
+            android:text="@={variant.desc}"
             app:layout_constraintTop_toBottomOf="@+id/label_color"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -121,6 +133,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:maxLines="1"
+            android:ellipsize="end"
             android:hint="url ảnh mẫu"
             app:layout_constraintTop_toBottomOf="@+id/label_image"/>
 
@@ -171,7 +184,7 @@
             android:layout_marginTop="10dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_curd_product"
+            android:id="@+id/btn_curd_variant"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="@drawable/bg_blue_button"
@@ -179,7 +192,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
             android:textAllCaps="false"
-            tools:text="Them san pham"
+            tools:text="Thêm sản phẩm"
             android:textColor="@color/white"
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

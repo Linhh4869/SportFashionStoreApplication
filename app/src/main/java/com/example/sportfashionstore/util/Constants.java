@@ -7,6 +7,8 @@ public class Constants {
     public static final String STRIPE_VERSION = "2025-04-30.basil";
     public static final String PAY_NOW = "pay_now";
     public static final String ADD_CART = "add_cart";
+    public static final String ADD_VARIANT = "add_variant";
+    public static final String EDIT_VARIANT = "edit_variant";
     public static final String CURRENCY = "VND";
     public static final int CASH_ON_DELIVERY = 1;
     public static final int PAY_WITH_CREDIT = 2;

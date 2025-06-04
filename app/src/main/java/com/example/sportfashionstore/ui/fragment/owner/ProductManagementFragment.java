@@ -92,6 +92,5 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
                 productHomeAdapter.setData(new ArrayList<>());
             }
         });
-
     }
 }
