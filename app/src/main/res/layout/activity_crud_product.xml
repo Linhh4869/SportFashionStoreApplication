@@ -340,6 +340,7 @@
             android:textAllCaps="false"
             tools:text="Them san pham"
             android:textColor="@color/white"
-            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
+            android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+            android:elevation="0dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -22,6 +22,7 @@ public class SizeVariantAdapter extends BaseAdapter<SizeModel, ItemSizeBinding> 
             item.setSelected(!item.isSelected());
             item.setPosition(position);
             listener.onItemClicked(item);
+            notifyItemChanged(position);
         });
     }
 

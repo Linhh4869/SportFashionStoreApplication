@@ -16,7 +16,7 @@ public class SizeModel implements Serializable {
         this.isAvailable = isAvailable;
     }
 
-    public SizeModel(boolean isSelected, String sized) {
+    public SizeModel(boolean isSelected, String size) {
         this.size = size;
         this.isSelected = isSelected;
     }

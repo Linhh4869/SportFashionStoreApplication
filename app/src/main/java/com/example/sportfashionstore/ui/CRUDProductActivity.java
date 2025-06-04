@@ -8,6 +8,7 @@ import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.adapter.VariantAdapter;
+import com.example.sportfashionstore.ui.fragment.owner.VariantManagementFragment;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.ProductManagementViewModel;
 import com.google.common.reflect.TypeToken;
@@ -54,7 +55,7 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
 
             @Override
             public void onEdit(ProductVariant variant) {
-
+                showManagementVariantBottomSheet(Constants.EDIT_VARIANT, variant);
             }
         });
         binding.rcvVariant.setAdapter(variantAdapter);
@@ -83,6 +84,12 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
+
+        binding.btnAddVariant.setOnClickListener(v -> {
+            showManagementVariantBottomSheet(Constants.ADD_VARIANT, null);
+        });
+
+
     }
 
     @Override
@@ -101,5 +108,11 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
     @Override
     protected ActivityCrudProductBinding createViewBinding() {
         return ActivityCrudProductBinding.inflate(getLayoutInflater());
+    }
+
+    private void showManagementVariantBottomSheet(String tag, ProductVariant variant) {
+        VariantManagementFragment variantManagementFragment = new VariantManagementFragment();
+        variantManagementFragment.setVariant(variant);
+        variantManagementFragment.show(getSupportFragmentManager(), tag);
     }
 }

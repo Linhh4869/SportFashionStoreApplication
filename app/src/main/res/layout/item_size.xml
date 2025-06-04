@@ -11,7 +11,7 @@
         android:paddingHorizontal="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+        android:fontFamily="@font/sarabun_medium"
         android:textColor="@color/text_view_click"
         android:gravity="center"
         android:includeFontPadding="false">
