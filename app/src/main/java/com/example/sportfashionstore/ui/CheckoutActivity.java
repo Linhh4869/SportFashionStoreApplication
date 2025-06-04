@@ -157,6 +157,11 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
         });
     }
 
+    @Override
+    protected ActivityCheckoutBinding createViewBinding() {
+        return ActivityCheckoutBinding.inflate(getLayoutInflater());
+    }
+
     private void showBottomSheet() {
         AddressFragment addressFragment = new AddressFragment(
                 (address, tag) -> new Handler().postDelayed(

@@ -10,12 +10,16 @@ import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.repository.ProductManagementRepository;
+import com.example.sportfashionstore.util.SharePrefHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductManagementViewModel extends BaseViewModel {
     private final ProductManagementRepository productMnRepo;
+    private final SharePrefHelper sharePrefHelper;
     public static final String ALL_PRODUCT = "";
     private MutableLiveData<String> userName = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Category>> categoryList = new MutableLiveData<>();
@@ -33,6 +37,7 @@ public class ProductManagementViewModel extends BaseViewModel {
 
     public ProductManagementViewModel() {
         productMnRepo = new ProductManagementRepository();
+        sharePrefHelper = MyApplication.getSharePrefHelper();
         userName.setValue(MyApplication.getSharePrefHelper().getUserName());
     }
 
@@ -44,17 +49,15 @@ public class ProductManagementViewModel extends BaseViewModel {
         this.userName = userName;
     }
 
-    public void getAllCategoryList(boolean isGetProduct) {
+    public void getAllCategoryList() {
         setLoadingState(productsLiveData);
         productMnRepo.getCategoryList(new DataStateCallback<>() {
             @Override
             public void onSuccess(ArrayList<Category> data) {
                 categoryList.setValue(data);
-                if (isGetProduct) {
-                    getProductsByCategory(ALL_PRODUCT);
-                } else {
-                    setSuccessState(productLiveData, null);
-                }
+                sharePrefHelper.setCategory(new Gson().toJson(data));
+                getProductsByCategory(ALL_PRODUCT);
+
             }
 
             @Override
@@ -94,7 +97,15 @@ public class ProductManagementViewModel extends BaseViewModel {
         });
     }
 
-    public List<String> getCategoryString(List<Category> list) {
+    public List<String> getCategoryString() {
+        List<Category> list;
+        String categoriesJson = sharePrefHelper.getCategory();
+        try {
+            list = new Gson().fromJson(categoriesJson,  new TypeToken<List<Category>>() {}.getType());
+        } catch (Exception e) {
+            list = new ArrayList<>();
+        }
+
         List<String> categories = new ArrayList<>();
         for (Category category : list) {
             categories.add(category.getName());
@@ -184,6 +195,7 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public String getPriceDisplay() {
+        if (price.getValue() == null) return "";
         return String.valueOf(price.getValue());
     }
 
@@ -208,6 +220,6 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void setSalePriceDisplay(String price) {
-        this.salePrice.setValue(Integer.valueOf(price));
+        this.salePrice.postValue(Integer.valueOf(price));
     }
 }

@@ -20,7 +20,6 @@ import java.util.List;
 
 public class ProductManagementFragment extends BaseFragmentViewModel<FragmentProductManagementBinding, ProductManagementViewModel> {
     private List<Category> categories = new ArrayList<>();
-    private String categoriesJson = "";
 
     @Override
     protected FragmentProductManagementBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
@@ -30,19 +29,17 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
     @Override
     protected void setupUi() {
         binding.setViewModel(viewModel);
-        viewModel.getAllCategoryList(true);
+        viewModel.getAllCategoryList();
         ProductHomeAdapter productHomeAdapter = new ProductHomeAdapter(item -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_PRODUCT, item.getId());
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);
-//            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
             getActivity().startActivity(intent);
         });
         binding.rcvHomeProduct.setAdapter(productHomeAdapter);
         binding.btnAddProduct.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.ADD_PRODUCT);
-//            intent.putExtra(CRUDProductActivity.KEY_CATEGORIES, categoriesJson);
             getActivity().startActivity(intent);
         });
         binding.tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
