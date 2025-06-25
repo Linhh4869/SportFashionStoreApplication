@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bottom_sheet"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/view_top"
@@ -60,6 +60,8 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:text="@={variant.desc}"
             app:layout_constraintTop_toBottomOf="@+id/label_color"/>
 
@@ -84,6 +86,7 @@
             android:layout_marginTop="5dp"
             android:inputType="number"
             android:maxLines="1"
+            android:imeOptions="actionNext"
             android:text="@={variant.inventory}"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,6 +139,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:hint="url ảnh mẫu"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:text="@={variant.image}"
             app:layout_constraintTop_toBottomOf="@+id/label_image"/>
 
@@ -198,5 +203,11 @@
             android:textColor="@color/white"
             android:elevation="0dp"
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

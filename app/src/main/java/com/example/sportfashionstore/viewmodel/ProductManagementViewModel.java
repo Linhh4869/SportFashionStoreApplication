@@ -220,6 +220,7 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void setSalePriceDisplay(String price) {
-        this.salePrice.postValue(Integer.valueOf(price));
+        int mPrice = price.isEmpty() ? 0 : Integer.parseInt(price);
+        this.salePrice.postValue(mPrice);
     }
 }

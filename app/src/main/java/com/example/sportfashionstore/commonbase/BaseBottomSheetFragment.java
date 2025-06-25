@@ -9,17 +9,17 @@ import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.custom.LoadingDialog;
+import com.example.sportfashionstore.util.Helper;
+import com.example.sportfashionstore.util.StringUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM extends BaseViewModel> extends BottomSheetDialogFragment {
     protected VB binding;
@@ -39,6 +39,7 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM ext
         binding = getViewBinding(inflater, container);
         binding.setLifecycleOwner(getViewLifecycleOwner());
         viewModel = getViewModel();
+        loadingDialog = new LoadingDialog(requireContext());
         return binding.getRoot();
     }
 
@@ -46,7 +47,9 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM ext
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
+        observeBaseViewModel();
         observerData();
+        setupKeyboardHandling(view);
     }
 
     @NonNull
@@ -60,11 +63,47 @@ public abstract class BaseBottomSheetFragment<VB extends ViewDataBinding, VM ext
                 BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 behavior.setFitToContents(true);
+                behavior.setSkipCollapsed(true);
                 bottomSheet.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_sheet_slide_up));
             }
         });
 
         return dialog;
+    }
+
+    private void setupKeyboardHandling(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            int keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) v.getParent());
+            behavior.setPeekHeight(keyboardHeight + v.getHeight());
+            return insets;
+        });
+    }
+
+    protected void observeBaseViewModel() {
+        if (viewModel != null) {
+            if (loadingDialog != null) {
+                viewModel.getLoading().observe(getViewLifecycleOwner(), this::handleLoading);
+            }
+
+            viewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+                if (StringUtil.isNotNullAndEmpty(message)) {
+                    showToast(message);
+                }
+            });
+        }
+    }
+
+    private void handleLoading(boolean isLoading) {
+        if (isLoading) {
+            loadingDialog.show();
+        } else {
+            loadingDialog.dismiss();
+        }
+    }
+
+    protected void showToast(String message) {
+        Helper.showMyToast(getActivity(), message);
     }
 
     protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);

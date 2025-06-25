@@ -22,4 +22,6 @@
     <string name="nav_cart">Giỏ hàng</string>
     <string name="nav_order">Đơn hàng</string>
     <string name="nav_profile">Tôi</string>
+    <string name="add_variant">Thêm mẫu</string>
+    <string name="variant_list">Danh sách mẫu sản phẩm</string>
 </resources>
