@@ -19,6 +19,8 @@ import com.example.sportfashionstore.util.SharePrefHelper;
 public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
     private boolean shouldExitApp = false;
     public static String KEY_SCREEN = "key_screen";
+    private NavController navController;
+    private String currentRole = "";
 
     @Override
     protected void setupUi() {
@@ -35,22 +37,54 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
         });
 
         SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
-        String currentRole = sharePrefHelper.getRole();
+        currentRole = sharePrefHelper.getRole();
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.container);
-        NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
-        binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                navController.popBackStack(R.id.nav_home, false);
-                navController.navigate(R.id.nav_home);
-                return true;
+        try {
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.container);
+            if (navHostFragment != null) {
+                navController = navHostFragment.getNavController();
+                NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+                binding.bottomNavigation.setOnItemSelectedListener(item -> {
+                    if (item.getItemId() == R.id.nav_home) {
+                        navController.popBackStack(R.id.nav_home, false);
+                        navController.navigate(R.id.nav_home);
+                        return true;
+                    }
+
+                    return NavigationUI.onNavDestinationSelected(item, navController);
+                });
+                setGraph();
+                if (getIntent().getStringExtra(KEY_SCREEN) != null && currentRole.equals(Constants.Role.BUYER)) {
+                    try {
+                        String screen = getIntent().getStringExtra(KEY_SCREEN);
+                        if (screen == null || screen.isEmpty())
+                            return;
+
+                        switch (screen) {
+                            case "carts":
+                                navController.navigate(R.id.nav_cart);
+                                break;
+                            case "orders":
+                                navController.navigate(R.id.nav_order);
+                                break;
+                            default:
+                                navController.navigate(R.id.nav_home);
+                                break;
+                        }
+                    } catch (Exception ignored) {
+
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            recreateNavigation();
+        }
 
-            return NavigationUI.onNavDestinationSelected(item, navController);
-        });
+    }
 
+    private void setGraph() {
         NavInflater navInflater = navController.getNavInflater();
         NavGraph navGraph;
         int menuId;
@@ -73,27 +107,23 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
         navController.setGraph(navGraph);
         binding.bottomNavigation.getMenu().clear();
         binding.bottomNavigation.inflateMenu(menuId);
+    }
 
-        if (getIntent().getStringExtra(KEY_SCREEN) != null && currentRole.equals(Constants.Role.BUYER)) {
-            try {
-                String screen = getIntent().getStringExtra(KEY_SCREEN);
-                if (screen == null || screen.isEmpty())
-                    return;
+    private void recreateNavigation() {
+        try {
+            NavHostFragment navHostFragment =
+                    (NavHostFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.container);
 
-                switch (screen) {
-                    case "carts":
-                        navController.navigate(R.id.nav_cart);
-                        break;
-                    case "orders":
-                        navController.navigate(R.id.nav_order);
-                        break;
-                    default:
-                        navController.navigate(R.id.nav_home);
-                        break;
-                }
-            } catch (Exception ignored) {
-
+            if (navHostFragment != null) {
+                navController = navHostFragment.getNavController();
+                NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+                // Clear back stack và set graph mới
+                navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                setGraph();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

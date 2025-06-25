@@ -2,6 +2,8 @@ package com.example.sportfashionstore.app;
 
 import android.app.Application;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.sportfashionstore.data.AppDatabase;
 import com.example.sportfashionstore.util.SharePrefHelper;
 
@@ -15,7 +17,10 @@ public class MyApplication extends Application {
         sharePrefHelper = SharePrefHelper.getInstance(this);
         appDatabase = AppDatabase.getDatabase(this);
         AppContextProvider.initialize(this);
-    }
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+        if (currentNightMode != AppCompatDelegate.MODE_NIGHT_NO) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }    }
 
     public static SharePrefHelper getSharePrefHelper() {
         return sharePrefHelper;
