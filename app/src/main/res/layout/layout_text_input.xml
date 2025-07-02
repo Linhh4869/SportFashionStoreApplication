@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
+        android:textColor="@color/model_black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Tiêu đề" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edt_content"
+        style="@style/style_edit_text"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:hint="Nội dung"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:paddingEnd="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/sarabun_italic"
+        android:maxLines="1"
+        android:textColor="@color/sailing_coral_red"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_content"
+        tools:text="Nội dung chưa đạt yêu cầu, vui lòng nhập lại." />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_close"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_content"
+        app:layout_constraintEnd_toEndOf="@+id/edt_content"
+        app:layout_constraintTop_toTopOf="@+id/edt_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

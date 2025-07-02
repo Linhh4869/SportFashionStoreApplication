@@ -39,58 +39,31 @@
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
             android:includeFontPadding="false"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/label_color"
-            android:layout_width="wrap_content"
+        <com.example.sportfashionstore.ui.widget.TextInputView
+            android:id="@+id/input_color"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Màu sắc mẫu"
-            android:textSize="13sp"
-            android:includeFontPadding="false"
-            android:textColor="@color/model_black"
-            app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-            app:layout_constraintTop_toBottomOf="@+id/tv_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edt_color_variant"
-            style="@style/style_edit_text"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
-            android:maxLines="1"
-            android:inputType="text"
-            android:imeOptions="actionNext"
-            android:text="@={variant.desc}"
-            app:layout_constraintTop_toBottomOf="@+id/label_color"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/label_inv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Số lượng"
-            android:textSize="13sp"
-            android:includeFontPadding="false"
-            android:textColor="@color/model_black"
-            app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-            app:layout_constraintTop_toBottomOf="@+id/edt_color_variant"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edt_inv"
-            style="@style/style_edit_text"
-            android:layout_width="150dp"
-            android:layout_marginTop="5dp"
-            android:inputType="number"
-            android:maxLines="1"
-            android:imeOptions="actionNext"
-            android:text="@={variant.inventory}"
+            app:titleText="Màu sắc mẫu"
+            app:inputType="text"
+            app:hintText="Màu sắc mẫu"
+            app:text="@{variant.desc}"
             android:layout_marginStart="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_inv"/>
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintTop_toBottomOf="@+id/tv_header"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.example.sportfashionstore.ui.widget.TextInputView
+            android:id="@+id/input_inv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:titleText="Số lượng"
+            app:inputType="number"
+            app:hintText="Nhập số lượng"
+            app:text="@{variant.inventory}"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_header"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/label_size"
@@ -101,7 +74,7 @@
             android:includeFontPadding="false"
             android:textColor="@color/model_black"
             app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-            app:layout_constraintTop_toBottomOf="@+id/edt_inv"
+            app:layout_constraintTop_toBottomOf="@+id/input_color"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"/>
@@ -116,33 +89,17 @@
             app:layout_constraintTop_toBottomOf="@+id/label_size"
             tools:itemCount="6"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/label_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hình ảnh mẫu"
-            android:textSize="13sp"
-            android:includeFontPadding="false"
-            android:textColor="@color/model_black"
-            app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-            app:layout_constraintTop_toBottomOf="@+id/rcv_size"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edt_link_image"
-            style="@style/style_edit_text"
+        <com.example.sportfashionstore.ui.widget.TextInputView
+            android:id="@+id/input_url"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleText="Hình ảnh mẫu"
+            app:inputType="text"
+            app:text="@{variant.image}"
+            app:hintText="Url ảnh"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:hint="url ảnh mẫu"
-            android:inputType="text"
-            android:imeOptions="actionNext"
-            android:text="@={variant.image}"
-            app:layout_constraintTop_toBottomOf="@+id/label_image"/>
+            app:layout_constraintTop_toBottomOf="@+id/rcv_size"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
             android:id="@+id/btn_pick_image"
@@ -151,7 +108,7 @@
             android:background="@drawable/bg_stroke_dash"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/edt_link_image"
+            app:layout_constraintTop_toBottomOf="@+id/input_url"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
