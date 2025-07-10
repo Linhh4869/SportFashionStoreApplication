@@ -4,6 +4,7 @@ import com.google.firebase.firestore.PropertyName;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductVariant implements Serializable {
@@ -52,7 +53,7 @@ public class ProductVariant implements Serializable {
     }
 
     public List<String> getSize() {
-        return size;
+        return size != null ? size : new ArrayList<>();
     }
 
     public void setSize(List<String> size) {
@@ -68,7 +69,7 @@ public class ProductVariant implements Serializable {
     }
 
     public String getInventory() {
-        return inventory;
+        return inventory != null ? inventory : "0";
     }
 
     public String getInvText() {

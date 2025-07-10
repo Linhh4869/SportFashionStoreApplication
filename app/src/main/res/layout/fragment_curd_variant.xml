@@ -39,7 +39,7 @@
             android:fontFamily="@font/fs_pf_beau_sans_pro_bold"
             android:includeFontPadding="false"/>
 
-        <com.example.sportfashionstore.ui.widget.TextInputView
+        <com.example.sportfashionstore.ui.widget.CommonTextInput
             android:id="@+id/input_color"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,18 +47,20 @@
             app:inputType="text"
             app:hintText="Màu sắc mẫu"
             app:text="@{variant.desc}"
+            app:errorText="Màu sắc mô tả quá ngắn"
             android:layout_marginStart="10dp"
             app:layout_constraintWidth_percent="0.6"
             app:layout_constraintTop_toBottomOf="@+id/tv_header"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <com.example.sportfashionstore.ui.widget.TextInputView
+        <com.example.sportfashionstore.ui.widget.CommonTextInput
             android:id="@+id/input_inv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:titleText="Số lượng"
             app:inputType="number"
             app:hintText="Nhập số lượng"
+            app:errorText="Số lượng quá nhỏ"
             app:text="@{variant.inventory}"
             android:layout_marginEnd="10dp"
             app:layout_constraintWidth_percent="0.3"
@@ -89,7 +91,23 @@
             app:layout_constraintTop_toBottomOf="@+id/label_size"
             tools:itemCount="6"/>
 
-        <com.example.sportfashionstore.ui.widget.TextInputView
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_error_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/sarabun_italic"
+            android:maxLines="1"
+            android:textColor="@color/sailing_coral_red"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rcv_size"
+            android:text="Cần chọn ít nhất một size."
+            android:layout_marginStart="10dp"
+            android:visibility="gone"/>
+
+        <com.example.sportfashionstore.ui.widget.CommonTextInput
             android:id="@+id/input_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,8 +115,9 @@
             app:inputType="text"
             app:text="@{variant.image}"
             app:hintText="Url ảnh"
+            app:errorText="Ảnh không hợp lệ"
             android:layout_marginHorizontal="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/rcv_size"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error_size"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout

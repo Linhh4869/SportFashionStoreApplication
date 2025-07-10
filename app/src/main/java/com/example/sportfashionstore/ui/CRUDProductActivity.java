@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.ui;
 
+import com.example.sportfashionstore.callback.OnItemClickListener;
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.custom.CustomSpinner;
@@ -111,7 +112,11 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
     }
 
     private void showManagementVariantBottomSheet(String tag, ProductVariant variant) {
-        VariantManagementFragment variantManagementFragment = new VariantManagementFragment();
+        VariantManagementFragment variantManagementFragment = new VariantManagementFragment(submitVariant -> {
+            List<ProductVariant> variants = new ArrayList<>();
+            variants.add(submitVariant);
+            variantAdapter.setData(variants);
+        });
         variantManagementFragment.setVariant(variant);
         variantManagementFragment.show(getSupportFragmentManager(), tag);
     }

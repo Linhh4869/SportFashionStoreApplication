@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.example.sportfashionstore.R;
 
-public class TextInputView extends ConstraintLayout {
+public class CommonTextInput extends ConstraintLayout {
 
     private AppCompatTextView tvTitle;
     private AppCompatEditText edtContent;
@@ -26,17 +26,17 @@ public class TextInputView extends ConstraintLayout {
 
     private OnTextChangedListener onTextChangedListener;
 
-    public TextInputView(Context context) {
+    public CommonTextInput(Context context) {
         super(context);
         init(context, null);
     }
 
-    public TextInputView(Context context, AttributeSet attrs) {
+    public CommonTextInput(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public TextInputView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CommonTextInput(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }

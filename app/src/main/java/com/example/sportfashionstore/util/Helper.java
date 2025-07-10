@@ -73,4 +73,11 @@ public class Helper {
         byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
         return new String(decodedBytes);
     }
+
+    public static boolean isValidContent(String content, int requireQuantity) {
+        if (content == null || content.isEmpty() || requireQuantity < 1)
+            return false;
+
+        return content.length() > requireQuantity;
+    }
 }

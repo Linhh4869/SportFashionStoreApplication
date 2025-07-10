@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
+import com.example.sportfashionstore.callback.OnItemClickListener;
 import com.example.sportfashionstore.commonbase.BaseBottomSheetFragment;
 import com.example.sportfashionstore.databinding.FragmentCurdVariantBinding;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.model.SizeModel;
 import com.example.sportfashionstore.ui.adapter.SizeVariantAdapter;
+import com.example.sportfashionstore.ui.widget.CommonTextInput;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.VariantManagementViewModel;
 
@@ -20,6 +22,11 @@ import java.util.List;
 
 public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentCurdVariantBinding, VariantManagementViewModel> {
     private ProductVariant variant;
+    private final OnItemClickListener<ProductVariant> listener;
+
+    public VariantManagementFragment(OnItemClickListener<ProductVariant> listener) {
+        this.listener = listener;
+    }
 
     public void setVariant(ProductVariant variant) {
         this.variant = variant;
@@ -55,19 +62,55 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
         }
 
         binding.btnCurdVariant.setOnClickListener(v -> {
-            dismiss();
+            viewModel.onSubmitVariant();
         });
 
         SizeVariantAdapter sizeVariantAdapter = new SizeVariantAdapter(item -> {
-
+            viewModel.getSizeListSelected().get(item.getPosition()).setSelected(item.isSelected());
         });
         List<SizeModel> dataSize = variant != null ? viewModel.getAllSizeOfVariant(variant.getSize()) : viewModel.getAllSize();
         sizeVariantAdapter.setData(dataSize);
         binding.rcvSize.setAdapter(sizeVariantAdapter);
+        observerInputField();
     }
 
     @Override
     protected void observerData() {
+        viewModel.getIsValidColor().observe(getViewLifecycleOwner(), isValid -> {
+            binding.inputColor.setErrorVisible(!isValid);
+        });
 
+        viewModel.getIsValidQuantity().observe(getViewLifecycleOwner(), isValid -> {
+            binding.inputInv.setErrorVisible(!isValid);
+        });
+
+        viewModel.getIsValidImage().observe(getViewLifecycleOwner(), isValid -> {
+            binding.inputUrl.setErrorVisible(!isValid);
+        });
+
+        viewModel.getIsValidSizeList().observe(getViewLifecycleOwner(), isValid -> {
+            binding.tvErrorSize.setVisibility(isValid ? View.GONE : View.VISIBLE);
+        });
+
+        viewModel.getResultVariant().observe(getViewLifecycleOwner(), variant -> {
+            if (viewModel.isValidSubmitVariant()) {
+                listener.onItemClicked(variant);
+                dismiss();
+            }
+        });
+    }
+
+    private void observerInputField() {
+        binding.inputColor.setOnTextChangedListener(color -> {
+            viewModel.getSubmitVariant().setDesc(color);
+        });
+
+        binding.inputInv.setOnTextChangedListener(quantity -> {
+            viewModel.getSubmitVariant().setInventory(quantity);
+        });
+
+        binding.inputUrl.setOnTextChangedListener(url -> {
+            viewModel.getSubmitVariant().setImage(url);
+        });
     }
 }
