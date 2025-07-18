@@ -1,5 +1,6 @@
 package com.example.sportfashionstore.commonbase;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -32,6 +33,7 @@ public abstract class BaseAdapter<T, VB extends ViewDataBinding> extends Recycle
         return dataList == null ? 0 : dataList.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<T> newData) {
         dataList.clear();
         dataList.addAll(newData);
@@ -39,6 +41,7 @@ public abstract class BaseAdapter<T, VB extends ViewDataBinding> extends Recycle
     }
 
     public abstract void bind(VB binding, T item, int position);
+
     protected abstract VB getViewBinding(LayoutInflater inflater, ViewGroup container);
 
     public static class BaseViewHolder<VB extends ViewDataBinding> extends RecyclerView.ViewHolder {

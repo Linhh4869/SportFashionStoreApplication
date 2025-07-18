@@ -11,6 +11,7 @@ import com.example.sportfashionstore.util.Helper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class VariantManagementViewModel extends BaseViewModel {
     private final ArrayList<String> defaultSize = new ArrayList<>(Arrays.asList("M", "L", "XL", "2XL", "3XL"));
@@ -47,6 +48,9 @@ public class VariantManagementViewModel extends BaseViewModel {
 
     public void onSubmitVariant() {
         if (isValidSubmitVariant()) {
+            if (submitVariant.getValue() != null && submitVariant.getValue().getId().isEmpty()) {
+                submitVariant.getValue().setId(UUID.randomUUID().toString());
+            }
             resultVariant.postValue(submitVariant.getValue());
         }
     }
@@ -92,8 +96,8 @@ public class VariantManagementViewModel extends BaseViewModel {
         return submitVariant.getValue();
     }
 
-    public void setSubmitVariant(MutableLiveData<ProductVariant> submitVariant) {
-        this.submitVariant = submitVariant;
+    public void setSubmitVariant(ProductVariant submitVariant) {
+        this.submitVariant.setValue(submitVariant);
     }
 
     public List<String> getSubmitSizeList() {

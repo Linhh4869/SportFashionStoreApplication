@@ -105,6 +105,7 @@ public class ProductManagementRepository {
                     try {
                         for (DocumentSnapshot documentSnapshot : variantsSnapshot) {
                             ProductVariant variant = documentSnapshot.toObject(ProductVariant.class);
+                            if (variant != null) variant.setId(documentSnapshot.getId());
                             variantList.add(variant);
                         }
                     } catch (Exception e) {
@@ -165,5 +166,17 @@ public class ProductManagementRepository {
                     }
                 })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public String getNewProductId() {
+        return productRef.document().getId();
+    }
+
+    public void createVariant(ProductVariant variant, DataStateCallback<String> callback) {
+
+    }
+
+    public void updateVariant() {
+
     }
 }

@@ -1,21 +1,19 @@
 package com.example.sportfashionstore.ui;
 
-import com.example.sportfashionstore.callback.OnItemClickListener;
+import android.os.Handler;
+
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
-import com.example.sportfashionstore.custom.CustomSpinner;
 import com.example.sportfashionstore.databinding.ActivityCrudProductBinding;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.adapter.VariantAdapter;
 import com.example.sportfashionstore.ui.fragment.owner.VariantManagementFragment;
+import com.example.sportfashionstore.ui.widget.CommonTextInput;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.ProductManagementViewModel;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +24,7 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
     private ArrayList<Category> categories = new ArrayList<>();
     private String typeCurd = Constants.ADD_PRODUCT;
     private VariantAdapter variantAdapter;
+    private Product product;
 
     @Override
     protected void setupUi() {
@@ -61,25 +60,19 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         });
         binding.rcvVariant.setAdapter(variantAdapter);
         binding.btn25.setOnClickListener(v -> {
-            if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
-            int price = viewModel.getPrice().getValue();
-            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.25)));
+            onChangeDiscount(25);
         });
 
         binding.btn50.setOnClickListener(v -> {
-            if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
-            int price = viewModel.getPrice().getValue();
-            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.5)));
+            onChangeDiscount(50);
         });
 
         binding.btn75.setOnClickListener(v -> {
-            if (viewModel.getPrice() == null || viewModel.getPrice().getValue() == null) return;
-            int price = viewModel.getPrice().getValue();
-            viewModel.setSalePriceDisplay(String.valueOf((int) (price * 0.75)));
+            onChangeDiscount(75);
         });
 
         binding.btnZeroSale.setOnClickListener(v -> {
-            viewModel.setSalePrice(0);
+            onChangeDiscount(0);
         });
 
         binding.btnBack.setOnClickListener(v -> {
@@ -90,7 +83,9 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             showManagementVariantBottomSheet(Constants.ADD_VARIANT, null);
         });
 
-
+        binding.inputPrice.setOnTextChangedListener(text -> {
+            viewModel.setSalePriceDisplay(text);
+        });
     }
 
     @Override
@@ -100,8 +95,6 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
                 Product product = resource.data;
                 binding.setProduct(product);
                 variantAdapter.setData(product.getProductVariants());
-                binding.edtPrice.setText(String.valueOf(product.getPrice()));
-                binding.edtSalePrice.setText(String.valueOf(product.getSalePrice()));
             }
         });
     }
@@ -113,11 +106,19 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
 
     private void showManagementVariantBottomSheet(String tag, ProductVariant variant) {
         VariantManagementFragment variantManagementFragment = new VariantManagementFragment(submitVariant -> {
-            List<ProductVariant> variants = new ArrayList<>();
-            variants.add(submitVariant);
-            variantAdapter.setData(variants);
+            loadingDialog.show();
+            viewModel.updateVariantList(tag.equals(Constants.ADD_VARIANT), submitVariant);
+            new Handler().postDelayed(() -> {
+                loadingDialog.dismiss();
+                variantAdapter.setData(viewModel.getSubmitVariants());
+            }, 1000);
         });
         variantManagementFragment.setVariant(variant);
         variantManagementFragment.show(getSupportFragmentManager(), tag);
+    }
+
+    private void onChangeDiscount(int discountPercent) {
+        viewModel.onDiscountSelected(discountPercent);
+        binding.inputSalePrice.setText(viewModel.getSalePriceDisplay());
     }
 }

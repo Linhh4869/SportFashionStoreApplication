@@ -37,7 +37,7 @@ public class ProductVariant implements Serializable {
     private String desc;
 
     public String getId() {
-        return id;
+        return id != null ? id : "";
     }
 
     public void setId(String id) {

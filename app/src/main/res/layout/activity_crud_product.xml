@@ -47,7 +47,8 @@
             app:layout_constraintTop_toTopOf="@+id/tv_screen"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
-            android:src="@drawable/icon_back_v1"/>
+            android:src="@drawable/icon_back_v1"
+            android:foreground="?android:attr/selectableItemBackground" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -135,34 +136,19 @@
                     android:text="@={product.description}"
                     app:layout_constraintTop_toBottomOf="@+id/label_desc"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/label_price"
-                    android:layout_width="wrap_content"
+                <com.example.sportfashionstore.ui.widget.CommonTextInput
+                    android:id="@+id/input_price"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Giá sản phẩm"
-                    android:textSize="13sp"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/model_black"
-                    app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
                     app:layout_constraintTop_toBottomOf="@+id/edt_desc"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"/>
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edt_price"
-                    style="@style/style_edit_text"
-                    android:layout_width="0dp"
-                    android:inputType="number"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:text="@={viewModel.priceDisplay}"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/label_vnd_left"
-                    app:layout_constraintTop_toBottomOf="@+id/label_price"/>
+                    android:layout_marginEnd="5dp"
+                    app:titleText="Giá sản phẩm"
+                    android:layout_marginStart="10dp"
+                    app:inputType="number"
+                    app:text="@{product.curdPrice}"/>
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/label_vnd_left"
@@ -174,9 +160,9 @@
                     android:textColor="@color/model_black"
                     app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
-                    app:layout_constraintBottom_toBottomOf="@+id/edt_price"
-                    app:layout_constraintTop_toTopOf="@+id/edt_price"
-                    android:layout_marginEnd="10dp"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/input_price"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelineCenter"
@@ -185,33 +171,18 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.5" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/label_sale_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Giá khuyến mại"
-                    android:textSize="13sp"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/model_black"
-                    app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/label_price"
-                    app:layout_constraintStart_toEndOf="@+id/guidelineCenter"
-                    android:layout_marginTop="10dp" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edt_sale_price"
-                    style="@style/style_edit_text"
+                <com.example.sportfashionstore.ui.widget.CommonTextInput
+                    android:id="@+id/input_sale_price"
                     android:layout_width="0dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:maxLines="1"
-                    android:clickable="false"
-                    android:imeOptions="actionNext"
-                    android:text="@={viewModel.salePriceDisplay}"
-                    android:inputType="number"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/input_price"
                     app:layout_constraintStart_toEndOf="@+id/guidelineCenter"
-                    app:layout_constraintBottom_toBottomOf="@+id/edt_price"
-                    app:layout_constraintEnd_toStartOf="@+id/label_vnd_right"/>
+                    app:layout_constraintEnd_toStartOf="@+id/label_vnd_right"
+                    android:layout_marginEnd="5dp"
+                    app:titleText="Giá khuyến mại"
+                    android:layout_marginStart="10dp"
+                    app:inputType="number"
+                    app:text="@{product.curdSalePrice}"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/label_vnd_right"
@@ -223,8 +194,7 @@
                     android:textColor="@color/model_black"
                     app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/edt_price"
-                    app:layout_constraintTop_toTopOf="@+id/edt_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_vnd_left"
                     android:layout_marginEnd="10dp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -236,7 +206,7 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/model_black"
                     app:fontFamily="@font/fs_pf_beau_sans_pro_bold"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_price"
+                    app:layout_constraintTop_toBottomOf="@+id/input_price"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"/>

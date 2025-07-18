@@ -45,6 +45,7 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
     protected void initView() {
         setCancelable(false);
         if (variant != null) {
+            viewModel.setSubmitVariant(variant);
             binding.setVariant(variant);
             binding.btnPickImage.setVisibility(View.GONE);
             binding.imgPicked.setVisibility(View.VISIBLE);

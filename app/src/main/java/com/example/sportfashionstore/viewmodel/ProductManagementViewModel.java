@@ -34,6 +34,8 @@ public class ProductManagementViewModel extends BaseViewModel {
     private MutableLiveData<Integer> invVariant = new MutableLiveData<>();
     private MutableLiveData<List<String>> sizeList = new MutableLiveData<>();
     private MutableLiveData<String> urlImage = new MutableLiveData<>();
+    private MutableLiveData<Product> submitProduct = new MutableLiveData<>(new Product());
+    private MutableLiveData<List<ProductVariant>> submitVariants = new MutableLiveData<>(new ArrayList<>());
 
     public ProductManagementViewModel() {
         productMnRepo = new ProductManagementRepository();
@@ -88,6 +90,8 @@ public class ProductManagementViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Product data) {
                 setSuccessState(productLiveData, data);
+                submitProduct.setValue(data);
+                submitVariants.setValue(data.getProductVariants());
             }
 
             @Override
@@ -112,6 +116,29 @@ public class ProductManagementViewModel extends BaseViewModel {
         }
 
         return categories;
+    }
+
+    public void onDiscountSelected(int discountPercent) {
+        if (getPrice() == null || getPrice().getValue() == null) return;
+        int price = getPrice().getValue();
+        setSalePriceDisplay(String.valueOf(price * discountPercent));
+    }
+
+    public void updateVariantList(boolean isAddNew, ProductVariant variant) {
+        if (submitVariants == null || submitVariants.getValue() == null)
+            return;
+
+        if (isAddNew) {
+            submitVariants.getValue().add(0, variant);
+            return;
+        }
+
+        for (int i = 0; i < submitVariants.getValue().size(); i++) {
+            if (submitVariants.getValue().get(i).getId().equals(variant.getId())) {
+                submitVariants.getValue().set(i, variant);
+                break;
+            }
+        }
     }
 
     public MutableLiveData<ArrayList<Category>> getCategoryList() {
@@ -186,7 +213,7 @@ public class ProductManagementViewModel extends BaseViewModel {
         return salePrice;
     }
 
-    public void setSalePrice(Integer salePrice) {
+    public void setSalePriceDisplay(Integer salePrice) {
         this.salePrice.postValue(salePrice);
     }
 
@@ -220,7 +247,17 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void setSalePriceDisplay(String price) {
-        int mPrice = price.isEmpty() ? 0 : Integer.parseInt(price);
-        this.salePrice.postValue(mPrice);
+        if (submitProduct == null || submitProduct.getValue() == null)
+            return;
+
+        submitProduct.getValue().setCurdSalePrice(price);
+    }
+
+    public MutableLiveData<Product> getSubmitProduct() {
+        return submitProduct;
+    }
+
+    public List<ProductVariant> getSubmitVariants() {
+        return submitVariants.getValue();
     }
 }

@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
 public abstract class BaseActivityViewModel<VB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
     protected VB binding;
     protected VM viewModel;
-    private LoadingDialog loadingDialog;
+    protected LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

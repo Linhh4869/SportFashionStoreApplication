@@ -99,6 +99,30 @@ public class Product implements Serializable {
         this.salePrice = salePrice;
     }
 
+    public String getCurdSalePrice() {
+        return String.valueOf(getSalePrice());
+    }
+
+    public void setCurdSalePrice(String curdSalePrice) {
+        try {
+            salePrice = Integer.parseInt(curdSalePrice);
+        } catch (Exception e) {
+            salePrice = 0;
+        }
+    }
+
+    public String getCurdPrice() {
+        return String.valueOf(getPrice());
+    }
+
+    public void setCurdPrice(String curdPrice) {
+        try {
+            price = Integer.parseInt(curdPrice);
+        } catch (Exception e) {
+            price = 0;
+        }
+    }
+
     public List<String> getImages() {
         return images != null ? images : new ArrayList<>();
     }
@@ -147,10 +171,6 @@ public class Product implements Serializable {
     public String getDisplaySalePrice() {
         displayPrice = getPrice();
         return String.format("%sđ", Helper.formatPrice(displayPrice));
-    }
-
-    public void setDisplayPrice(Integer displayPrice) {
-        this.displayPrice = displayPrice;
     }
 
     public boolean isSaleClothes() {
