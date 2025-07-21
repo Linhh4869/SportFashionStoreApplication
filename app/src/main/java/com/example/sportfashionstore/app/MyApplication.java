@@ -20,7 +20,8 @@ public class MyApplication extends Application {
         int currentNightMode = AppCompatDelegate.getDefaultNightMode();
         if (currentNightMode != AppCompatDelegate.MODE_NIGHT_NO) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }    }
+        }
+    }
 
     public static SharePrefHelper getSharePrefHelper() {
         return sharePrefHelper;

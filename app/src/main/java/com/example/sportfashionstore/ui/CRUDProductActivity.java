@@ -9,6 +9,7 @@ import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.adapter.VariantAdapter;
+import com.example.sportfashionstore.ui.dialog.CommonConfirmDialog;
 import com.example.sportfashionstore.ui.fragment.owner.VariantManagementFragment;
 import com.example.sportfashionstore.ui.widget.CommonTextInput;
 import com.example.sportfashionstore.util.Constants;
@@ -50,7 +51,7 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         variantAdapter = new VariantAdapter(new VariantAdapter.OnUDVariantListener() {
             @Override
             public void onDelete(int position) {
-
+                showDeleteVariantDialog();
             }
 
             @Override
@@ -97,6 +98,14 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
                 variantAdapter.setData(product.getProductVariants());
             }
         });
+
+        viewModel.getDynamicVariants().observe(this, resource -> {
+            if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
+                variantAdapter.setData(resource.data);
+            }
+        });
+
+        viewModel.getOnCURDVariant().observe(this, this::showToast);
     }
 
     @Override
@@ -120,5 +129,19 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
     private void onChangeDiscount(int discountPercent) {
         viewModel.onDiscountSelected(discountPercent);
         binding.inputSalePrice.setText(viewModel.getSalePriceDisplay());
+    }
+
+    private void showDeleteVariantDialog() {
+        try {
+            new CommonConfirmDialog(this)
+                    .setContent("Bạn có chắc chắn muốn xóa mẫu hàng hóa này?")
+                    .setCancelable(true)
+                    .setOnConfirmListener(() -> {
+
+                    })
+                    .show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

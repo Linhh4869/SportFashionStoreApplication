@@ -6,6 +6,7 @@ import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.commonbase.BaseViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.commonbase.SingleLiveData;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
@@ -36,6 +37,8 @@ public class ProductManagementViewModel extends BaseViewModel {
     private MutableLiveData<String> urlImage = new MutableLiveData<>();
     private MutableLiveData<Product> submitProduct = new MutableLiveData<>(new Product());
     private MutableLiveData<List<ProductVariant>> submitVariants = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<Resource<List<ProductVariant>>> dynamicVariants = new MutableLiveData<>();
+    private SingleLiveData<String> onCURDVariant = new SingleLiveData<>();
 
     public ProductManagementViewModel() {
         productMnRepo = new ProductManagementRepository();
@@ -139,6 +142,67 @@ public class ProductManagementViewModel extends BaseViewModel {
                 break;
             }
         }
+    }
+
+    public void updateVariantListFromFirestore() {
+        if (submitProduct == null || submitProduct.getValue() == null || submitProduct.getValue().getId().isEmpty())
+            return;
+
+        setLoadingState(dynamicVariants);
+        productMnRepo.getVariantList(submitProduct.getValue().getId(), new DataStateCallback<>() {
+            @Override
+            public void onSuccess(List<ProductVariant> data) {
+                if (!data.isEmpty()) {
+                    setSuccessState(dynamicVariants, data);
+                } else {
+                    setErrorState(dynamicVariants, "");
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                setErrorState(dynamicVariants, message);
+            }
+        });
+    }
+
+    private final DataStateCallback<String> callbackCurdVariant = new DataStateCallback<>() {
+        @Override
+        public void onSuccess(String data) {
+            updateVariantListFromFirestore();
+        }
+
+        @Override
+        public void onError(String message) {
+            onCURDVariant.postValue(message);
+        }
+    };
+
+    public void addNewVariant(ProductVariant variant) {
+        if (variant == null) {
+            onCURDVariant.postValue("Mau hang khong ton tai!");
+            return;
+        }
+
+        productMnRepo.createVariant(variant, callbackCurdVariant);
+    }
+
+    public void updateVariant(ProductVariant variant) {
+        if (variant == null || variant.getId().isEmpty()) {
+            onCURDVariant.postValue("Mau hang khong ton tai!");
+            return;
+        }
+
+        productMnRepo.updateVariant(variant, callbackCurdVariant);
+    }
+
+    public void deleteVariant(ProductVariant variant) {
+        if (variant == null || variant.getId().isEmpty()) {
+            onCURDVariant.postValue("Mau hang khong ton tai!");
+            return;
+        }
+
+        productMnRepo.deleteVariant(variant, callbackCurdVariant);
     }
 
     public MutableLiveData<ArrayList<Category>> getCategoryList() {
@@ -259,5 +323,13 @@ public class ProductManagementViewModel extends BaseViewModel {
 
     public List<ProductVariant> getSubmitVariants() {
         return submitVariants.getValue();
+    }
+
+    public MutableLiveData<Resource<List<ProductVariant>>> getDynamicVariants() {
+        return dynamicVariants;
+    }
+
+    public SingleLiveData<String> getOnCURDVariant() {
+        return onCURDVariant;
     }
 }

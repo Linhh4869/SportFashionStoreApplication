@@ -79,11 +79,7 @@ public class ProductManagementRepository {
 
     public void getProductToCURD(String productId, DataStateCallback<Product> callback) {
         Task<DocumentSnapshot> productTask = productRef.document(productId).get();
-        Task<QuerySnapshot> variantsTask =
-                variantRef.whereEqualTo("productId", productId)
-                        .whereEqualTo("status", "active")
-                        .orderBy("createdAt", Query.Direction.DESCENDING)
-                        .get();
+        Task<QuerySnapshot> variantsTask = createVariantsQuery(productId);
 
         Task<Void> allTasks = Tasks.whenAll(productTask, variantsTask);
         allTasks.addOnSuccessListener(result -> {
@@ -173,10 +169,58 @@ public class ProductManagementRepository {
     }
 
     public void createVariant(ProductVariant variant, DataStateCallback<String> callback) {
+        DocumentReference docRefVariant = variantRef.document();
+        variant.setId(docRefVariant.getId());
+        batch.set(docRefVariant, variant);
+
+        batch.commit()
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Thành cong!"))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
 
     }
 
-    public void updateVariant() {
+    public void updateVariant(ProductVariant variant, DataStateCallback<String> callback) {
+        DocumentReference docRefVariant = variantRef.document(variant.getId());
+        batch.set(docRefVariant, variant);
 
+        batch.commit()
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Thành cong!"))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void deleteVariant(ProductVariant variant, DataStateCallback<String> callback) {
+        DocumentReference docRefVariant = variantRef.document();
+        variant.setId(docRefVariant.getId());
+        batch.delete(docRefVariant);
+
+        batch.commit()
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Thành cong!"))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    private Task<QuerySnapshot> createVariantsQuery(String productId) {
+        return variantRef.whereEqualTo("productId", productId)
+                .whereEqualTo("status", "active")
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get();
+    }
+
+    public void getVariantList(String productId, DataStateCallback<List<ProductVariant>> callback) {
+        createVariantsQuery(productId)
+                .addOnSuccessListener(result -> {
+                    List<ProductVariant> variantList = new ArrayList<>();
+                    try {
+                        for (DocumentSnapshot documentSnapshot : result) {
+                            ProductVariant variant = documentSnapshot.toObject(ProductVariant.class);
+                            if (variant != null) variant.setId(documentSnapshot.getId());
+                            variantList.add(variant);
+                        }
+                    } catch (Exception e) {
+                        callback.onError(e.getMessage());
+                    }
+
+                    callback.onSuccess(variantList);
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 }
