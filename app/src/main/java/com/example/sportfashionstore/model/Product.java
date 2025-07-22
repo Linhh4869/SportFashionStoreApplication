@@ -1,6 +1,7 @@
 package com.example.sportfashionstore.model;
 
 import com.example.sportfashionstore.util.Helper;
+import com.google.firebase.Timestamp;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -46,6 +47,12 @@ public class Product implements Serializable {
 
     @SerializedName("size")
     private List<String> sizeList;
+
+    @SerializedName("createdAt")
+    private Timestamp createdAt;
+
+    @SerializedName("updateAt")
+    private Timestamp updateAt;
 
     private List<ProductVariant> productVariants;
 
@@ -195,5 +202,21 @@ public class Product implements Serializable {
 
     public void setProductVariants(List<ProductVariant> productVariants) {
         this.productVariants = productVariants;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
     }
 }

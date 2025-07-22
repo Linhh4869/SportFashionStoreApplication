@@ -66,6 +66,8 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
             viewModel.onSubmitVariant();
         });
 
+        binding.btnClose.setOnClickListener(v -> dismiss());
+
         SizeVariantAdapter sizeVariantAdapter = new SizeVariantAdapter(item -> {
             viewModel.getSizeListSelected().get(item.getPosition()).setSelected(item.isSelected());
         });

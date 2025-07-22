@@ -1,31 +1,29 @@
 package com.example.sportfashionstore.ui;
 
-import android.os.Handler;
+import static com.example.sportfashionstore.util.Constants.CREATE;
+import static com.example.sportfashionstore.util.Constants.DELETE;
+import static com.example.sportfashionstore.util.Constants.UPDATE;
 
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.databinding.ActivityCrudProductBinding;
-import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.ui.adapter.VariantAdapter;
 import com.example.sportfashionstore.ui.dialog.CommonConfirmDialog;
 import com.example.sportfashionstore.ui.fragment.owner.VariantManagementFragment;
-import com.example.sportfashionstore.ui.widget.CommonTextInput;
 import com.example.sportfashionstore.util.Constants;
+import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.ProductManagementViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProductBinding, ProductManagementViewModel> {
     public static final String KEY_CURD = "curd";
     public static final String KEY_PRODUCT = "product";
     public static final String KEY_CATEGORIES = "categories";
-    private ArrayList<Category> categories = new ArrayList<>();
     private String typeCurd = Constants.ADD_PRODUCT;
     private VariantAdapter variantAdapter;
     private Product product;
+    private boolean addNewProduct;
 
     @Override
     protected void setupUi() {
@@ -35,9 +33,11 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         }
 
         if (typeCurd.equals(Constants.ADD_PRODUCT)) {
+            addNewProduct = true;
             binding.tvScreen.setText("Thêm sản phẩm mới");
             binding.btnCurdProduct.setText("Thêm sản phẩm");
         } else {
+            addNewProduct = false;
             binding.tvScreen.setText("Cập nhật sản phẩm");
             binding.btnCurdProduct.setText("Cập nhật");
             String productId = getIntent().getStringExtra(KEY_PRODUCT);
@@ -50,13 +50,13 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
 
         variantAdapter = new VariantAdapter(new VariantAdapter.OnUDVariantListener() {
             @Override
-            public void onDelete(int position) {
-                showDeleteVariantDialog();
+            public void onDelete(ProductVariant variant, int position) {
+                showDeleteVariantDialog(variant, position);
             }
 
             @Override
-            public void onEdit(ProductVariant variant) {
-                showManagementVariantBottomSheet(Constants.EDIT_VARIANT, variant);
+            public void onEdit(ProductVariant variant, int position) {
+                showManagementVariantBottomSheet(Constants.EDIT_VARIANT, variant, position);
             }
         });
         binding.rcvVariant.setAdapter(variantAdapter);
@@ -81,7 +81,7 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         });
 
         binding.btnAddVariant.setOnClickListener(v -> {
-            showManagementVariantBottomSheet(Constants.ADD_VARIANT, null);
+            showManagementVariantBottomSheet(Constants.ADD_VARIANT, null, CREATE);
         });
 
         binding.inputPrice.setOnTextChangedListener(text -> {
@@ -95,7 +95,6 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
                 Product product = resource.data;
                 binding.setProduct(product);
-                variantAdapter.setData(product.getProductVariants());
             }
         });
 
@@ -113,14 +112,10 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         return ActivityCrudProductBinding.inflate(getLayoutInflater());
     }
 
-    private void showManagementVariantBottomSheet(String tag, ProductVariant variant) {
+    private void showManagementVariantBottomSheet(String tag, ProductVariant variant, int position) {
         VariantManagementFragment variantManagementFragment = new VariantManagementFragment(submitVariant -> {
-            loadingDialog.show();
-            viewModel.updateVariantList(tag.equals(Constants.ADD_VARIANT), submitVariant);
-            new Handler().postDelayed(() -> {
-                loadingDialog.dismiss();
-                variantAdapter.setData(viewModel.getSubmitVariants());
-            }, 1000);
+            int typeVariant = tag.equals(Constants.ADD_VARIANT) ? CREATE : UPDATE;
+            curdVariant(typeVariant, submitVariant, position);
         });
         variantManagementFragment.setVariant(variant);
         variantManagementFragment.show(getSupportFragmentManager(), tag);
@@ -131,17 +126,22 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         binding.inputSalePrice.setText(viewModel.getSalePriceDisplay());
     }
 
-    private void showDeleteVariantDialog() {
-        try {
-            new CommonConfirmDialog(this)
-                    .setContent("Bạn có chắc chắn muốn xóa mẫu hàng hóa này?")
-                    .setCancelable(true)
-                    .setOnConfirmListener(() -> {
+    private void showDeleteVariantDialog(ProductVariant variant, int position) {
+        new CommonConfirmDialog(this)
+                .setContent("Bạn có chắc chắn muốn xóa mẫu hàng hóa này?")
+                .setCancelable(true)
+                .setOnConfirmListener(() -> {
+                    curdVariant(DELETE, variant, position);
+                })
+                .show();
+    }
 
-                    })
-                    .show();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void curdVariant(int typeVariant, ProductVariant submitVariant, int position) {
+        if (addNewProduct) {
+            String variantJson = Helper.objectToJson(submitVariant);
+            viewModel.curdVariantTypeAddNew(typeVariant, position, variantJson);
+        } else {
+            viewModel.curdVariantTypeUpdate(typeVariant, submitVariant);
         }
     }
 }

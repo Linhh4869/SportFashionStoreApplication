@@ -26,12 +26,22 @@
             app:cardCornerRadius="50dp"
             app:cardElevation="0dp"/>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_close"
+            app:layout_constraintTop_toBottomOf="@+id/view_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chỉnh sửa mẫu sản phẩm"
-            app:layout_constraintTop_toBottomOf="@+id/view_top"
+            app:layout_constraintTop_toBottomOf="@+id/btn_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"

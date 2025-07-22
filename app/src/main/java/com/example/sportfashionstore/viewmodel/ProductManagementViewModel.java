@@ -1,5 +1,9 @@
 package com.example.sportfashionstore.viewmodel;
 
+import static com.example.sportfashionstore.util.Constants.CREATE;
+import static com.example.sportfashionstore.util.Constants.DELETE;
+import static com.example.sportfashionstore.util.Constants.UPDATE;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sportfashionstore.app.MyApplication;
@@ -11,11 +15,14 @@ import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.repository.ProductManagementRepository;
+import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.util.SharePrefHelper;
+import com.google.firebase.Timestamp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ProductManagementViewModel extends BaseViewModel {
@@ -92,9 +99,11 @@ public class ProductManagementViewModel extends BaseViewModel {
         productMnRepo.getProductToCURD(productId, new DataStateCallback<>() {
             @Override
             public void onSuccess(Product data) {
+                data.setId(productId);
                 setSuccessState(productLiveData, data);
                 submitProduct.setValue(data);
                 submitVariants.setValue(data.getProductVariants());
+                setSuccessState(dynamicVariants, submitVariants.getValue());
             }
 
             @Override
@@ -115,7 +124,9 @@ public class ProductManagementViewModel extends BaseViewModel {
 
         List<String> categories = new ArrayList<>();
         for (Category category : list) {
-            categories.add(category.getName());
+            if (!category.getName().equals("Tất cả")) {
+                categories.add(category.getName());
+            }
         }
 
         return categories;
@@ -127,20 +138,53 @@ public class ProductManagementViewModel extends BaseViewModel {
         setSalePriceDisplay(String.valueOf(price * discountPercent));
     }
 
-    public void updateVariantList(boolean isAddNew, ProductVariant variant) {
+    public void curdVariantTypeAddNew(int type, int position, String variantJson) {
         if (submitVariants == null || submitVariants.getValue() == null)
             return;
 
-        if (isAddNew) {
-            submitVariants.getValue().add(0, variant);
-            return;
-        }
+        ProductVariant variant = Helper.jsonToObject(variantJson, ProductVariant.class);
 
-        for (int i = 0; i < submitVariants.getValue().size(); i++) {
-            if (submitVariants.getValue().get(i).getId().equals(variant.getId())) {
-                submitVariants.getValue().set(i, variant);
+        switch (type) {
+            case CREATE:
+                if (variant != null) {
+                    LinkedList<ProductVariant> linkedList = new LinkedList<>(submitVariants.getValue());
+                    linkedList.addFirst(variant);
+                    submitVariants.setValue(linkedList);
+                }
                 break;
-            }
+
+            case UPDATE:
+                if (variant != null) {
+                    List<ProductVariant> linkedUpdateList = new ArrayList<>(submitVariants.getValue());
+                    linkedUpdateList.set(position, variant);
+                    submitVariants.setValue(linkedUpdateList);
+                }
+                break;
+
+            case DELETE:
+                submitVariants.getValue().remove(position);
+                break;
+        }
+        setSuccessState(dynamicVariants, submitVariants.getValue());
+    }
+
+    public void curdVariantTypeUpdate(int type, ProductVariant variant) {
+        setLoadingState(dynamicVariants);
+        variant.setUpdateAt(Timestamp.now());
+        switch (type) {
+            case CREATE:
+                variant.setCreatedAt(Timestamp.now());
+                variant.setStatus("active");
+                addNewVariant(variant);
+                break;
+
+            case UPDATE:
+                updateVariant(variant);
+                break;
+
+            case DELETE:
+                deleteVariant(variant.getId());
+                break;
         }
     }
 
@@ -153,7 +197,8 @@ public class ProductManagementViewModel extends BaseViewModel {
             @Override
             public void onSuccess(List<ProductVariant> data) {
                 if (!data.isEmpty()) {
-                    setSuccessState(dynamicVariants, data);
+                    submitVariants.setValue(data);
+                    setSuccessState(dynamicVariants, submitVariants.getValue());
                 } else {
                     setErrorState(dynamicVariants, "");
                 }
@@ -196,13 +241,13 @@ public class ProductManagementViewModel extends BaseViewModel {
         productMnRepo.updateVariant(variant, callbackCurdVariant);
     }
 
-    public void deleteVariant(ProductVariant variant) {
-        if (variant == null || variant.getId().isEmpty()) {
+    public void deleteVariant(String variantId) {
+        if (variantId == null || variantId.isEmpty()) {
             onCURDVariant.postValue("Mau hang khong ton tai!");
             return;
         }
 
-        productMnRepo.deleteVariant(variant, callbackCurdVariant);
+        productMnRepo.deleteVariant(variantId, callbackCurdVariant);
     }
 
     public MutableLiveData<ArrayList<Category>> getCategoryList() {

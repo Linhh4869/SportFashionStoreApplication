@@ -12,6 +12,9 @@ public class Constants {
     public static final String CURRENCY = "VND";
     public static final int CASH_ON_DELIVERY = 1;
     public static final int PAY_WITH_CREDIT = 2;
+    public static final int CREATE = 0;
+    public static final int UPDATE = 1;
+    public static final int DELETE = 2;
     public static final String ADD_PRODUCT = "add";
     public static final String EDIT_PRODUCT = "edit";
 

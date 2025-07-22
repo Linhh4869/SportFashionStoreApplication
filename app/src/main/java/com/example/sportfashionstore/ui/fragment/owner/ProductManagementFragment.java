@@ -71,8 +71,10 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
             categories = cate;
 //            categoriesJson = new Gson().toJson(categories);
             assert categories != null;
-            categories.add(0, new Category("Tất cả", ""));
             binding.tlCategory.removeAllTabs();
+            if (!categories.get(0).getName().equals("Tất cả")) {
+                categories.add(0, new Category("Tất cả", ""));
+            }
             for (Category category : categories) {
                 if (category != null) {
                     TabLayout.Tab tab = binding.tlCategory.newTab();

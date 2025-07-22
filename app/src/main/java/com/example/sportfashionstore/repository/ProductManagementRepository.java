@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductManagementRepository {
-    private final WriteBatch batch;
+    private WriteBatch batch;
+    private final FirebaseFirestore db;
     private final CollectionReference productRef;
     private final CollectionReference variantRef;
     private final CollectionReference categoryRef;
 
     public ProductManagementRepository() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        batch = db.batch();
+        db = FirebaseFirestore.getInstance();
         productRef = db.collection(Constants.Collection.PRODUCTS);
         variantRef = db.collection(Constants.Collection.PRODUCT_VARIANTS);
         categoryRef = db.collection(Constants.Collection.CATEGORIES);
@@ -35,6 +35,7 @@ public class ProductManagementRepository {
     public void addProduct(Product product, DataStateCallback<String> callback) {
         DocumentReference productDocRef = productRef.document();
         product.setId(productDocRef.getId());
+        batch = db.batch();
         batch.set(productDocRef, product);
 
         for (ProductVariant variant : product.getProductVariants()) {
@@ -51,6 +52,7 @@ public class ProductManagementRepository {
 
     private void updateProduct(Product product, DataStateCallback<String> callback) {
         DocumentReference productDocRef = productRef.document(product.getId());
+        batch = db.batch();
         batch.set(productDocRef, product);
 
         for (ProductVariant variant : product.getProductVariants()) {
@@ -65,6 +67,7 @@ public class ProductManagementRepository {
 
     private void deleteProduct(Product product, DataStateCallback<String> callback) {
         DocumentReference productDocRef = productRef.document(product.getId());
+        batch = db.batch();
         batch.delete(productDocRef);
 
         for (ProductVariant variant : product.getProductVariants()) {
@@ -171,6 +174,7 @@ public class ProductManagementRepository {
     public void createVariant(ProductVariant variant, DataStateCallback<String> callback) {
         DocumentReference docRefVariant = variantRef.document();
         variant.setId(docRefVariant.getId());
+        batch = db.batch();
         batch.set(docRefVariant, variant);
 
         batch.commit()
@@ -181,6 +185,7 @@ public class ProductManagementRepository {
 
     public void updateVariant(ProductVariant variant, DataStateCallback<String> callback) {
         DocumentReference docRefVariant = variantRef.document(variant.getId());
+        batch = db.batch();
         batch.set(docRefVariant, variant);
 
         batch.commit()
@@ -188,9 +193,9 @@ public class ProductManagementRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    public void deleteVariant(ProductVariant variant, DataStateCallback<String> callback) {
-        DocumentReference docRefVariant = variantRef.document();
-        variant.setId(docRefVariant.getId());
+    public void deleteVariant(String variantId, DataStateCallback<String> callback) {
+        DocumentReference docRefVariant = variantRef.document(variantId);
+        batch = db.batch();
         batch.delete(docRefVariant);
 
         batch.commit()

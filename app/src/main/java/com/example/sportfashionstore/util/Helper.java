@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sportfashionstore.R;
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -17,6 +18,8 @@ import java.util.Locale;
 
 public class Helper {
     private static final String NUMBER_FORMAT = "#,###,###";
+    private static final Gson gson = new Gson();
+
     @SuppressLint("HardwareIds")
     public static String getDeviceId(Context context) {
         String deviceId = "";
@@ -79,5 +82,29 @@ public class Helper {
             return false;
 
         return content.length() > requireQuantity;
+    }
+
+    public static String objectToJson(Object object) {
+        try {
+            if (object == null) {
+                return null;
+            }
+            return gson.toJson(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> T jsonToObject(String json, Class<T> clazz) {
+        try {
+            if (json == null || json.trim().isEmpty()) {
+                return null;
+            }
+            return gson.fromJson(json, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

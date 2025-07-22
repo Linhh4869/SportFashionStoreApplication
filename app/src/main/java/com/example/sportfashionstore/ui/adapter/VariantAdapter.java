@@ -26,11 +26,11 @@ public class VariantAdapter extends BaseAdapter<ProductVariant, ItemVariantBindi
                 .into(binding.imgProduct);
 
         binding.btnDeleteVariant.setOnClickListener(v -> {
-            listener.onDelete(position);
+            listener.onDelete(item, position);
         });
 
         binding.btnEditVariant.setOnClickListener(v -> {
-            listener.onEdit(item);
+            listener.onEdit(item, position);
         });
     }
 
@@ -40,8 +40,8 @@ public class VariantAdapter extends BaseAdapter<ProductVariant, ItemVariantBindi
     }
 
     public interface OnUDVariantListener {
-        void onDelete(int position);
+        void onDelete(ProductVariant variant, int position);
 
-        void onEdit(ProductVariant variant);
+        void onEdit(ProductVariant variant, int position);
     }
 }
