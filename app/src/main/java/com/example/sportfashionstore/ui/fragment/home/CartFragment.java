@@ -43,6 +43,7 @@ public class CartFragment extends BaseFragmentViewModel<FragmentCartBinding, Cho
                 public void onPayItemCart(CartEntity cartEntity) {
                     Intent intent = new Intent(getActivity(), CheckoutActivity.class);
                     intent.putExtra(CheckoutActivity.KEY_DATA, cartEntity.getId());
+                    intent.putExtra(CheckoutActivity.KEY_CLEAR, false);
                     requireActivity().startActivity(intent);
                 }
             });

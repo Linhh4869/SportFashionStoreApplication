@@ -28,20 +28,23 @@ import com.stripe.android.paymentsheet.*;
 
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
     public static final String KEY_DATA = "CART_DATA";
+    public static final String KEY_CLEAR = "CART_CLEAR";
     private PaymentSheet paymentSheet;
     private String paymentClientSecret;
     private PaymentSheet.CustomerConfiguration customerConfig;
+    private boolean shouldClearData = true;
 
     @Override
     protected void setupUi() {
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
         PaymentConfiguration.init(this, Helper.decodeBase64ToString(Constants.PUBLIC_KEY));
         long id = getIntent().getLongExtra(KEY_DATA, -1);
+        shouldClearData = getIntent().getBooleanExtra(KEY_CLEAR, true);
         viewModel.getInfoPayment(id);
         viewModel.getChooseAddress();
 
         binding.btnBack.setOnClickListener(v -> {
-            viewModel.clearData();
+            onBackPressed();
         });
 
         binding.layoutSelectedAddress.setOnClickListener(v -> {
@@ -160,6 +163,14 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
     @Override
     protected ActivityCheckoutBinding createViewBinding() {
         return ActivityCheckoutBinding.inflate(getLayoutInflater());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (shouldClearData) {
+            viewModel.clearData();
+        }
     }
 
     private void showBottomSheet() {

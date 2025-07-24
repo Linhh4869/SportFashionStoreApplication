@@ -83,6 +83,7 @@ dependencies {
     implementation libs.credentials.play.services.auth
     implementation libs.gravitysnaphelper
     implementation libs.googleid
+    implementation libs.firebase.storage
 
     // Room
     implementation libs.room.runtime
