@@ -4,6 +4,8 @@ import static com.example.sportfashionstore.util.Constants.CREATE;
 import static com.example.sportfashionstore.util.Constants.DELETE;
 import static com.example.sportfashionstore.util.Constants.UPDATE;
 
+import android.content.Intent;
+
 import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.databinding.ActivityCrudProductBinding;
@@ -85,7 +87,16 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         });
 
         binding.inputPrice.setOnTextChangedListener(text -> {
-            viewModel.setSalePriceDisplay(text);
+            viewModel.setPriceDisplay(text);
+        });
+
+        binding.inputSalePrice.setOnTextChangedListener(sale -> {
+            viewModel.setSalePriceDisplay(sale);
+        });
+
+        binding.btnCurdProduct.setOnClickListener(v -> {
+            viewModel.setCategoryProduct(binding.spinnerCategory.getActualSelectItemPosition());
+            onSubmitProduct();
         });
     }
 
@@ -95,6 +106,8 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {
                 Product product = resource.data;
                 binding.setProduct(product);
+                int cateSelected = viewModel.getCateGorySelected(product.getCategoryId());
+                binding.spinnerCategory.setItemSelected(cateSelected - 1);
             }
         });
 
@@ -105,6 +118,13 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         });
 
         viewModel.getOnCURDVariant().observe(this, this::showToast);
+
+        viewModel.getOnSubmitProduct().observe(this, success -> {
+            setResult(RESULT_OK, new Intent());
+            finish();
+        });
+
+        viewModel.getErrorSubmitProduct().observe(this, this::showToast);
     }
 
     @Override
@@ -142,6 +162,14 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             viewModel.curdVariantTypeAddNew(typeVariant, position, variantJson);
         } else {
             viewModel.curdVariantTypeUpdate(typeVariant, submitVariant);
+        }
+    }
+
+    private void onSubmitProduct() {
+        if (addNewProduct) {
+            viewModel.onCreateNewProduct();
+        } else {
+            viewModel.onUpdateProduct();
         }
     }
 }

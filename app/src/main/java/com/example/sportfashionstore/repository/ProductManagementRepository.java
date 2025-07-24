@@ -4,9 +4,12 @@ import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
+import com.example.sportfashionstore.model.SubmitProduct;
+import com.example.sportfashionstore.model.SubmitVariant;
 import com.example.sportfashionstore.util.Constants;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,14 +38,16 @@ public class ProductManagementRepository {
     public void addProduct(Product product, DataStateCallback<String> callback) {
         DocumentReference productDocRef = productRef.document();
         product.setId(productDocRef.getId());
+        SubmitProduct submitProduct = product.getSubmitProduct();
         batch = db.batch();
-        batch.set(productDocRef, product);
+        batch.set(productDocRef, submitProduct);
 
         for (ProductVariant variant : product.getProductVariants()) {
             DocumentReference variantDocRef = variantRef.document();
-            variant.setProductVariantId(variantDocRef.getId());
+            variant.setId(variantDocRef.getId());
             variant.setProductId(productDocRef.getId());
-            batch.set(variantDocRef, variant);
+            SubmitVariant submitVariant = variant.getSubmitVariant();
+            batch.set(variantDocRef, submitVariant);
         }
 
         batch.commit()
@@ -50,15 +55,12 @@ public class ProductManagementRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    private void updateProduct(Product product, DataStateCallback<String> callback) {
+    public void updateProduct(Product product, DataStateCallback<String> callback) {
         DocumentReference productDocRef = productRef.document(product.getId());
         batch = db.batch();
-        batch.set(productDocRef, product);
-
-        for (ProductVariant variant : product.getProductVariants()) {
-            DocumentReference variantDocRef = variantRef.document(variant.getId());
-            batch.set(variantDocRef, variant);
-        }
+        SubmitProduct submitProduct = product.getSubmitProduct();
+        submitProduct.setUpdateAt(Timestamp.now());
+        batch.set(productDocRef, submitProduct);
 
         batch.commit()
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Thanh cong"))
@@ -171,7 +173,7 @@ public class ProductManagementRepository {
         return productRef.document().getId();
     }
 
-    public void createVariant(ProductVariant variant, DataStateCallback<String> callback) {
+    public void createVariant(SubmitVariant variant, DataStateCallback<String> callback) {
         DocumentReference docRefVariant = variantRef.document();
         variant.setId(docRefVariant.getId());
         batch = db.batch();
@@ -183,7 +185,7 @@ public class ProductManagementRepository {
 
     }
 
-    public void updateVariant(ProductVariant variant, DataStateCallback<String> callback) {
+    public void updateVariant(SubmitVariant variant, DataStateCallback<String> callback) {
         DocumentReference docRefVariant = variantRef.document(variant.getId());
         batch = db.batch();
         batch.set(docRefVariant, variant);

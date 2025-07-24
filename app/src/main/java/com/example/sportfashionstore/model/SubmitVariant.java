@@ -8,15 +8,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductVariant implements Serializable {
+public class SubmitVariant implements Serializable {
     @SerializedName("id")
     private String id;
 
     @SerializedName("productId")
     private String productId;
-
-    @SerializedName("productVariantId")
-    private String productVariantId;
 
     @SerializedName("size")
     private List<String> size;
@@ -36,6 +33,12 @@ public class ProductVariant implements Serializable {
     @PropertyName("desc")
     @SerializedName("desc")
     private String desc;
+
+    @SerializedName("createdAt")
+    private Timestamp createdAt;
+
+    @SerializedName("updateAt")
+    private Timestamp updateAt;
 
     public String getId() {
         return id != null ? id : "";
@@ -73,13 +76,6 @@ public class ProductVariant implements Serializable {
         return inventory != null ? inventory : "0";
     }
 
-    public String getInvText() {
-        if (inventory == null)
-            return "";
-
-        return "Kho: " + inventory;
-    }
-
     public void setInventory(String inventory) {
         this.inventory = inventory;
     }
@@ -108,26 +104,19 @@ public class ProductVariant implements Serializable {
         this.desc = desc;
     }
 
-    public String getProductVariantId() {
-        return productVariantId;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setProductVariantId(String productVariantId) {
-        this.productVariantId = productVariantId;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public SubmitVariant getSubmitVariant() {
-        SubmitVariant submitVariant = new SubmitVariant();
-        submitVariant.setId(getId());
-        submitVariant.setDesc(getDesc());
-        submitVariant.setImage(getImage());
-        submitVariant.setSize(getSize());
-        submitVariant.setProductId(getProductId());
-        submitVariant.setInventory(getInventory());
-        submitVariant.setStatus("active");
-        submitVariant.setCreatedAt(Timestamp.now());
-        submitVariant.setUpdateAt(Timestamp.now());
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
 
-        return submitVariant;
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
     }
 }

@@ -14,6 +14,7 @@ import com.example.sportfashionstore.commonbase.SingleLiveData;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
+import com.example.sportfashionstore.model.SubmitVariant;
 import com.example.sportfashionstore.repository.ProductManagementRepository;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.util.SharePrefHelper;
@@ -24,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class ProductManagementViewModel extends BaseViewModel {
     private final ProductManagementRepository productMnRepo;
@@ -34,7 +36,7 @@ public class ProductManagementViewModel extends BaseViewModel {
     private MutableLiveData<Resource<List<Product>>> productsLiveData = new MutableLiveData<>();
     private MutableLiveData<Resource<Product>> productLiveData = new MutableLiveData<>();
     private MutableLiveData<List<ProductVariant>> variantLiveData = new MutableLiveData<>();
-    private MutableLiveData<Integer> price = new MutableLiveData<>();
+    private MutableLiveData<Integer> price = new MutableLiveData<>(0);
     private MutableLiveData<Integer> salePrice = new MutableLiveData<>(0);
     private MutableLiveData<Category> selectedCategory = new MutableLiveData<>();
     private MutableLiveData<String> descProduct = new MutableLiveData<>();
@@ -46,6 +48,8 @@ public class ProductManagementViewModel extends BaseViewModel {
     private MutableLiveData<List<ProductVariant>> submitVariants = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<Resource<List<ProductVariant>>> dynamicVariants = new MutableLiveData<>();
     private SingleLiveData<String> onCURDVariant = new SingleLiveData<>();
+    private SingleLiveData<String> errorSubmitProduct = new SingleLiveData<>();
+    private SingleLiveData<String> onSubmitProduct = new SingleLiveData<>();
 
     public ProductManagementViewModel() {
         productMnRepo = new ProductManagementRepository();
@@ -103,6 +107,7 @@ public class ProductManagementViewModel extends BaseViewModel {
                 setSuccessState(productLiveData, data);
                 submitProduct.setValue(data);
                 submitVariants.setValue(data.getProductVariants());
+                descProduct.setValue(data.getDescription());
                 setSuccessState(dynamicVariants, submitVariants.getValue());
             }
 
@@ -113,23 +118,119 @@ public class ProductManagementViewModel extends BaseViewModel {
         });
     }
 
-    public List<String> getCategoryString() {
+    private List<Category> getMyCategoryList() {
         List<Category> list;
         String categoriesJson = sharePrefHelper.getCategory();
         try {
-            list = new Gson().fromJson(categoriesJson,  new TypeToken<List<Category>>() {}.getType());
+            return new Gson().fromJson(categoriesJson,  new TypeToken<List<Category>>() {}.getType());
         } catch (Exception e) {
-            list = new ArrayList<>();
+            return new ArrayList<>();
+        }
+    }
+
+    private final DataStateCallback<String> callbackSubmitProduct = new DataStateCallback<>() {
+        @Override
+        public void onSuccess(String data) {
+            onSubmitProduct.setValue(data);
         }
 
+        @Override
+        public void onError(String message) {
+            errorSubmitProduct.setValue(message);
+        }
+    };
+
+    public void onCreateNewProduct() {
+        Product submitPro = submitProduct.getValue();
+        if (isValidSubmitProduct() && submitPro != null) {
+            submitPro.setRating(getRandomRating());
+            submitPro.setSold(getRandomSold());
+            productMnRepo.addProduct(submitPro, callbackSubmitProduct);
+        }
+    }
+
+    public void onUpdateProduct() {
+        if (isValidSubmitProduct() && submitProduct.getValue() != null) {
+            productMnRepo.updateProduct(submitProduct.getValue(), callbackSubmitProduct);
+        }
+    }
+
+    private boolean isValidSubmitProduct() {
+        Product submitPro = submitProduct.getValue();;
+        if (submitPro == null)
+            return false;
+
+        submitPro.setDescription(getDescProduct().getValue());
+        submitPro.setProductVariants(submitVariants.getValue());
+
+        if (submitPro.getDescription().isEmpty()) {
+            errorSubmitProduct.setValue("Không được để trống mô tả sản phẩm!");
+            return false;
+        }
+
+        if (submitPro.getPrice() <= 0) {
+            errorSubmitProduct.setValue("Giá sản phẩm không được để trống");
+            return false;
+        }
+
+        if (submitPro.getSalePrice() >= submitPro.getPrice()) {
+            errorSubmitProduct.setValue("Giá khuyến mại không hợp lệ");
+            return false;
+        }
+
+        if (submitPro.getProductVariants().isEmpty()) {
+            errorSubmitProduct.setValue("Cần tạo ít nhất một mẫu sản phẩm");
+            return false;
+        }
+
+        return true;
+    }
+
+    private String getRandomRating() {
+        Random random = new Random();
+        int min = 31; // tương đương 3.1
+        int max = 49; // tương đương 4.9
+        int randomInt = random.nextInt(max - min + 1) + min;
+        return String.valueOf(randomInt / 10f);
+    }
+
+    public String getRandomSold() {
+        return String.valueOf(new Random().nextInt(100) + 1);
+    }
+
+    public List<String> getCategoryString() {
+        List<Category> mCate = getMyCategoryList();
+        if (mCate.isEmpty()) return new ArrayList<>();
+
         List<String> categories = new ArrayList<>();
-        for (Category category : list) {
+        for (Category category : mCate) {
             if (!category.getName().equals("Tất cả")) {
                 categories.add(category.getName());
             }
         }
 
         return categories;
+    }
+
+    public void setCategoryProduct(int position) {
+        if (getMyCategoryList().isEmpty() || submitProduct == null || submitProduct.getValue() == null)
+            return;
+
+        List<Category> categories = getMyCategoryList();
+        submitProduct.getValue().setCategoryId(categories.get(position + 1).getId());
+    }
+
+    public int getCateGorySelected(String cateId) {
+        if (getMyCategoryList().isEmpty())
+            return 0;
+
+        for (Category category : getMyCategoryList()) {
+            if (category.getId().equals(cateId)) {
+                return category.getIndex();
+            }
+        }
+
+        return -1;
     }
 
     public void onDiscountSelected(int discountPercent) {
@@ -170,16 +271,17 @@ public class ProductManagementViewModel extends BaseViewModel {
 
     public void curdVariantTypeUpdate(int type, ProductVariant variant) {
         setLoadingState(dynamicVariants);
-        variant.setUpdateAt(Timestamp.now());
+        variant.setStatus("active");
+        SubmitVariant submitVariant = variant.getSubmitVariant();
+        submitVariant.setUpdateAt(Timestamp.now());
         switch (type) {
             case CREATE:
-                variant.setCreatedAt(Timestamp.now());
-                variant.setStatus("active");
-                addNewVariant(variant);
+                submitVariant.setCreatedAt(Timestamp.now());
+                addNewVariant(submitVariant);
                 break;
 
             case UPDATE:
-                updateVariant(variant);
+                updateVariant(submitVariant);
                 break;
 
             case DELETE:
@@ -223,7 +325,7 @@ public class ProductManagementViewModel extends BaseViewModel {
         }
     };
 
-    public void addNewVariant(ProductVariant variant) {
+    public void addNewVariant(SubmitVariant variant) {
         if (variant == null) {
             onCURDVariant.postValue("Mau hang khong ton tai!");
             return;
@@ -232,7 +334,7 @@ public class ProductManagementViewModel extends BaseViewModel {
         productMnRepo.createVariant(variant, callbackCurdVariant);
     }
 
-    public void updateVariant(ProductVariant variant) {
+    public void updateVariant(SubmitVariant variant) {
         if (variant == null || variant.getId().isEmpty()) {
             onCURDVariant.postValue("Mau hang khong ton tai!");
             return;
@@ -306,10 +408,6 @@ public class ProductManagementViewModel extends BaseViewModel {
         return descProduct;
     }
 
-    public void setDescProduct(MutableLiveData<String> descProduct) {
-        this.descProduct = descProduct;
-    }
-
     public MutableLiveData<Category> getSelectedCategory() {
         return selectedCategory;
     }
@@ -336,15 +434,17 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void setPriceDisplay(String price) {
-        if (price != null && !price.isEmpty()) {
-            try {
-                this.price.setValue(Integer.valueOf(price));
-            } catch (Exception e) {
-                this.price.setValue(0);
-            }
-        } else {
-            this.price.setValue(0);
+        if (submitProduct.getValue() == null || price == null || price.isEmpty())
+            return;
+
+        int mPrice = 0;
+        try {
+            mPrice = Integer.parseInt(price);
+        } catch (Exception e) {
+            mPrice = 0;
         }
+
+        submitProduct.getValue().setPrice(mPrice);
     }
 
     public void setPrice(MutableLiveData<Integer> price) {
@@ -356,10 +456,17 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void setSalePriceDisplay(String price) {
-        if (submitProduct == null || submitProduct.getValue() == null)
+        if (submitProduct == null || submitProduct.getValue() == null|| price == null || price.isEmpty())
             return;
 
-        submitProduct.getValue().setCurdSalePrice(price);
+        int mPrice = 0;
+        try {
+            mPrice = Integer.parseInt(price);
+        } catch (Exception e) {
+            mPrice = 0;
+        }
+
+        submitProduct.getValue().setSalePrice(mPrice);
     }
 
     public MutableLiveData<Product> getSubmitProduct() {
@@ -376,5 +483,13 @@ public class ProductManagementViewModel extends BaseViewModel {
 
     public SingleLiveData<String> getOnCURDVariant() {
         return onCURDVariant;
+    }
+
+    public SingleLiveData<String> getErrorSubmitProduct() {
+        return errorSubmitProduct;
+    }
+
+    public SingleLiveData<String> getOnSubmitProduct() {
+        return onSubmitProduct;
     }
 }

@@ -153,7 +153,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tv_price"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="Đã bán 108"
-                    android:text="@{product.sold}"/>
+                    android:text="@{product.soldDisplay}"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_desc"

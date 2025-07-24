@@ -1,9 +1,16 @@
 package com.example.sportfashionstore.ui.fragment.owner;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
 import com.example.sportfashionstore.commonbase.Resource;
 import com.example.sportfashionstore.databinding.FragmentProductManagementBinding;
@@ -20,6 +27,7 @@ import java.util.List;
 
 public class ProductManagementFragment extends BaseFragmentViewModel<FragmentProductManagementBinding, ProductManagementViewModel> {
     private List<Category> categories = new ArrayList<>();
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected FragmentProductManagementBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {
@@ -34,13 +42,13 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_PRODUCT, item.getId());
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);
-            getActivity().startActivity(intent);
+            launcher.launch(intent);
         });
         binding.rcvHomeProduct.setAdapter(productHomeAdapter);
         binding.btnAddProduct.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.ADD_PRODUCT);
-            getActivity().startActivity(intent);
+            launcher.launch(intent);
         });
         binding.tlCategory.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -91,5 +99,14 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
                 productHomeAdapter.setData(new ArrayList<>());
             }
         });
+
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        viewModel.getProductsByCategory("");
+                    }
+                }
+        );
     }
 }

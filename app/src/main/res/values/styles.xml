@@ -47,9 +47,13 @@
         <item name="android:singleLine">true</item>
         <item name="android:textColor">#000000</item>
         <item name="android:textStyle">normal</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="common_tablayout">
         <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/sarabun_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="tabIndicator">@color/ocean_blue</item>
     </style>
 </resources>

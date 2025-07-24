@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Product implements Serializable {
     @SerializedName("id")
@@ -47,12 +48,6 @@ public class Product implements Serializable {
 
     @SerializedName("size")
     private List<String> sizeList;
-
-    @SerializedName("createdAt")
-    private Timestamp createdAt;
-
-    @SerializedName("updateAt")
-    private Timestamp updateAt;
 
     private List<ProductVariant> productVariants;
 
@@ -147,10 +142,18 @@ public class Product implements Serializable {
     }
 
     public String getSold() {
-        return sold != null ? "Đã bán " + sold : "";
+        return sold != null ? sold : "";
     }
 
     public void setSold(String sold) {
+        this.sold = sold;
+    }
+
+    public String getSoldDisplay() {
+        return sold != null ? "Đã bán " + sold : "";
+    }
+
+    public void setSoldDisplay(String sold) {
         this.sold = sold;
     }
 
@@ -204,19 +207,31 @@ public class Product implements Serializable {
         this.productVariants = productVariants;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public SubmitProduct getSubmitProduct() {
+        SubmitProduct submitProduct = new SubmitProduct();
+        submitProduct.setId(getId());
+        submitProduct.setCategoryId(getCategoryId());
+        submitProduct.setDescription(getDescription());
+        submitProduct.setRating(getRating());
+        submitProduct.setSaleClothes(getSalePrice() > 0);
+        submitProduct.setSold(getSold());
+        submitProduct.setImages(getListImage());
+        submitProduct.setStatus("active");
+        submitProduct.setPrice(getPrice());
+        submitProduct.setSalePrice(getSalePrice());
+
+        return submitProduct;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+    private List<String> getListImage() {
+        if (getProductVariants().isEmpty())
+            return new ArrayList<>();
 
-    public Timestamp getUpdateAt() {
-        return updateAt;
-    }
+        List<String> images = new ArrayList<>();
+        for (ProductVariant variant : getProductVariants()) {
+            images.add(variant.getImage());
+        }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+        return images;
     }
 }
