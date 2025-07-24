@@ -101,7 +101,7 @@ public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, 
         mListener.onDismiss();
     }
 
-    public static interface OnDismissListener {
+    public interface OnDismissListener {
         void  onDismiss();
     }
 }
