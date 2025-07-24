@@ -104,6 +104,8 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
+                        TabLayout.Tab tab = binding.tlCategory.getTabAt(0);
+                        if (tab != null) tab.select();
                         viewModel.getProductsByCategory("");
                     }
                 }

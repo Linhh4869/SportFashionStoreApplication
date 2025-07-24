@@ -270,8 +270,12 @@ public class ProductManagementViewModel extends BaseViewModel {
     }
 
     public void curdVariantTypeUpdate(int type, ProductVariant variant) {
+        if (submitProduct.getValue() == null)
+            return;
+
         setLoadingState(dynamicVariants);
         variant.setStatus("active");
+        variant.setProductId(submitProduct.getValue().getId());
         SubmitVariant submitVariant = variant.getSubmitVariant();
         submitVariant.setUpdateAt(Timestamp.now());
         switch (type) {

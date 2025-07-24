@@ -1,6 +1,5 @@
 package com.example.sportfashionstore.repository;
 
-import androidx.annotation.Nullable;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.app.MyApplication;
@@ -57,7 +56,7 @@ public class OrderRepository {
                 break;
             case Constants.Role.SHIPPER:
                 query = db.collection(Constants.Collection.ORDERS)
-                        .whereGreaterThan("staus", 1)
+                        .whereGreaterThan("status", 1)
                         .whereLessThan("status", 4);
                 break;
             default:
