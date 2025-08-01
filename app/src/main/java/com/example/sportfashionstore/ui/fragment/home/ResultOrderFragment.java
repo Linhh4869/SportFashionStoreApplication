@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.sportfashionstore.commonbase.BaseFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentResultOrderBinding;
 import com.example.sportfashionstore.ui.HomeActivity;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ResultOrderFragment extends BaseFragment<FragmentResultOrderBinding> {
     @Override
     protected FragmentResultOrderBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {

@@ -2,10 +2,9 @@ package com.example.sportfashionstore.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.model.FeatureModel;
 import com.example.sportfashionstore.repository.AuthRepository;
 import com.example.sportfashionstore.repository.UtilityRepository;
@@ -14,23 +13,29 @@ import com.example.sportfashionstore.util.SharePrefHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class PersonalViewModel extends BaseViewModel {
     private final SharePrefHelper sharePrefHelper;
     private final AuthRepository authRepository;
-    private MutableLiveData<String> userName = new MutableLiveData<>("");
-    private UtilityRepository utilityRepository = new UtilityRepository();
-    private MutableLiveData<List<FeatureModel>> accFeatureList = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<FeatureModel>> commonFeatureList = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<Resource<String>> processLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> userName = new MutableLiveData<>("");
+    private final MutableLiveData<List<FeatureModel>> accFeatureList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<FeatureModel>> commonFeatureList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Resource<String>> processLiveData = new MutableLiveData<>();
 
     public MutableLiveData<Resource<String>> getProcessLiveData() {
         return processLiveData;
     }
 
-    public PersonalViewModel() {
-        sharePrefHelper = MyApplication.getSharePrefHelper();
-        authRepository = new AuthRepository();
-        userName.setValue(sharePrefHelper.getUserName());
+    @Inject
+    public PersonalViewModel(AuthRepository authRepository, UtilityRepository utilityRepository, SharePrefHelper sharePrefHelper) {
+        this.sharePrefHelper = sharePrefHelper;
+        this.authRepository = authRepository;
+        userName.setValue(this.sharePrefHelper.getUserName());
         accFeatureList.setValue(utilityRepository.getAccountSettingList());
         commonFeatureList.setValue(utilityRepository.getCommonSettingList());
     }

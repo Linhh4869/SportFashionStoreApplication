@@ -4,9 +4,12 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 
-import com.example.sportfashionstore.commonbase.BaseActivity;
+import com.example.sportfashionstore.ui.commonbase.BaseActivity;
 import com.example.sportfashionstore.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public static final String SHOW_STANDBY = "show_standby";
 

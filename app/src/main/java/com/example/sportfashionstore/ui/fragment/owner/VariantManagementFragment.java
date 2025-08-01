@@ -9,17 +9,19 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseBottomSheetFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseBottomSheetFragment;
 import com.example.sportfashionstore.databinding.FragmentCurdVariantBinding;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.model.SizeModel;
 import com.example.sportfashionstore.ui.adapter.SizeVariantAdapter;
-import com.example.sportfashionstore.ui.widget.CommonTextInput;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.VariantManagementViewModel;
 
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentCurdVariantBinding, VariantManagementViewModel> {
     private ProductVariant variant;
     private final OnItemClickListener<ProductVariant> listener;
@@ -62,15 +64,12 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
             binding.btnCurdVariant.setText("Chỉnh sửa mẫu hàng hóa");
         }
 
-        binding.btnCurdVariant.setOnClickListener(v -> {
-            viewModel.onSubmitVariant();
-        });
+        binding.btnCurdVariant.setOnClickListener(v -> viewModel.onSubmitVariant());
 
         binding.btnClose.setOnClickListener(v -> dismiss());
 
-        SizeVariantAdapter sizeVariantAdapter = new SizeVariantAdapter(item -> {
-            viewModel.getSizeListSelected().get(item.getPosition()).setSelected(item.isSelected());
-        });
+        SizeVariantAdapter sizeVariantAdapter = new SizeVariantAdapter(
+                item -> viewModel.getSizeListSelected().get(item.getPosition()).setSelected(item.isSelected()));
         List<SizeModel> dataSize = variant != null ? viewModel.getAllSizeOfVariant(variant.getSize()) : viewModel.getAllSize();
         sizeVariantAdapter.setData(dataSize);
         binding.rcvSize.setAdapter(sizeVariantAdapter);
@@ -79,21 +78,17 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
 
     @Override
     protected void observerData() {
-        viewModel.getIsValidColor().observe(getViewLifecycleOwner(), isValid -> {
-            binding.inputColor.setErrorVisible(!isValid);
-        });
+        viewModel.getIsValidColor().observe(getViewLifecycleOwner(),
+                isValid -> binding.inputColor.setErrorVisible(!isValid));
 
-        viewModel.getIsValidQuantity().observe(getViewLifecycleOwner(), isValid -> {
-            binding.inputInv.setErrorVisible(!isValid);
-        });
+        viewModel.getIsValidQuantity().observe(getViewLifecycleOwner(),
+                isValid -> binding.inputInv.setErrorVisible(!isValid));
 
-        viewModel.getIsValidImage().observe(getViewLifecycleOwner(), isValid -> {
-            binding.inputUrl.setErrorVisible(!isValid);
-        });
+        viewModel.getIsValidImage().observe(getViewLifecycleOwner(),
+                isValid -> binding.inputUrl.setErrorVisible(!isValid));
 
-        viewModel.getIsValidSizeList().observe(getViewLifecycleOwner(), isValid -> {
-            binding.tvErrorSize.setVisibility(isValid ? View.GONE : View.VISIBLE);
-        });
+        viewModel.getIsValidSizeList().observe(getViewLifecycleOwner(),
+                isValid -> binding.tvErrorSize.setVisibility(isValid ? View.GONE : View.VISIBLE));
 
         viewModel.getResultVariant().observe(getViewLifecycleOwner(), variant -> {
             if (viewModel.isValidSubmitVariant()) {
@@ -104,16 +99,10 @@ public class VariantManagementFragment extends BaseBottomSheetFragment<FragmentC
     }
 
     private void observerInputField() {
-        binding.inputColor.setOnTextChangedListener(color -> {
-            viewModel.getSubmitVariant().setDesc(color);
-        });
+        binding.inputColor.setOnTextChangedListener(color -> viewModel.getSubmitVariant().setDesc(color));
 
-        binding.inputInv.setOnTextChangedListener(quantity -> {
-            viewModel.getSubmitVariant().setInventory(quantity);
-        });
+        binding.inputInv.setOnTextChangedListener(quantity -> viewModel.getSubmitVariant().setInventory(quantity));
 
-        binding.inputUrl.setOnTextChangedListener(url -> {
-            viewModel.getSubmitVariant().setImage(url);
-        });
+        binding.inputUrl.setOnTextChangedListener(url -> viewModel.getSubmitVariant().setImage(url));
     }
 }

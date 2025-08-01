@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.commonbase;
+package com.example.sportfashionstore.ui.commonbase;
 
 public class Resource<T> {
     public enum State {

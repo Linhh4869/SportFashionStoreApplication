@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.commonbase;
+package com.example.sportfashionstore.ui.commonbase;
 
 import android.app.Dialog;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.sportfashionstore.commonbase;
+package com.example.sportfashionstore.ui.commonbase;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

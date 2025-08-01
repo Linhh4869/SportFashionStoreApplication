@@ -83,36 +83,36 @@ public class CommonTextInput extends ConstraintLayout {
 
         // Áp dụng các thuộc tính từ XML
         if (attrs != null) {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TextInputView);
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTextInput);
 
             // Xử lý title
-            boolean titleVisible = typedArray.getBoolean(R.styleable.TextInputView_titleVisible, true);
-            String titleText = typedArray.getString(R.styleable.TextInputView_titleText);
+            boolean titleVisible = typedArray.getBoolean(R.styleable.CommonTextInput_titleVisible, true);
+            String titleText = typedArray.getString(R.styleable.CommonTextInput_titleText);
             setTitleVisible(titleVisible);
             if (titleText != null) {
                 setTitleText(titleText);
             }
 
             // Xử lý hint cho EditText
-            String hintText = typedArray.getString(R.styleable.TextInputView_hintText);
+            String hintText = typedArray.getString(R.styleable.CommonTextInput_hintText);
             if (hintText != null) {
                 setHintText(hintText);
             }
 
             // Xử lý input type
-            int inputType = typedArray.getInt(R.styleable.TextInputView_inputType, InputType.TYPE_CLASS_TEXT);
+            int inputType = typedArray.getInt(R.styleable.CommonTextInput_inputType, InputType.TYPE_CLASS_TEXT);
             setInputType(inputType);
 
             // Xử lý error
-            boolean errorVisible = typedArray.getBoolean(R.styleable.TextInputView_errorVisible, false);
-            String errorText = typedArray.getString(R.styleable.TextInputView_errorText);
+            boolean errorVisible = typedArray.getBoolean(R.styleable.CommonTextInput_errorVisible, false);
+            String errorText = typedArray.getString(R.styleable.CommonTextInput_errorText);
             setErrorVisible(errorVisible);
             if (errorText != null) {
                 setErrorText(errorText);
             }
 
             // Xử lý text cho EditText
-            String text = typedArray.getString(R.styleable.TextInputView_text);
+            String text = typedArray.getString(R.styleable.CommonTextInput_text);
             if (text != null) {
                 setText(text);
             }
@@ -153,7 +153,7 @@ public class CommonTextInput extends ConstraintLayout {
 
     // Phương thức để lấy text từ EditText
     public String getText() {
-        return edtContent.getText().toString();
+        return edtContent.getText() != null ? edtContent.getText().toString() : "";
     }
 
     // Phương thức để set text cho EditText

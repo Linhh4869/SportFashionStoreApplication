@@ -2,26 +2,31 @@ package com.example.sportfashionstore.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.repository.ProductRepository;
 import com.example.sportfashionstore.util.SharePrefHelper;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class HomeViewModel extends BaseViewModel {
-    private final SharePrefHelper sharePrefHelper;
     private final ProductRepository productRepository;
+    private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<List<Product>>> productLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Product>> productList = new MutableLiveData<>(null);
     private final MutableLiveData<String> userName = new MutableLiveData<>("");
 
-    public HomeViewModel() {
-        this.sharePrefHelper = MyApplication.getSharePrefHelper();
-        productRepository = new ProductRepository();
+    @Inject
+    public HomeViewModel(ProductRepository productRepository, SharePrefHelper sharePrefHelper) {
+        this.productRepository = productRepository;
+        this.sharePrefHelper = sharePrefHelper;
         userName.setValue(this.sharePrefHelper.getUserName());
     }
 
@@ -40,6 +45,10 @@ public class HomeViewModel extends BaseViewModel {
                 productList.setValue(null);
             }
         });
+    }
+
+    public String getCurrentRole() {
+        return this.sharePrefHelper.getRole();
     }
 
     public MutableLiveData<String> getUserName() {

@@ -15,7 +15,7 @@
         <attr name="title" format="string"/>
     </declare-styleable>
 
-    <declare-styleable name="TextInputView">
+    <declare-styleable name="CommonTextInput">
         <!-- Thuộc tính cho title -->
         <attr name="titleVisible" format="boolean" />
         <attr name="titleText" format="string" />

@@ -1,8 +1,6 @@
 package com.example.sportfashionstore.ui.dialog;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -11,10 +9,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.sportfashionstore.commonbase.BaseDialog;
+import com.example.sportfashionstore.ui.commonbase.BaseDialog;
 import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.DialogUpdateAddressBinding;
-import com.example.sportfashionstore.ui.fragment.home.AddressFragment;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
 public class UpdateAddressDialog extends BaseDialog<DialogUpdateAddressBinding, CheckoutViewModel> {

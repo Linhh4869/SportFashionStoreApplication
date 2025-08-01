@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemChoosingClothesBinding;
 
 public class ChoosingImageAdapter extends BaseAdapter<String, ItemChoosingClothesBinding> {

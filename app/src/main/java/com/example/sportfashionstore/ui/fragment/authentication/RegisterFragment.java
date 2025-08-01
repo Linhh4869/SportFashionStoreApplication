@@ -10,12 +10,15 @@ import androidx.navigation.Navigation;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.ui.HomeActivity;
-import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseFragmentViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.databinding.FragmentRegisterBinding;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.AuthViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class RegisterFragment extends BaseFragmentViewModel<FragmentRegisterBinding, AuthViewModel> {
 
     @Override

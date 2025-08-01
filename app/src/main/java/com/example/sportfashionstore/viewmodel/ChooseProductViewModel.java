@@ -4,16 +4,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
-import com.example.sportfashionstore.commonbase.SingleLiveData;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.SingleLiveData;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.model.SizeModel;
 import com.example.sportfashionstore.repository.CartRepository;
 import com.example.sportfashionstore.repository.ProductRepository;
-import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.StringUtil;
 import com.google.firebase.Timestamp;
 
@@ -24,6 +23,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class ChooseProductViewModel extends BaseViewModel {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
@@ -39,10 +43,10 @@ public class ChooseProductViewModel extends BaseViewModel {
     private final SingleLiveData<String> addToCart = new SingleLiveData<>();
     private final LiveData<List<CartEntity>> allCartItems;
 
-
-    public ChooseProductViewModel() {
-        productRepository = new ProductRepository();
-        cartRepository = new CartRepository();
+    @Inject
+    public ChooseProductViewModel(ProductRepository productRepository, CartRepository cartRepository) {
+        this.productRepository = productRepository;
+        this.cartRepository = cartRepository;
         allCartItems = cartRepository.getAllCartItems();
     }
 

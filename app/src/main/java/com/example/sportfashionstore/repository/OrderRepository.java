@@ -2,26 +2,26 @@ package com.example.sportfashionstore.repository;
 
 
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.Order;
 import com.example.sportfashionstore.model.OrderStatus;
-import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.util.Constants;
+import com.example.sportfashionstore.util.SharePrefHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class OrderRepository {
     private final FirebaseFirestore db;
     private final FirebaseAuth firebaseAuth;
@@ -29,11 +29,12 @@ public class OrderRepository {
     private ListenerRegistration listenerRegistration;
     String currentUser;
 
-    public OrderRepository() {
-        this.db = FirebaseFirestore.getInstance();
+    @Inject
+    public OrderRepository(FirebaseFirestore db, SharePrefHelper sharePrefHelper) {
+        this.db = db;
         this.firebaseAuth = FirebaseAuth.getInstance();
         statusMap = new HashMap<>();
-        currentUser = MyApplication.getSharePrefHelper().getRole();
+        currentUser = sharePrefHelper.getRole();
         statusMap.put(0, new OrderStatus("Đang chờ xử lý", R.color.my_orange));
         statusMap.put(1, new OrderStatus("Đơn hàng đang chờ vận chuyển", android.R.color.holo_blue_light));
         statusMap.put(2, new OrderStatus("Đơn hàng đang được vận chuyển", android.R.color.holo_green_light));

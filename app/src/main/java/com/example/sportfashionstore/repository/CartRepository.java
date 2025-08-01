@@ -2,13 +2,10 @@ package com.example.sportfashionstore.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.data.AppDatabase;
 import com.example.sportfashionstore.data.dao.CartDao;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.model.Order;
-import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.util.Constants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +18,10 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CartRepository {
     private final FirebaseFirestore db;
     private final CartDao cartDao;
@@ -28,11 +29,11 @@ public class CartRepository {
     private final ExecutorService executorService;
     private final FirebaseAuth firebaseAuth;
 
-    public CartRepository() {
-        this.db = FirebaseFirestore.getInstance();
+    @Inject
+    public CartRepository(FirebaseFirestore firestore, CartDao cartDao) {
+        this.db = firestore;
         firebaseAuth = FirebaseAuth.getInstance();
-        AppDatabase database = MyApplication.getAppDatabase();
-        cartDao = database.cartDao();
+        this.cartDao = cartDao;
         allCartItems = cartDao.getAllCartItems();
         executorService = Executors.newSingleThreadExecutor();
     }

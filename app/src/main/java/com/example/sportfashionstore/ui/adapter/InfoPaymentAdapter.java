@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemInfoPaymentBinding;
 import com.example.sportfashionstore.model.InfoPayment;
 import com.example.sportfashionstore.util.Helper;

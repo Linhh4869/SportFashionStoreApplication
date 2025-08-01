@@ -4,19 +4,23 @@ import androidx.annotation.NonNull;
 
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.model.StripePaymentModel;
-import com.example.sportfashionstore.network.ApiClient;
 import com.example.sportfashionstore.network.StripeApiService;
 import com.example.sportfashionstore.util.Constants;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class StripeRepository {
     private final StripeApiService apiService;
 
-    public StripeRepository() {
-        apiService = ApiClient.getClient().create(StripeApiService.class);
+    @Inject
+    public StripeRepository(StripeApiService stripeApiService) {
+        apiService = stripeApiService;
     }
 
     public void getCustomer(DataStateCallback<StripePaymentModel> callback) {

@@ -1,11 +1,10 @@
-package com.example.sportfashionstore.commonbase;
+package com.example.sportfashionstore.ui.commonbase;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 

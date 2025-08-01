@@ -3,16 +3,13 @@ package com.example.sportfashionstore.ui.fragment.owner;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 
-import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseFragmentViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.databinding.FragmentProductManagementBinding;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.ui.CRUDProductActivity;
@@ -20,11 +17,13 @@ import com.example.sportfashionstore.ui.adapter.ProductHomeAdapter;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.viewmodel.ProductManagementViewModel;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ProductManagementFragment extends BaseFragmentViewModel<FragmentProductManagementBinding, ProductManagementViewModel> {
     private List<Category> categories = new ArrayList<>();
     private ActivityResultLauncher<Intent> launcher;
@@ -38,7 +37,7 @@ public class ProductManagementFragment extends BaseFragmentViewModel<FragmentPro
     protected void setupUi() {
         binding.setViewModel(viewModel);
         viewModel.getAllCategoryList();
-        ProductHomeAdapter productHomeAdapter = new ProductHomeAdapter(item -> {
+        ProductHomeAdapter productHomeAdapter = new ProductHomeAdapter(viewModel.getCurrentRole(), item -> {
             Intent intent = new Intent(getActivity(), CRUDProductActivity.class);
             intent.putExtra(CRUDProductActivity.KEY_PRODUCT, item.getId());
             intent.putExtra(CRUDProductActivity.KEY_CURD, Constants.EDIT_PRODUCT);

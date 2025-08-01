@@ -9,10 +9,15 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ImageRepository {
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
+    @Inject
     public ImageRepository() {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();

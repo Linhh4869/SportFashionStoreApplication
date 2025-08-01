@@ -12,14 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ProductRepository {
     private final FirebaseFirestore db;
-    private DocumentSnapshot lastVisible;
     private final AtomicBoolean hasMoreData = new AtomicBoolean(true);
     private final AtomicBoolean isLoading = new AtomicBoolean(false);
 
-    public ProductRepository() {
-        this.db = FirebaseFirestore.getInstance();
+    @Inject
+    public ProductRepository(FirebaseFirestore firebaseFirestore) {
+        this.db = firebaseFirestore;
     }
 
     public void getProducts(DataStateCallback<List<Product>> callback) {
@@ -28,15 +32,9 @@ public class ProductRepository {
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .limit(10);
 
-        if (lastVisible != null) {
-            query = query.startAfter(lastVisible);
-        }
-
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             List<Product> products = new ArrayList<>();
             if (!queryDocumentSnapshots.isEmpty()) {
-                lastVisible = queryDocumentSnapshots.getDocuments()
-                        .get(queryDocumentSnapshots.size() - 1);
                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                     Product product = document.toObject(Product.class);
                     if (product != null) {
@@ -55,7 +53,6 @@ public class ProductRepository {
     }
 
     public void resetPagination() {
-        lastVisible = null;
         hasMoreData.set(true);
         isLoading.set(false);
     }

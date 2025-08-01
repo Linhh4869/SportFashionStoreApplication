@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemOrderStatusBinding;
 import com.example.sportfashionstore.model.Order;
 
@@ -25,7 +23,6 @@ public class OrderAdapter extends BaseAdapter<Order, ItemOrderStatusBinding> {
     @Override
     public void bind(ItemOrderStatusBinding binding, Order item, int position) {
         binding.setOrder(item);
-//        binding.tvContentStatus.setText(item.getContentStatus().getDesc());
         binding.tvContentStatus.setTextColor(item.getContentStatus().getTextColor());
 
         Glide.with(binding.getRoot().getContext())

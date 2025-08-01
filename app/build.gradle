@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -50,8 +51,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -105,4 +106,8 @@ dependencies {
 
     // Lifecycles only (without ViewModel or LiveData)
     implementation libs.lifecycle.runtime.ktx
+
+    // DI: dagger hilt
+    implementation libs.hilt.android
+    annotationProcessor libs.hilt.android.compiler
 }

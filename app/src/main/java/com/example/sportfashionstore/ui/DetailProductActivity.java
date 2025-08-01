@@ -9,8 +9,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseActivityViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.databinding.ActivityProductBinding;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class DetailProductActivity extends BaseActivityViewModel<ActivityProductBinding, ChooseProductViewModel> {
     public static final String KEY_PRODUCT_ITEM = "key_product_item";
     private CommonImageAdapter commonImageAdapter;
@@ -62,17 +65,11 @@ public class DetailProductActivity extends BaseActivityViewModel<ActivityProduct
             choosingImageAdapter.setSelectedPosition(position);
         });
 
-        binding.btnBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
 
-        binding.btnCart.setOnClickListener(v -> {
-            showBottomSheet(Constants.ADD_CART);
-        });
+        binding.btnCart.setOnClickListener(v -> showBottomSheet(Constants.ADD_CART));
 
-        binding.btnPay.setOnClickListener(v -> {
-            showBottomSheet(Constants.PAY_NOW);
-        });
+        binding.btnPay.setOnClickListener(v -> showBottomSheet(Constants.PAY_NOW));
 
         binding.btnViewCart.setOnClickListener(v -> {
             Intent intent = new Intent(this, HomeActivity.class);

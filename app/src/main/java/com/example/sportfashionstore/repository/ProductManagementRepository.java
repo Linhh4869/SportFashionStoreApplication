@@ -21,6 +21,10 @@ import com.google.firebase.firestore.WriteBatch;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ProductManagementRepository {
     private WriteBatch batch;
     private final FirebaseFirestore db;
@@ -28,8 +32,9 @@ public class ProductManagementRepository {
     private final CollectionReference variantRef;
     private final CollectionReference categoryRef;
 
-    public ProductManagementRepository() {
-        db = FirebaseFirestore.getInstance();
+    @Inject
+    public ProductManagementRepository(FirebaseFirestore db) {
+        this.db = db;
         productRef = db.collection(Constants.Collection.PRODUCTS);
         variantRef = db.collection(Constants.Collection.PRODUCT_VARIANTS);
         categoryRef = db.collection(Constants.Collection.CATEGORIES);

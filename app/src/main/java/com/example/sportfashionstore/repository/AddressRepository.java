@@ -2,7 +2,6 @@ package com.example.sportfashionstore.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
 import com.example.sportfashionstore.data.AppDatabase;
 import com.example.sportfashionstore.data.dao.AddressDao;
@@ -12,14 +11,18 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class AddressRepository {
     private final AddressDao addressDao;
     private final LiveData<List<AddressEntity>> allAddress;
     private final ExecutorService executorService;
 
-    public AddressRepository() {
-        AppDatabase database = MyApplication.getAppDatabase();
-        addressDao = database.addressDao();
+    @Inject
+    public AddressRepository(AppDatabase mAppDatabase) {
+        addressDao = mAppDatabase.addressDao();
         allAddress = addressDao.getAllAddress();
         executorService = Executors.newSingleThreadExecutor();
     }

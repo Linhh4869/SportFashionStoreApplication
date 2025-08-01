@@ -2,8 +2,8 @@ package com.example.sportfashionstore.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.SingleLiveData;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.SingleLiveData;
 import com.example.sportfashionstore.model.ProductVariant;
 import com.example.sportfashionstore.model.SizeModel;
 import com.example.sportfashionstore.util.Helper;
@@ -13,16 +13,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class VariantManagementViewModel extends BaseViewModel {
     private final ArrayList<String> defaultSize = new ArrayList<>(Arrays.asList("M", "L", "XL", "2XL", "3XL"));
-    private MutableLiveData<ProductVariant> submitVariant = new MutableLiveData<>(new ProductVariant());
+    private final MutableLiveData<ProductVariant> submitVariant = new MutableLiveData<>(new ProductVariant());
     private MutableLiveData<List<String>> submitSizeList = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<Boolean> isValidColor = new MutableLiveData<>(true);
-    private MutableLiveData<Boolean> isValidQuantity = new MutableLiveData<>(true);
-    private MutableLiveData<Boolean> isValidSizeList = new MutableLiveData<>(true);
-    private MutableLiveData<Boolean> isValidImage = new MutableLiveData<>(true);
-    private MutableLiveData<List<SizeModel>> sizeListSelected = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isValidColor = new MutableLiveData<>(true);
+    private final MutableLiveData<Boolean> isValidQuantity = new MutableLiveData<>(true);
+    private final MutableLiveData<Boolean> isValidSizeList = new MutableLiveData<>(true);
+    private final MutableLiveData<Boolean> isValidImage = new MutableLiveData<>(true);
+    private final MutableLiveData<List<SizeModel>> sizeListSelected = new MutableLiveData<>();
     private SingleLiveData<ProductVariant> resultVariant = new SingleLiveData<>();
+
+    @Inject
+    public VariantManagementViewModel() {
+
+    }
 
     public List<SizeModel> getAllSize() {
         List<SizeModel> allSize = new ArrayList<>();

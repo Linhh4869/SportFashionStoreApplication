@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseActivityViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.ActivityCheckoutBinding;
 import com.example.sportfashionstore.ui.adapter.InfoPaymentAdapter;
@@ -26,6 +26,9 @@ import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.*;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBinding, CheckoutViewModel> {
     public static final String KEY_DATA = "CART_DATA";
     public static final String KEY_CLEAR = "CART_CLEAR";
@@ -43,25 +46,15 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
         viewModel.getInfoPayment(id);
         viewModel.getChooseAddress();
 
-        binding.btnBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
 
-        binding.layoutSelectedAddress.setOnClickListener(v -> {
-            showBottomSheet();
-        });
+        binding.layoutSelectedAddress.setOnClickListener(v -> showBottomSheet());
 
-        binding.layoutChooseAddress.setOnClickListener(v -> {
-            showBottomSheet();
-        });
+        binding.layoutChooseAddress.setOnClickListener(v -> showBottomSheet());
 
-        binding.llPayHome.setOnClickListener(v -> {
-            viewModel.setPaymentForm(Constants.CASH_ON_DELIVERY);
-        });
+        binding.llPayHome.setOnClickListener(v -> viewModel.setPaymentForm(Constants.CASH_ON_DELIVERY));
 
-        binding.llPayCredit.setOnClickListener(v -> {
-            viewModel.setPaymentForm(Constants.PAY_WITH_CREDIT);
-        });
+        binding.llPayCredit.setOnClickListener(v -> viewModel.setPaymentForm(Constants.PAY_WITH_CREDIT));
     }
 
     @Override
@@ -121,9 +114,7 @@ public class CheckoutActivity extends BaseActivityViewModel<ActivityCheckoutBind
             binding.tvAddress.setText(address.getAddress());
         });
 
-        viewModel.getEnablePayButton().observe(this, isEnable -> {
-            binding.btnCheckout.setEnabled(isEnable);
-        });
+        viewModel.getEnablePayButton().observe(this, isEnable -> binding.btnCheckout.setEnabled(isEnable));
 
         viewModel.getSaveOrderLiveData().observe(this, resource -> {
             if (resource.state.equals(Resource.State.SUCCESS) && resource.data != null) {

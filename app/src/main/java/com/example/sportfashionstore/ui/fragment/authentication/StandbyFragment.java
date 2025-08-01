@@ -6,9 +6,12 @@ import android.view.ViewGroup;
 import androidx.navigation.Navigation;
 
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentStandbyBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class StandbyFragment extends BaseFragment<FragmentStandbyBinding> {
     @Override
     protected FragmentStandbyBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {

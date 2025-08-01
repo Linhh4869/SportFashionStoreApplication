@@ -5,19 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
+import com.example.sportfashionstore.ui.commonbase.BaseFragmentViewModel;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.FragmentCartBinding;
 import com.example.sportfashionstore.ui.CheckoutActivity;
 import com.example.sportfashionstore.ui.adapter.CartAdapter;
-import com.example.sportfashionstore.viewmodel.AuthViewModel;
 import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 
-import java.util.List;
-import java.util.Objects;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class CartFragment extends BaseFragmentViewModel<FragmentCartBinding, ChooseProductViewModel> {
     @Override
     protected FragmentCartBinding getViewBinding(LayoutInflater inflater, ViewGroup container) {

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseBottomSheetFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseBottomSheetFragment;
 import com.example.sportfashionstore.databinding.FragmentBottomSheetChooseProductBinding;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
@@ -25,6 +25,9 @@ import com.example.sportfashionstore.viewmodel.ChooseProductViewModel;
 import java.util.List;
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBottomSheetChooseProductBinding, ChooseProductViewModel> {
     private SizeAdapter sizeAdapter;
     private int isShowCart = -1;
@@ -66,17 +69,11 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBotto
             isShowCart = 1;
         }
 
-        binding.btnDecrease.setOnClickListener(v -> {
-            viewModel.decreaseQuantity();
-        });
+        binding.btnDecrease.setOnClickListener(v -> viewModel.decreaseQuantity());
 
-        binding.btnIncrease.setOnClickListener(v -> {
-            viewModel.increaseQuantity();
-        });
+        binding.btnIncrease.setOnClickListener(v -> viewModel.increaseQuantity());
 
-        binding.btnClose.setOnClickListener(v -> {
-            dismiss();
-        });
+        binding.btnClose.setOnClickListener(v -> dismiss());
 
         binding.btnPay.setOnClickListener(v -> {
             dismiss();
@@ -127,12 +124,8 @@ public class ChooseProductFragment extends BaseBottomSheetFragment<FragmentBotto
             getContext().startActivity(intent);
         });
 
-        viewModel.addToCartSuccess().observe(getViewLifecycleOwner(), message -> {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        });
+        viewModel.addToCartSuccess().observe(getViewLifecycleOwner(), message -> Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
 
-        viewModel.getEnablePayButton().observe(getViewLifecycleOwner(), enableButton -> {
-            binding.btnPay.setEnabled(enableButton);
-        });
+        viewModel.getEnablePayButton().observe(getViewLifecycleOwner(), enableButton -> binding.btnPay.setEnabled(enableButton));
     }
 }

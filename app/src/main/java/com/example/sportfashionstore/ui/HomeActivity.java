@@ -10,13 +10,19 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.app.MyApplication;
-import com.example.sportfashionstore.commonbase.BaseActivity;
+import com.example.sportfashionstore.ui.commonbase.BaseActivity;
 import com.example.sportfashionstore.databinding.ActivityHomeBinding;
 import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.SharePrefHelper;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
+    @Inject
+    SharePrefHelper sharePrefHelper;
     private boolean shouldExitApp = false;
     public static String KEY_SCREEN = "key_screen";
     private NavController navController;
@@ -36,7 +42,6 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
             }
         });
 
-        SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
         currentRole = sharePrefHelper.getRole();
 
         try {
@@ -87,22 +92,20 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
     private void setGraph() {
         NavInflater navInflater = navController.getNavInflater();
         NavGraph navGraph;
-        int menuId;
-
-        switch (currentRole) {
-            case Constants.Role.OWNER:
+        int menuId = switch (currentRole) {
+            case Constants.Role.OWNER -> {
                 navGraph = navInflater.inflate(R.navigation.nav_graph_owner_store);
-                menuId = R.menu.bottom_nav_owner;
-                break;
-            case Constants.Role.SHIPPER:
+                yield R.menu.bottom_nav_owner;
+            }
+            case Constants.Role.SHIPPER -> {
                 navGraph = navInflater.inflate(R.navigation.nav_graph_shipper);
-                menuId = R.menu.bottom_nav_shipper;
-                break;
-            default:
+                yield R.menu.bottom_nav_shipper;
+            }
+            default -> {
                 navGraph = navInflater.inflate(R.navigation.nav_graph_home);
-                menuId = R.menu.bottom_nav_menu;
-                break;
-        }
+                yield R.menu.bottom_nav_menu;
+            }
+        };
 
         navController.setGraph(navGraph);
         binding.bottomNavigation.getMenu().clear();

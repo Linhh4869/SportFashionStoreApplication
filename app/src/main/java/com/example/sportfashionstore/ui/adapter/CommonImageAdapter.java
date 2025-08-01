@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemCommonImageBinding;
 
 public class CommonImageAdapter extends BaseAdapter<String, ItemCommonImageBinding> {

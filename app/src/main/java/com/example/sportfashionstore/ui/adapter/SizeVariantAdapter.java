@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemSizeBinding;
 import com.example.sportfashionstore.model.SizeModel;
 

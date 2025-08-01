@@ -6,10 +6,9 @@ import android.util.Patterns;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.model.User;
 import com.example.sportfashionstore.repository.AuthRepository;
 import com.example.sportfashionstore.util.Constants;
@@ -20,8 +19,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AuthViewModel extends BaseViewModel {
-    private final AuthRepository authRepository = new AuthRepository();
+    private final AuthRepository authRepository;
     private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<FirebaseUser>> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<Resource<User>> userLoginLiveData = new MutableLiveData<>();
@@ -36,8 +40,10 @@ public class AuthViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> hideErrorAddress = new MutableLiveData<>(true);
     private final MutableLiveData<String> selectedRole = new MutableLiveData<>(Constants.Role.BUYER);
 
-    public AuthViewModel() {
-        sharePrefHelper = MyApplication.getSharePrefHelper();
+    @Inject
+    public AuthViewModel(SharePrefHelper sharePrefHelper, AuthRepository authRepository) {
+        this.authRepository = authRepository;
+        this.sharePrefHelper = sharePrefHelper;
         emailLogin.setValue(sharePrefHelper.getEmail());
     }
 

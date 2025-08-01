@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.ItemAddressBinding;
 

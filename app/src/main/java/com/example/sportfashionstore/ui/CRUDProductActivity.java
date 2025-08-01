@@ -6,8 +6,8 @@ import static com.example.sportfashionstore.util.Constants.UPDATE;
 
 import android.content.Intent;
 
-import com.example.sportfashionstore.commonbase.BaseActivityViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseActivityViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.databinding.ActivityCrudProductBinding;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
@@ -18,13 +18,14 @@ import com.example.sportfashionstore.util.Constants;
 import com.example.sportfashionstore.util.Helper;
 import com.example.sportfashionstore.viewmodel.ProductManagementViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProductBinding, ProductManagementViewModel> {
     public static final String KEY_CURD = "curd";
     public static final String KEY_PRODUCT = "product";
-    public static final String KEY_CATEGORIES = "categories";
     private String typeCurd = Constants.ADD_PRODUCT;
     private VariantAdapter variantAdapter;
-    private Product product;
     private boolean addNewProduct;
 
     @Override
@@ -62,37 +63,21 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
             }
         });
         binding.rcvVariant.setAdapter(variantAdapter);
-        binding.btn25.setOnClickListener(v -> {
-            onChangeDiscount(25);
-        });
+        binding.btn25.setOnClickListener(v -> onChangeDiscount(25));
 
-        binding.btn50.setOnClickListener(v -> {
-            onChangeDiscount(50);
-        });
+        binding.btn50.setOnClickListener(v -> onChangeDiscount(50));
 
-        binding.btn75.setOnClickListener(v -> {
-            onChangeDiscount(75);
-        });
+        binding.btn75.setOnClickListener(v -> onChangeDiscount(75));
 
-        binding.btnZeroSale.setOnClickListener(v -> {
-            onChangeDiscount(0);
-        });
+        binding.btnZeroSale.setOnClickListener(v -> onChangeDiscount(0));
 
-        binding.btnBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
 
-        binding.btnAddVariant.setOnClickListener(v -> {
-            showManagementVariantBottomSheet(Constants.ADD_VARIANT, null, CREATE);
-        });
+        binding.btnAddVariant.setOnClickListener(v -> showManagementVariantBottomSheet(Constants.ADD_VARIANT, null, CREATE));
 
-        binding.inputPrice.setOnTextChangedListener(text -> {
-            viewModel.setPriceDisplay(text);
-        });
+        binding.inputPrice.setOnTextChangedListener(text -> viewModel.setPriceDisplay(text));
 
-        binding.inputSalePrice.setOnTextChangedListener(sale -> {
-            viewModel.setSalePriceDisplay(sale);
-        });
+        binding.inputSalePrice.setOnTextChangedListener(sale -> viewModel.setSalePriceDisplay(sale));
 
         binding.btnCurdProduct.setOnClickListener(v -> {
             viewModel.setCategoryProduct(binding.spinnerCategory.getActualSelectItemPosition());
@@ -150,9 +135,7 @@ public class CRUDProductActivity extends BaseActivityViewModel<ActivityCrudProdu
         new CommonConfirmDialog(this)
                 .setContent("Bạn có chắc chắn muốn xóa mẫu hàng hóa này?")
                 .setCancelable(true)
-                .setOnConfirmListener(() -> {
-                    curdVariant(DELETE, variant, position);
-                })
+                .setOnConfirmListener(() -> curdVariant(DELETE, variant, position))
                 .show();
     }
 

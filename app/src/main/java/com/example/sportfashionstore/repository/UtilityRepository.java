@@ -7,7 +7,17 @@ import com.example.sportfashionstore.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class UtilityRepository {
+
+    @Inject
+    public UtilityRepository() {
+
+    }
+
     public List<FeatureModel> getAccountSettingList() {
         List<FeatureModel> accSettingList = new ArrayList<>();
         accSettingList.add(new FeatureModel("Đổi vai trò", R.drawable.change_role_icon, Constants.Setting.CHANGE_ROLE));

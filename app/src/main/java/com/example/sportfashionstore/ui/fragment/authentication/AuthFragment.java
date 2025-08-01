@@ -3,9 +3,12 @@ package com.example.sportfashionstore.ui.fragment.authentication;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.sportfashionstore.commonbase.BaseFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseFragment;
 import com.example.sportfashionstore.databinding.FragmentAuthBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AuthFragment extends BaseFragment<FragmentAuthBinding> {
 
     @Override

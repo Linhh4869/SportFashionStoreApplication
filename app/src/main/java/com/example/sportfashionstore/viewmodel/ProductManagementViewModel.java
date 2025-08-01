@@ -6,11 +6,10 @@ import static com.example.sportfashionstore.util.Constants.UPDATE;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
-import com.example.sportfashionstore.commonbase.SingleLiveData;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.SingleLiveData;
 import com.example.sportfashionstore.model.Category;
 import com.example.sportfashionstore.model.Product;
 import com.example.sportfashionstore.model.ProductVariant;
@@ -27,6 +26,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class ProductManagementViewModel extends BaseViewModel {
     private final ProductManagementRepository productMnRepo;
     private final SharePrefHelper sharePrefHelper;
@@ -51,10 +55,11 @@ public class ProductManagementViewModel extends BaseViewModel {
     private SingleLiveData<String> errorSubmitProduct = new SingleLiveData<>();
     private SingleLiveData<String> onSubmitProduct = new SingleLiveData<>();
 
-    public ProductManagementViewModel() {
-        productMnRepo = new ProductManagementRepository();
-        sharePrefHelper = MyApplication.getSharePrefHelper();
-        userName.setValue(MyApplication.getSharePrefHelper().getUserName());
+    @Inject
+    public ProductManagementViewModel(ProductManagementRepository productMnRepo, SharePrefHelper sharePrefHelper) {
+        this.productMnRepo = productMnRepo;
+        this.sharePrefHelper = sharePrefHelper;
+        userName.setValue(sharePrefHelper.getUserName());
     }
 
     public MutableLiveData<String> getUserName() {
@@ -495,5 +500,9 @@ public class ProductManagementViewModel extends BaseViewModel {
 
     public SingleLiveData<String> getOnSubmitProduct() {
         return onSubmitProduct;
+    }
+
+    public String getCurrentRole() {
+        return this.sharePrefHelper.getRole();
     }
 }

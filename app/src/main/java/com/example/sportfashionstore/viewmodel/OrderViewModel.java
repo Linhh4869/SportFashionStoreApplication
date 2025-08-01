@@ -2,22 +2,29 @@ package com.example.sportfashionstore.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.model.Order;
-import com.example.sportfashionstore.model.OrderStatus;
 import com.example.sportfashionstore.repository.OrderRepository;
+import com.example.sportfashionstore.util.SharePrefHelper;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class OrderViewModel extends BaseViewModel {
     private final OrderRepository orderRepository;
+    private final SharePrefHelper sharePrefHelper;
     private final MutableLiveData<Resource<List<Order>>> ordersLiveData = new MutableLiveData<>();
 
-    public OrderViewModel() {
-        orderRepository = new OrderRepository();
+    @Inject
+    public OrderViewModel(OrderRepository orderRepository, SharePrefHelper sharePrefHelper) {
+        this.orderRepository = orderRepository;
+        this.sharePrefHelper = sharePrefHelper;
     }
 
     public List<Order> setContentStatus(List<Order> orders) {
@@ -52,7 +59,7 @@ public class OrderViewModel extends BaseViewModel {
     }
 
     public void setUpAction(List<Order> list) {
-        String role = MyApplication.getSharePrefHelper().getRole();
+        String role = sharePrefHelper.getRole();
         if (list == null || list.isEmpty()) return;
         for (Order order : list) {
             switch (role) {

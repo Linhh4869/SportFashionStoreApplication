@@ -9,7 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.sportfashionstore.R;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.databinding.ItemCartBinding;
 

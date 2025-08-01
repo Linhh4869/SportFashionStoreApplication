@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sportfashionstore.app.MyApplication;
 import com.example.sportfashionstore.callback.DataStateCallback;
-import com.example.sportfashionstore.commonbase.BaseViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.data.entity.CartEntity;
 import com.example.sportfashionstore.model.InfoPayment;
@@ -20,15 +19,18 @@ import com.example.sportfashionstore.repository.CartRepository;
 import com.example.sportfashionstore.repository.ProductRepository;
 import com.example.sportfashionstore.repository.StripeRepository;
 import com.example.sportfashionstore.util.Constants;
-import com.example.sportfashionstore.util.SharePrefHelper;
 import com.google.gson.Gson;
 import com.stripe.android.paymentsheet.PaymentSheet;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import kotlin.Unit;
 
+@HiltViewModel
 public class CheckoutViewModel extends BaseViewModel {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
@@ -56,12 +58,12 @@ public class CheckoutViewModel extends BaseViewModel {
     public MutableLiveData<Integer> paymentForm = new MutableLiveData<>(Constants.CASH_ON_DELIVERY);
 
 
-    public CheckoutViewModel() {
-        cartRepository = new CartRepository();
-        productRepository = new ProductRepository();
-        addressRepository = new AddressRepository();
-        stripeRepository = new StripeRepository();
-        SharePrefHelper sharePrefHelper = MyApplication.getSharePrefHelper();
+    @Inject
+    public CheckoutViewModel(CartRepository cartRepository, ProductRepository productRepository, AddressRepository addressRepository, StripeRepository stripeRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+        this.addressRepository = addressRepository;
+        this.stripeRepository = stripeRepository;
         isButtonDialogEnabled.addSource(nameLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(phoneLiveData, value -> updateButtonState());
         isButtonDialogEnabled.addSource(addressLiveData, value -> updateButtonState());

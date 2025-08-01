@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseAdapter;
+import com.example.sportfashionstore.ui.commonbase.BaseAdapter;
 import com.example.sportfashionstore.databinding.ItemChooseClothesBinding;
 import com.example.sportfashionstore.model.SizeModel;
 

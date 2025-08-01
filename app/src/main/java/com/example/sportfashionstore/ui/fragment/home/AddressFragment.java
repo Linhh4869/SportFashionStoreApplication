@@ -1,23 +1,20 @@
 package com.example.sportfashionstore.ui.fragment.home;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sportfashionstore.callback.OnItemClickListener;
-import com.example.sportfashionstore.commonbase.BaseBottomSheetFragment;
+import com.example.sportfashionstore.ui.commonbase.BaseBottomSheetFragment;
 import com.example.sportfashionstore.data.entity.AddressEntity;
 import com.example.sportfashionstore.databinding.FragmentChooseAddressBinding;
 import com.example.sportfashionstore.ui.adapter.AddressAdapter;
 import com.example.sportfashionstore.ui.dialog.UpdateAddressDialog;
 import com.example.sportfashionstore.viewmodel.CheckoutViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddressBinding, CheckoutViewModel> {
     private AddressAdapter addressAdapter;
     private final OnDismissDialog mListener;
@@ -67,9 +64,7 @@ public class AddressFragment extends BaseBottomSheetFragment<FragmentChooseAddre
             addressAdapter.setData(list);
         });
 
-        viewModel.getRefreshEvent().observe(getViewLifecycleOwner(), unit -> {
-            viewModel.getAllAddressList();
-        });
+        viewModel.getRefreshEvent().observe(getViewLifecycleOwner(), unit -> viewModel.getAllAddressList());
     }
 
     @Override

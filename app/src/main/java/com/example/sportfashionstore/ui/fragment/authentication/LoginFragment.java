@@ -10,11 +10,14 @@ import androidx.navigation.Navigation;
 
 import com.example.sportfashionstore.R;
 import com.example.sportfashionstore.ui.HomeActivity;
-import com.example.sportfashionstore.commonbase.BaseFragmentViewModel;
-import com.example.sportfashionstore.commonbase.Resource;
+import com.example.sportfashionstore.ui.commonbase.BaseFragmentViewModel;
+import com.example.sportfashionstore.ui.commonbase.Resource;
 import com.example.sportfashionstore.databinding.FragmentLoginBinding;
 import com.example.sportfashionstore.viewmodel.AuthViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LoginFragment extends BaseFragmentViewModel<FragmentLoginBinding, AuthViewModel> {
 
     @Override
